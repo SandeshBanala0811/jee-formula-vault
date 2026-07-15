@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formula Vault — Chemistry Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* Embedded resilient stylesheet */
+:root {
+  --bg: #080c14;
+  --bg2: #0e1420;
+  --card: #111827;
+  --card2: #161f30;
+  --border: #1c2840;
+  --fg: #e4e8f0;
+  --muted: #5e6e87;
+  --accent: #00e89d;
+  --radius: 10px;
+  --tip-bg: rgba(255, 193, 7, 0.06);
+  --tip-border: rgba(255, 193, 7, 0.25);
+  --tip-text: #ffc107;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 0%, rgba(0, 232, 157, 0.03), transparent 60%),
+              radial-gradient(ellipse at 80% 100%, rgba(0, 196, 255, 0.03), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2a3a5c; }
+
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 290px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease;
+}
+
+.sidebar-head {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-head h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.sidebar-head h2 i {
+  color: var(--accent);
+  font-size: .9rem;
+}
+
+.sidebar-head .sub {
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: .25rem;
+  letter-spacing: .03em;
+}
+
+.search-box {
+  padding: .75rem 1rem;
+  position: relative;
+}
+
+.search-box i {
+  position: absolute;
+  left: 1.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.search-box input {
+  width: 100%;
+  padding: .55rem .75rem .55rem 2.2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .82rem;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.search-box input:focus { border-color: var(--accent); }
+
+.sidebar-actions {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin-top: auto;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0, 232, 157, .05);
+}
+
+.action-btn.active {
+  background: rgba(0, 232, 157, .1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#menuBtn {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  font-size: 1rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 90;
+}
+
+#main {
+  margin-left: 290px;
+  padding: 2rem 2.5rem 4rem;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.hero {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .85rem 1.1rem;
+  flex: 1;
+  min-width: 130px;
+  transition: border-color .2s, transform .2s;
+}
+
+.stat-card:hover {
+  border-color: rgba(255, 255, 255, .15);
+  transform: translateY(-2px);
+}
+
+.stat-card .sc-label {
+  font-size: .68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.stat-card .sc-val {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: .15rem;
+}
+
+.subject-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.subject-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.subject-header h1 i { font-size: 1.2rem; }
+
+.subject-header p {
+  color: var(--muted);
+  font-size: .9rem;
+  margin-top: .4rem;
+  line-height: 1.5;
+}
+
+.section { margin-bottom: 1rem; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .85rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+}
+
+.section-header:hover {
+  border-color: rgba(255, 255, 255, .15);
+  background: var(--card2);
+}
+
+.section-header.open {
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom-color: transparent;
+}
+
+.section-header .sh-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: .7rem;
+  flex-shrink: 0;
+}
+
+.section-header .sh-title {
+  font-size: .92rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.section-header .sh-count {
+  font-size: .7rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.section-header .sh-arrow {
+  color: var(--muted);
+  font-size: .7rem;
+  transition: transform .25s;
+}
+
+.section-header.open .sh-arrow { transform: rotate(180deg); }
+
+.section-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .35s ease, border-color .2s;
+  border: 1px solid transparent;
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.section-body.open {
+  max-height: 8000px;
+  border-color: var(--border);
+  background: var(--bg2);
+}
+
+.formula-grid {
+  padding: .75rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .5rem;
+}
+
+.formula-card {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: .7rem .85rem;
+  background: rgba(255, 255, 255, .015);
+  border: 1px solid rgba(255, 255, 255, .04);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+
+.formula-card:hover {
+  background: rgba(255, 255, 255, .035);
+  border-color: rgba(255, 255, 255, .08);
+}
+
+.formula-card:active { transform: scale(.995); }
+
+.formula-card .fc-name {
+  font-size: .78rem;
+  color: var(--muted);
+  min-width: 140px;
+  flex-shrink: 0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.formula-card .fc-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--fg);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.formula-card .fc-copy {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  opacity: 0;
+  font-size: .65rem;
+  color: var(--muted);
+  transition: opacity .15s;
+}
+
+.formula-card:hover .fc-copy { opacity: 1; }
+
+.jee-tip {
+  margin: .5rem .75rem .75rem;
+  padding: .65rem .85rem;
+  background: var(--tip-bg);
+  border: 1px solid var(--tip-border);
+  border-radius: 8px;
+  font-size: .78rem;
+  color: var(--tip-text);
+  line-height: 1.55;
+  display: flex;
+  gap: .5rem;
+  align-items: flex-start;
+}
+
+.jee-tip i { margin-top: 2px; flex-shrink: 0; }
+
+.master-sheet { margin-top: 2rem; display: none; }
+.master-sheet.show-master { display: block !important; }
+
+.master-sheet h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.master-sheet h2 i { color: var(--accent); }
+
+.master-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: .5rem;
+}
+
+.master-card {
+  display: flex;
+  gap: .6rem;
+  padding: .65rem .8rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.master-card:hover {
+  border-color: rgba(0, 232, 157, .3);
+  transform: translateY(-1px);
+}
+
+.master-card .mc-concept {
+  font-size: .72rem;
+  color: var(--muted);
+  min-width: 110px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.master-card .mc-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  line-height: 1.5;
+}
+
+mark {
+  background: rgba(0, 232, 157, .25);
+  color: var(--fg);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: .65rem 1.1rem;
+  background: var(--card2);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  font-size: .8rem;
+  color: var(--accent);
+  z-index: 500;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all .25s;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+#toast.show { opacity: 1; transform: translateY(0); }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  transform: scale(.9);
+  transition: transform .25s;
+}
+
+.modal-overlay.show .modal { transform: scale(1); }
+
+.modal .modal-subject {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: .5rem;
+}
+
+.modal .modal-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  min-height: 1.5rem;
+}
+
+.modal .modal-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 1.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.modal .modal-formula:hover { border-color: var(--accent); }
+
+.modal .modal-formula.hidden-f { filter: blur(8px); user-select: none; }
+
+.modal .modal-btns { display: flex; gap: .75rem; justify-content: center; }
+
+.modal .modal-btns button {
+  padding: .55rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.modal .modal-btns button:hover { border-color: var(--accent); color: var(--accent); }
+
+.modal .modal-btns button.primary { background: var(--accent); color: #080c14; border-color: var(--accent); font-weight: 600; }
+
+.modal .modal-btns button.primary:hover { opacity: .85; }
+
+#backTop {
+  position: fixed;
+  bottom: 2rem;
+  left: 310px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  opacity: 0;
+  transition: all .25s;
+  font-size: .85rem;
+}
+
+#backTop.show { opacity: 1; }
+#backTop:hover { color: var(--accent); border-color: var(--accent); }
+
+@media(max-width:860px){
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #menuBtn { display: flex; }
+  #main { margin-left: 0; padding: 1.25rem 1rem 3rem; padding-top: 3.5rem; }
+  #backTop { left: 1rem; bottom: 1rem; }
+  .hero { gap: .5rem; }
+  .stat-card { min-width: 100px; padding: .6rem .8rem; }
+  .stat-card .sc-val { font-size: 1.2rem; }
+  .formula-card { flex-direction: column; gap: .35rem; }
+  .formula-card .fc-name { min-width: unset; }
+  .master-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<button id="menuBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+<div id="overlay"></div>
+
+<aside id="sidebar">
+  <div class="sidebar-head">
+    <h2><i class="fa-solid fa-vault"></i> Formula Vault</h2>
+    <div class="sub">JEE Main & Advanced — Complete Reference</div>
+  </div>
+  <div class="search-box">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput" placeholder="Search formulas, topics..." aria-label="Search formulas">
+  </div>
+  <div style="padding: 0 1rem 0.5rem 1rem;">
+     <a href="../index.html" class="action-btn" style="width: 100%; border-color: rgba(255,255,255,0.1);"><i class="fa-solid fa-arrow-left"></i> Back to Portal</a>
+  </div>
+  <div class="sidebar-actions">
+    <button class="action-btn" id="qrBtn"><i class="fa-solid fa-bolt"></i> Quick Revision</button>
+    <button class="action-btn" id="randomBtn"><i class="fa-solid fa-shuffle"></i> Random Formula</button>
+    <button class="action-btn" id="expandBtn"><i class="fa-solid fa-expand"></i> Expand All</button>
+  </div>
+</aside>
+
+<main id="main"></main>
+
+<div id="toast"><i class="fa-solid fa-check"></i> <span id="toastMsg">Copied!</span></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-subject" id="modalSubject"></div>
+    <div class="modal-name" id="modalName"></div>
+    <div class="modal-formula hidden-f" id="modalFormula">—</div>
+    <div class="modal-btns">
+      <button id="modalReveal">Reveal</button>
+      <button id="modalNext" class="primary">Next</button>
+    </div>
+  </div>
+</div>
+<button id="backTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script>
+const FORMULA_DATA = {
+  id: 'chemistry',
+  ti: 'Basic Concepts of Chemistry',
+  ic: 'fa-solid fa-flask',
+  c: '#ff6b9d',
+  d: 'Mole concept, stoichiometry, concentration terms, equivalent weight, and all foundational chemistry calculations.',
+  sections: [
+    {
+      s: 'Laws of Chemical Combination',
+      t: 'Multiple/reciprocal proportion problems are asked as ratio-based numericals in JEE Main.',
+      i: [
+        { n: 'Conservation of Mass', f: 'Mass neither created nor destroyed (Lavoisier)' },
+        { n: 'Definite Proportions', f: 'Fixed mass ratio in a compound (Proust)' },
+        { n: 'Multiple Proportions', f: 'Mass ratios are small whole numbers (Dalton)' },
+        { n: 'Reciprocal Proportions', f: 'Mass ratios with a third element match (Richter)' },
+        { n: 'Gaseous Volumes', f: 'Gases react in simple volume ratio (Gay-Lussac)' }
+      ]
+    },
+    {
+      s: 'Atomic & Molecular Mass',
+      i: [
+        { n: 'Atomic Mass Unit', f: '1 amu = (1/12) × mass of ¹²C = 1.66 × 10⁻²⁴ g' },
+        { n: 'Average Atomic Mass', f: 'A_avg = Σ (fraction × isotopic mass)' },
+        { n: 'Molecular Mass', f: 'Σ (atomic mass × number of atoms)' },
+        { n: 'Formula Mass', f: 'Used for ionic compounds (e.g., NaCl)' }
+      ]
+    },
+    {
+      s: 'Mole Concept',
+      t: 'Use 22.4 L/mol unless IUPAC STP (1 bar) is explicitly specified.',
+      i: [
+        { n: 'Moles', f: 'n = w/M = N/N_A = V(STP)/22.4', qrOnly: true },
+        { n: 'From Mass', f: 'n = w / M' },
+        { n: 'From Particles', f: 'n = N / N_A' },
+        { n: 'From Gas Volume (STP)', f: 'n = V / 22.4 L' },
+        { n: 'From Ideal Gas', f: 'n = PV / RT' },
+        { n: 'Number of Particles', f: 'N = n × N_A' },
+        { n: 'Mass from Moles', f: 'w = n × M' },
+        { n: 'Molar Volume (1 atm)', f: '22.4 L/mol at STP' },
+        { n: 'Molar Volume (IUPAC)', f: '22.7 L/mol at 1 bar' }
+      ]
+    },
+    {
+      s: 'Density & Molar Mass',
+      i: [
+        { n: 'Gas Density Relation', f: 'M = dRT / P', qr: true },
+        { n: 'Derivation', f: 'PM = (w/V)RT = dRT → M = dRT/P' },
+        { n: 'Vapour Density', f: 'V.D. = M / 2', qr: true }
+      ]
+    },
+    {
+      s: 'Stoichiometry & Limiting Reagent',
+      t: 'Limiting reagent + % yield combined numericals are extremely high-frequency in JEE Main.',
+      i: [
+        { n: 'Stoichiometry Ratio', f: 'moles A/a = moles B/b', qr: true },
+        { n: 'Mole Ratio', f: 'moles A/a = moles B/b = moles C/c = moles D/d' },
+        { n: 'Limiting Reagent', f: 'Compare: available moles / stoich. coefficient' },
+        { n: '% Yield', f: '(Actual/Theoretical) × 100', qr: true },
+        { n: 'Atom Economy', f: '(MW of desired product / MW of reactants) × 100' }
+      ]
+    },
+    {
+      s: 'Empirical & Molecular Formula',
+      t: 'Standard 4-mark JEE Main question: given % composition and molar mass, find both formulas.',
+      i: [
+        { n: '% Composition', f: '% element = (mass of element / molar mass) × 100' },
+        { n: 'Empirical Formula', f: 'Convert % to moles → divide by smallest → whole number ratio' },
+        { n: 'Molecular Formula', f: 'n × E.F.; n = M/E.F. mass', qr: true },
+        { n: 'M.F. & E.F. Relation', f: 'M.F. = n × E.F. where n = M_molecular / M_empirical' }
+      ]
+    },
+    {
+      s: 'Concentration Terms',
+      t: 'Molarity is temperature-dependent (volume changes); molality is not.',
+      i: [
+        { n: 'Mass %', f: '(mass solute/mass solution)×100', qr: true },
+        { n: 'Volume % (v/v)', f: '(volume solute / volume solution) × 100' },
+        { n: 'Mass/Volume % (w/v)', f: '(mass solute in g / volume solution in mL) × 100' },
+        { n: 'ppm', f: '(solute/solution) × 10⁶', qr: true },
+        { n: 'Mole Fraction', f: 'x_A = n_A/(n_A+n_B)', qr: true },
+        { n: 'Molarity', f: 'M = n×1000/V(mL)', qr: true },
+        { n: 'Molality', f: 'm = n/mass_solvent(kg)', qr: true },
+        { n: 'Normality', f: 'N = M × n-factor', qr: true },
+        { n: 'Formality', f: 'F = gram-formula masses / V(L)' }
+      ]
+    },
+    {
+      s: 'Molarity-Molality Interconversion',
+      t: 'Favourite JEE Advanced conceptual/numerical link question — always needs density.',
+      i: [
+        { n: 'Molarity→Molality', f: 'm = 1000M/(1000d − M·M_s)', qr: true },
+        { n: 'Using Density', f: 'm = (M × 1000) / (1000d − M × M_solute)' },
+        { n: 'Mole Fraction & Molarity', f: 'x_A = (M × M_B) / (M × M_B + 1000d - M × M_A)' }
+      ]
+    },
+    {
+      s: 'Dilution & Mixing',
+      i: [
+        { n: 'Dilution', f: 'M₁V₁ = M₂V₂', qr: true },
+        { n: 'Mixing', f: 'M_mix = (M₁V₁+M₂V₂)/(V₁+V₂)', qr: true },
+        { n: 'Acid-Base Neutralisation', f: 'N₁V₁(acid) = N₂V₂(base)' },
+        { n: 'Mixing Reactive Solutions', f: 'Find limiting reagent first, then final moles' }
+      ]
+    },
+    {
+      s: 'Equivalent Weight & n-Factor',
+      t: 'n-factor changes with reaction (e.g. KMnO₄: n=5 in acidic, n=3 in neutral) — always determine from the specific reaction.',
+      i: [
+        { n: 'Equivalent Weight', f: 'E = M/n-factor', qr: true },
+        { n: 'Acid n-factor', f: 'Number of replaceable H⁺ (basicity)' },
+        { n: 'Base n-factor', f: 'Number of replaceable OH⁻ (acidity)' },
+        { n: 'Salt n-factor', f: 'Total +ve (or −ve) charge per formula unit' },
+        { n: 'Redox n-factor', f: 'Electrons gained/lost per molecule' },
+        { n: 'Gram Equivalents', f: 'moles × n-factor = w / E' },
+        { n: 'Milli-Equivalents', f: 'meq = M × n-factor × V(mL)', qr: true },
+        { n: 'Equivalent Mass of Metal', f: 'E = (Mass of Metal × 8) / Mass of O₂' }
+      ]
+    },
+    {
+      s: 'Volumetric Analysis',
+      i: [
+        { n: 'Standard Solution', f: 'Solution of known concentration' },
+        { n: 'Titration Equation', f: 'N₁V₁ = N₂V₂' },
+        { n: 'Primary Standard', f: 'High purity, stable, known molar mass (e.g. K₂Cr₂O₇)' },
+        { n: 'Secondary Standard', f: 'Needs standardization before use (e.g. KMnO₄)' },
+        { n: 'Back Titration', f: 'Used when reaction is slow or endpoint is hard to detect' }
+      ]
+    },
+    {
+      s: 'Redox Reactions Basics',
+      i: [
+        { n: 'Oxidation Number', f: 'Charge an atom would have if electrons were transferred completely' },
+        { n: 'Oxidation', f: 'Loss of electrons → Increase in Ox. State' },
+        { n: 'Reduction', f: 'Gain of electrons → Decrease in Ox. State' },
+        { n: 'Balancing Redox', f: 'Balance atoms, then balance charge using H⁺/H₂O (acidic) or OH⁻ (basic)' }
+      ]
+    },
+    {
+      s: 'Standard Electrode Potentials (E°)',
+      t: 'More negative E° = better reducing agent. More positive E° = better oxidizing agent. Li is the strongest reducing agent in aqueous solution.',
+      i: [
+        { n: 'Strongest Reducing Agent', f: 'Li (E° = −3.04 V)', qr: true },
+        { n: 'Strongest Oxidizing Agent', f: 'F₂ (E° = +2.87 V)', qr: true },
+        { n: 'Standard H Electrode', f: 'E° = 0.00 V', qr: true },
+        { n: 'Lithium (Li⁺/Li)', f: '−3.04 V (Strongest reducing agent)' },
+        { n: 'Potassium (K⁺/K)', f: '−2.93 V' },
+        { n: 'Sodium (Na⁺/Na)', f: '−2.71 V' },
+        { n: 'Zinc (Zn²⁺/Zn)', f: '−0.76 V' },
+        { n: 'Iron (Fe²⁺/Fe)', f: '−0.44 V' },
+        { n: 'Copper (Cu²⁺/Cu)', f: '+0.34 V' },
+        { n: 'Silver (Ag⁺/Ag)', f: '+0.80 V' }
+      ]
+    },
+    {
+      s: 'Faraday & Electrochemistry Constants',
+      t: 'Always use w = ZIt where Z = E/96500. 1F deposits 1 equivalent weight of any substance.',
+      i: [
+        { n: 'Faraday Constant', f: 'F ≈ 96500 C/mol', qr: true },
+        { n: '1 Faraday (F)', f: '96485 C/mol ≈ 96500 C/mol' },
+        { n: 'Faraday meaning', f: '1 mole of electrons = 6.022 × 10²³ electrons' },
+        { n: 'Charge of 1 mole e⁻', f: '96485 Coulombs' },
+        { n: 'Deposition Relation', f: 'w = (E × I × t) / 96500 (E = eq. weight)' },
+        { n: '1 Ampere', f: '1 Coulomb per second (1 C/s)' }
+      ]
+    },
+    {
+      s: 'Water & Thermal Constants',
+      t: 'JEE Advanced stoichiometry problems sometimes mix thermochemistry (heat released) with limiting reagent concepts.',
+      i: [
+        { n: 'Specific Heat Water', f: '4.184 J/g·K', qr: true },
+        { n: 'Latent Heat Ice/Water', f: '80 cal/g / 540 cal/g', qr: true },
+        { n: 'Density of Water (4°C)', f: '1 g/cm³ = 1000 kg/m³' },
+        { n: 'Specific Heat of Water', f: '4.184 J/(g·K) = 1 cal/(g·°C)' },
+        { n: 'Latent Heat of Fusion (Ice)', f: '334 J/g = 80 cal/g' },
+        { n: 'Latent Heat of Vapourization', f: '2260 J/g = 540 cal/g' },
+        { n: 'Mechanical Equivalent of Heat', f: 'J = 4.184 J/cal' },
+        { n: 'Molar Mass of Water', f: '18.015 g/mol' }
+      ]
+    }
+  ]
+};
+
+let searchQuery = '', quickRevision = false, expandedSections = new Set(), allExpanded = false;
+
+function esc(s) { return String(s).replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function formatMathText(text) {
+  const tokens = []; let index = 0;
+  const protectedText = text.replace(/<(\/?)(mark|sub|sup)>/g, (m, slash, tag) => {
+    const token = `__TAG${index++}__`;
+    tokens.push(`<${slash}${tag}>`);
+    return token;
+  });
+  const escaped = protectedText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const rendered = escaped
+    .replace(/([A-Za-zα-ωΑ-Ω0-9\)\]])_\{([^}]+)\}/g, '$1<sub>$2</sub>')
+    .replace(/([A-Za-zα-ωΑ-Ω0-9\)\]])_([A-Za-z0-9]+)/g, '$1<sub>$2</sub>')
+    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>')
+    .replace(/\^([A-Za-z0-9]+)/g, '<sup>$1</sup>');
+  return rendered.replace(/__TAG(\d+)__/g, (_, i) => tokens[Number(i)]);
+}
+
+function highlight(text, q) {
+  const safeText = esc(text);
+  if (!q) return formatMathText(safeText);
+  const e = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return formatMathText(safeText.replace(new RegExp(`(${e})`, 'gi'), '<mark>$1</mark>'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show'); clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('Formula copied!')).catch(() => {});
+}
+
+function renderContent() {
+  const main = document.getElementById('main');
+  const q = searchQuery.toLowerCase().trim();
+  
+  let sectionHtml = '';
+  let totalF = 0;
+  let activeSections = 0;
+
+  FORMULA_DATA.sections.forEach((sec, si) => {
+    const itemsFiltered = sec.i.filter(item => {
+      if (item.qrOnly) return false;
+      return !q || item.n.toLowerCase().includes(q) || item.f.toLowerCase().includes(q);
+    });
+
+    if (itemsFiltered.length > 0) {
+      activeSections++;
+      totalF += itemsFiltered.length;
+      const key = `${FORMULA_DATA.id}-${si}`;
+      const isOpen = expandedSections.has(key) || q;
+
+      sectionHtml += `
+        <div class="section">
+          <div class="section-header ${isOpen ? 'open' : ''}" data-key="${key}" style="border-left: 3px solid ${FORMULA_DATA.c}">
+            <div class="sh-icon" style="background:${FORMULA_DATA.c}15; color:${FORMULA_DATA.c}">
+              <i class="fa-solid fa-chevron-right" style="font-size:.55rem"></i>
+            </div>
+            <span class="sh-title">${highlight(sec.s, searchQuery)}</span>
+            <span class="sh-count">${itemsFiltered.length}</span>
+            <i class="fa-solid fa-chevron-down sh-arrow"></i>
+          </div>
+          <div class="section-body ${isOpen ? 'open' : ''}">
+            <div class="formula-grid">`;
+      
+      itemsFiltered.forEach(item => {
+        sectionHtml += `
+          <div class="formula-card" data-formula="${esc(item.f)}" onclick="copyText(this.dataset.formula)">
+            <span class="fc-copy"><i class="fa-regular fa-copy"></i></span>
+            <span class="fc-name">${highlight(item.n, searchQuery)}</span>
+            <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
+          </div>`;
+      });
+
+      sectionHtml += `</div>`;
+      if (sec.t && !q) {
+        sectionHtml += `<div class="jee-tip"><i class="fa-solid fa-lightbulb"></i><span>${sec.t}</span></div>`;
+      }
+      sectionHtml += `</div></div>`;
+    }
+  });
+
+  const revisionItems = [];
+  FORMULA_DATA.sections.forEach(sec => {
+    sec.i.forEach(item => {
+      if (item.qr || item.qrOnly) {
+        revisionItems.push(item);
+      }
+    });
+  });
+
+  let revisionHtml = `
+    <div class="master-sheet ${quickRevision && !q ? 'show-master' : ''}">
+      <h2><i class="fa-solid fa-bolt"></i> Master Formula Sheet — ${FORMULA_DATA.ti}</h2>
+      <div class="master-grid">`;
+  
+  revisionItems.forEach(m => {
+    revisionHtml += `
+      <div class="master-card" data-formula="${esc(m.f)}" onclick="copyText(this.dataset.formula)">
+        <span class="mc-concept">${highlight(m.n, searchQuery)}</span>
+        <span class="mc-formula">${highlight(m.f, searchQuery)}</span>
+      </div>`;
+  });
+  revisionHtml += `</div></div>`;
+
+  let combinedLayout = `
+    <div class="hero">
+      <div class="stat-card">
+        <div class="sc-label">Section Count</div>
+        <div class="sc-val" style="color:var(--mat)">${FORMULA_DATA.sections.length}</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Active Formulas</div>
+        <div class="sc-val" style="color:var(--atom)">${totalF}</div>
+      </div>
+    </div>
+    <div class="subject-header" style="border-bottom-color:${FORMULA_DATA.c}30">
+      <h1><i class="${FORMULA_DATA.ic}" style="color:${FORMULA_DATA.c}"></i> ${FORMULA_DATA.ti}</h1>
+      <p>${FORMULA_DATA.d}</p>
+    </div>
+  `;
+
+  if (quickRevision && !q) {
+    combinedLayout += revisionHtml;
+  } else {
+    combinedLayout += sectionHtml + revisionHtml;
+  }
+
+  main.innerHTML = combinedLayout;
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'quick') {
+  quickRevision = true;
+  document.getElementById('qrBtn').classList.add('active');
+}
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  renderContent();
+});
+
+document.getElementById('main').addEventListener('click', e => {
+  const header = e.target.closest('.section-header');
+  if (!header) return;
+  const key = header.dataset.key;
+  if (expandedSections.has(key)) expandedSections.delete(key); else expandedSections.add(key);
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+});
+
+document.getElementById('qrBtn').addEventListener('click', () => {
+  quickRevision = !quickRevision;
+  document.getElementById('qrBtn').classList.toggle('active', quickRevision);
+  renderContent();
+  showToast(quickRevision ? 'Quick Revision mode on' : 'Full view restored');
+});
+
+document.getElementById('expandBtn').addEventListener('click', () => {
+  allExpanded = !allExpanded;
+  if (allExpanded) {
+    FORMULA_DATA.sections.forEach((sec, si) => expandedSections.add(`${FORMULA_DATA.id}-${si}`));
+    document.getElementById('expandBtn').innerHTML = '<i class="fa-solid fa-compress"></i> Collapse All';
+  } else {
+    expandedSections.clear();
+    document.getElementById('expandBtn').innerHTML = '<i class="fa-solid fa-expand"></i> Expand All';
+  }
+  renderContent();
+});
+
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').style.display = 'block';
+});
+document.getElementById('overlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').style.display = 'none';
+});
+
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => { backTop.classList.toggle('show', window.scrollY > 400); });
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+const modal = document.getElementById('modal');
+const modalSubject = document.getElementById('modalSubject');
+const modalName = document.getElementById('modalName');
+const modalFormula = document.getElementById('modalFormula');
+let modalRevealed = false;
+
+function showRandomFormula() {
+  const allSubFormulas = [];
+  FORMULA_DATA.sections.forEach(sec => sec.i.forEach(item => allSubFormulas.push(item)));
+  
+  const f = allSubFormulas[Math.floor(Math.random() * allSubFormulas.length)];
+  modalSubject.textContent = FORMULA_DATA.ti;
+  modalSubject.style.color = FORMULA_DATA.c;
+  modalName.textContent = f.n;
+  modalFormula.textContent = f.f;
+  modalFormula.classList.add('hidden-f');
+  modalRevealed = false;
+  document.getElementById('modalReveal').textContent = 'Reveal';
+  modal.classList.add('show');
+}
+
+document.getElementById('randomBtn').addEventListener('click', showRandomFormula);
+document.getElementById('modalReveal').addEventListener('click', () => {
+  if (!modalRevealed) {
+    modalFormula.classList.remove('hidden-f');
+    modalRevealed = true;
+    document.getElementById('modalReveal').textContent = 'Copy';
+  } else {
+    copyText(modalFormula.textContent);
+  }
+});
+document.getElementById('modalNext').addEventListener('click', showRandomFormula);
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+
+expandedSections.add(`${FORMULA_DATA.id}-0`);
+renderContent();
+</script>
+</body>
+</html>
