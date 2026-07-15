@@ -15,8 +15,7 @@
   --border: #1c2840;
   --fg: #e4e8f0;
   --muted: #5e6e87;
-  --accent: #06b6d4; /* Cyan theme for Units/Dimensions */
-  --accent-glow: rgba(6, 182, 212, 0.15);
+  --accent: #06b6d4; /* Cyan theme */
   --radius: 10px;
   --tip-bg: rgba(255, 193, 7, 0.06);
   --tip-border: rgba(255, 193, 7, 0.25);
@@ -670,15 +669,39 @@ const FORMULA_DATA = {
         { n: 'Permittivity of Free Space (ε₀)', f: '[M⁻¹ L⁻³ T⁴ A²]' },
         { n: 'Permeability of Free Space (μ₀)', f: '[M L T⁻² A⁻²]' },
         { n: 'Resistance (R)', f: '[M L² T⁻³ A⁻²]' },
-        { n: 'Boltzmann Constant (k_B)', f: '[M L² T⁻² K⁻¹]' }
+        { n: 'Boltzmann Constant (k_B)', f: '[M L² T⁻² K⁻¹]' },
+        { n: 'Stefan-Boltzmann Constant (σ)', f: '[M T⁻³ K⁻⁴]' },
+        { n: 'Specific Heat Capacity (s)', f: '[L² T⁻² K⁻¹]' },
+        { n: 'Latent Heat (L)', f: '[L² T⁻²]' }
       ]
     },
     {
-      s: 'Dimensional Homogeneity',
+      s: 'Electromagnetic Grouping Shortcuts',
+      t: 'Impedance and time-constant groupings frequently tested in JEE as dimensional match questions.',
+      i: [
+        { n: 'Speed of EM Waves', f: 'c = 1 / √(μ₀ ε₀)  ->  [L T⁻¹]', qr: true },
+        { n: 'Vacuum Impedance', f: 'Z₀ = √(μ₀ / ε₀)  ->  [M L² T⁻³ A⁻²] (same as Resistance)' },
+        { n: 'Resistor-Capacitor Time Const.', f: 'τ = R C  ->  [T]', qr: true },
+        { n: 'Inductor-Resistor Time Const.', f: 'τ = L / R  ->  [T]', qr: true },
+        { n: 'LC Oscillation Period', f: 'T = √(L C)  ->  [T]', qr: true }
+      ]
+    },
+    {
+      s: 'Principle of Homogeneity',
       t: 'Terms added or subtracted must possess the identical dimensional formula.',
       i: [
         { n: 'Principle of Homogeneity', f: 'If A + B = C, then [A] = [B] = [C]', qr: true },
         { n: 'Exponentials & Arguments', f: 'In e^x, ln(x), sin(x) -> x is dimensionless ([M⁰ L⁰ T⁰])', qr: true }
+      ]
+    },
+    {
+      s: 'Relation Derivation (A^x B^y C^z)',
+      t: 'Method of dimensions used to derive physical equations by equating exponents of M, L, and T.',
+      i: [
+        { n: 'Dimensional Equation Setup', f: 'If Q ∝ A^x · B^y · C^z  =>  [Q] = [A]^x · [B]^y · [C]^z', qr: true },
+        { n: 'Exponent Matching System', f: 'Equate powers: x·[A]_M + y·[B]_M + z·[C]_M = [Q]_M (Solve for x, y, z)', qr: true },
+        { n: 'Example: Stokes\' Law', f: 'F ∝ η^x · r^y · v^z  =>  F = 6π · η · r · v  (x=1, y=1, z=1)' },
+        { n: 'Limitations of Method', f: 'Fails for relations with >3 variables, or containing sums (A+B) or trig/log/exponential terms.' }
       ]
     },
     {
@@ -688,7 +711,9 @@ const FORMULA_DATA = {
         { n: 'Non-zero digits', f: 'All non-zero digits are always significant (e.g., 234 has 3)' },
         { n: 'Trapped Zeros', f: 'Zeros between non-zero digits are significant (e.g., 2004 has 4)' },
         { n: 'Leading Zeros', f: 'Leading zeros are never significant (e.g., 0.0025 has 2)' },
-        { n: 'Trailing Zeros with Decimal', f: 'Trailing zeros are significant only if there is a decimal (e.g., 250.0 has 4 ; 250 has 2)', qr: true }
+        { n: 'Trailing Zeros with Decimal', f: 'Trailing zeros are significant only if there is a decimal (e.g., 250.0 has 4 ; 250 has 2)', qr: true },
+        { n: 'Addition/Subtraction Rule', f: 'Answer rounded to least number of decimal places of terms' },
+        { n: 'Multiplication/Division Rule', f: 'Answer rounded to least number of significant figures of terms', qr: true }
       ]
     },
     {
@@ -699,7 +724,8 @@ const FORMULA_DATA = {
         { n: 'Relative (Fractional) Error', f: 'e_r = Δx / x_true' },
         { n: 'Sum / Difference Rule', f: 'If Z = A +- B, then ΔZ = ΔA + ΔB', qr: true },
         { n: 'Product / Quotient Rule', f: 'If Z = A · B  or  A / B, then ΔZ/Z = ΔA/A + ΔB/B', qr: true },
-        { n: 'Power Rule (Propagation)', f: 'If Z = (A^p · B^q) / C^r, then ΔZ/Z = p(ΔA/A) + q(ΔB/B) + r(ΔC/C)', qr: true }
+        { n: 'Composite Exponent Power Rule', f: 'If Z = (A^x · B^y) / C^z  =>  ΔZ/Z = x(ΔA/A) + y(ΔB/B) + z(ΔC/C)', qr: true },
+        { n: 'Least Count Error', f: 'Uncertainty in reading = Least Count of the instrument' }
       ]
     },
     {
@@ -708,7 +734,10 @@ const FORMULA_DATA = {
       i: [
         { n: 'Least Count (LC)', f: 'LC = 1 MSD - 1 VSD  (Main Div - Vernier Div)', qr: true },
         { n: 'N division relation', f: 'If N VSD = (N-1) MSD, then LC = 1 MSD / N', qr: true },
+        { n: 'Fractional scale relation', f: 'If N VSD = (N-M) MSD, then LC = 1 MSD · (M / N)' },
         { n: 'Total Measured Reading', f: 'TR = Main Scale Reading + (Vernier Scale Reading × LC)' },
+        { n: 'Positive Zero Error', f: 'Vernier zero is right of Main scale zero  ->  Error = + (matching div × LC)' },
+        { n: 'Negative Zero Error', f: 'Vernier zero is left of Main scale zero  ->  Error = - (total div - matching div) × LC', qr: true },
         { n: 'Zero Error Correction', f: 'True Reading = Measured Reading - (Zero Error with sign)', qr: true }
       ]
     },
@@ -718,7 +747,19 @@ const FORMULA_DATA = {
       i: [
         { n: 'Least Count (LC)', f: 'LC = Pitch / (Number of Circular Scale Divisions)', qr: true },
         { n: 'Total Measured Reading', f: 'TR = Main Scale Reading + (Circular Scale Reading × LC)' },
-        { n: 'Pitch definition', f: 'Pitch = (Distance moved on Main Scale) / (Number of full rotations)' }
+        { n: 'Pitch definition', f: 'Pitch = (Distance moved on Main Scale) / (Number of full rotations)' },
+        { n: 'Positive Zero Error', f: 'Circular zero is below reference line  ->  Error = + (matching div × LC)' },
+        { n: 'Negative Zero Error', f: 'Circular zero is above reference line  ->  Error = - (total div - matching div) × LC', qr: true }
+      ]
+    },
+    {
+      s: 'Astronomical Units & Trigonometric Methods',
+      t: 'Parallax methods are standard for computing large orbital distances.',
+      i: [
+        { n: 'Astronomical Unit (AU)', f: '1 AU ≈ 1.496 × 10¹¹ m (Mean Earth-Sun distance)' },
+        { n: 'Light Year (ly)', f: '1 ly ≈ 9.46 × 10¹⁵ m' },
+        { n: 'Parsec (pc)', f: '1 pc ≈ 3.08 × 10¹⁶ m ≈ 3.26 ly', qr: true },
+        { n: 'Parallax Distance Method', f: 'b = D · θ  =>  Distance D = b / θ  (θ in radians)', qr: true }
       ]
     }
   ]
@@ -739,7 +780,7 @@ function formatMathText(text) {
   const rendered = escaped
     .replace(/([A-Za-zα-ωΑ-Ω0-9\)\]])_\{([^}]+)\}/g, '$1<sub>$2</sub>')
     .replace(/([A-Za-zα-ωΑ-Ω0-9\)\]])_([A-Za-z0-9]+)/g, '$1<sub>$2</sub>')
-    .replace(/\^\(([^)]+)\)/g, '<sup>($1)</sup>')
+    .replace(/\^\(([^)]+)\)/g, '<sup>( $1 )</sup>')
     .replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>')
     .replace(/\^([A-Za-z0-9]+)/g, '<sup>$1</sup>');
   return rendered.replace(/__TAG(\d+)__/g, (_, i) => tokens[Number(i)]);
