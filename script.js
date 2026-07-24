@@ -75,7 +75,7 @@ const CHAPTER_MANIFEST = [
     desc: 'Force and momentum definitions, equilibrium constraints, Atwood machines, spring combinations, friction dynamics, and rocket propulsion.',
     icon: 'fa-solid fa-gears',
     color: '#f43f5e', /* Rose theme for NLM */
-    count: 40,
+    count: 55,
     path: 'chapters/newtons-laws.html',
     keywords: ['force', 'momentum', 'friction', 'constraint', 'pulley', 'atwood', 'rocket', 'spring']
   }
