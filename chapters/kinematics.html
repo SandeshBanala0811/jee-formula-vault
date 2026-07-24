@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Formula Vault — Kinematics</title>
+<title>JEE Formula Vault — Kinematics</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* Embedded resilient stylesheet */
 :root {
   --bg: #080c14;
   --bg2: #0e1420;
@@ -16,7 +15,10 @@
   --border: #1c2840;
   --fg: #e4e8f0;
   --muted: #5e6e87;
-  --accent: #00e89d;
+  --accent: #ff8a5c; /* Orange Theme */
+  --accent-glow: rgba(255, 138, 92, 0.05);
+  --accent-glow-active: rgba(255, 138, 92, 0.1);
+  --accent-mark: rgba(255, 138, 92, 0.25);
   --radius: 10px;
   --tip-bg: rgba(255, 193, 7, 0.06);
   --tip-border: rgba(255, 193, 7, 0.25);
@@ -37,7 +39,7 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse at 20% 0%, rgba(0, 232, 157, 0.03), transparent 60%),
+  background: radial-gradient(ellipse at 20% 0%, var(--accent-glow), transparent 60%),
               radial-gradient(ellipse at 80% 100%, rgba(0, 196, 255, 0.03), transparent 60%);
   pointer-events: none;
   z-index: 0;
@@ -147,11 +149,11 @@ body::before {
 .action-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(0, 232, 157, .05);
+  background: var(--accent-glow);
 }
 
 .action-btn.active {
-  background: rgba(0, 232, 157, .1);
+  background: var(--accent-glow-active);
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -376,7 +378,19 @@ body::before {
   transition: opacity .15s;
 }
 
-.formula-card:hover .fc-copy { opacity: 1; }
+.formula-card .fc-star {
+  position: absolute;
+  top: .5rem;
+  right: 1.8rem;
+  opacity: 0;
+  font-size: .75rem;
+  color: #ffb81c;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.formula-card:hover .fc-copy, .formula-card:hover .fc-star { opacity: 1; }
+.formula-card .fc-star.active { opacity: 1 !important; }
+.formula-card .fc-star:active { transform: scale(1.2); }
 
 .jee-tip {
   margin: .5rem .75rem .75rem;
@@ -426,7 +440,7 @@ body::before {
 }
 
 .master-card:hover {
-  border-color: rgba(0, 232, 157, .3);
+  border-color: rgba(255, 138, 92, .3);
   transform: translateY(-1px);
 }
 
@@ -445,7 +459,7 @@ body::before {
 }
 
 mark {
-  background: rgba(0, 232, 157, .25);
+  background: var(--accent-mark);
   color: var(--fg);
   border-radius: 2px;
   padding: 0 2px;
@@ -739,7 +753,7 @@ const FORMULA_DATA = {
       s: 'Vectors in Motion',
       i: [
         { n: 'Resultant Magnitude', f: '|R| = √(A² + B² + 2AB cosθ)' },
-        { n: 'Resultant Direction', f: 'tanα = B stroke / (A + B cosθ)' },
+        { n: 'Resultant Direction', f: 'tanα = B sinθ / (A + B cosθ)' },
         { n: 'Vector Subtraction', f: '|A - B| = √(A² + B² - 2AB cosθ)' }
       ]
     },
@@ -783,7 +797,7 @@ const FORMULA_DATA = {
       s: 'Projectile on Inclined Plane',
       t: 'JEE Advanced: rotate axes so incline becomes horizontal — reuse standard formulas with resolved components.',
       i: [
-        { n: 'Time of Flight', f: 'T = 2u stroke / (g cosα)' },
+        { n: 'Time of Flight', f: 'T = 2u sinθ / (g cosα)' },
         { n: 'Range on Incline', f: 'R = 2u² sinθ cos(θ+α) / (g cos²α)' },
         { n: 'Max Range on Incline', f: 'R_max = u² / g(1+sinα) at θ=(45° - α/2)' }
       ]
@@ -873,6 +887,30 @@ function copyText(text) {
   navigator.clipboard.writeText(text).then(() => showToast('Formula copied!')).catch(() => {});
 }
 
+function toggleStar(event, name, formula) {
+  event.stopPropagation();
+  let starred = JSON.parse(localStorage.getItem('starredFormulas')) || [];
+  const idx = starred.findIndex(item => item.formula === formula);
+  
+  if (idx > -1) {
+    starred.splice(idx, 1);
+    showToast('Removed from Cheat Sheet');
+    event.currentTarget.classList.remove('active');
+    event.currentTarget.innerHTML = '<i class="fa-regular fa-star"></i>';
+  } else {
+    starred.push({ subject: FORMULA_DATA.ti, name: name, formula: formula });
+    showToast('Saved to Starred Cheat Sheet!');
+    event.currentTarget.classList.add('active');
+    event.currentTarget.innerHTML = '<i class="fa-solid fa-star"></i>';
+  }
+  localStorage.setItem('starredFormulas', JSON.stringify(starred));
+}
+
+function isStarred(formula) {
+  const starred = JSON.parse(localStorage.getItem('starredFormulas')) || [];
+  return starred.some(item => item.formula === formula);
+}
+
 function renderContent() {
   const main = document.getElementById('main');
   const q = searchQuery.toLowerCase().trim();
@@ -907,9 +945,15 @@ function renderContent() {
             <div class="formula-grid">`;
       
       itemsFiltered.forEach(item => {
+        const starClass = isStarred(item.f) ? 'active' : '';
+        const starIcon = isStarred(item.f) ? 'fa-solid fa-star' : 'fa-regular fa-star';
+        
         sectionHtml += `
           <div class="formula-card" data-formula="${esc(item.f)}" onclick="copyText(this.dataset.formula)">
             <span class="fc-copy"><i class="fa-regular fa-copy"></i></span>
+            <span class="fc-star ${starClass}" onclick="toggleStar(event, '${esc(item.n)}', '${esc(item.f)}')">
+              <i class="${starIcon}"></i>
+            </span>
             <span class="fc-name">${highlight(item.n, searchQuery)}</span>
             <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
           </div>`;
@@ -950,11 +994,11 @@ function renderContent() {
     <div class="hero">
       <div class="stat-card">
         <div class="sc-label">Section Count</div>
-        <div class="sc-val" style="color:var(--mat)">${FORMULA_DATA.sections.length}</div>
+        <div class="sc-val" style="color:var(--accent)">${FORMULA_DATA.sections.length}</div>
       </div>
       <div class="stat-card">
         <div class="sc-label">Active Formulas</div>
-        <div class="sc-val" style="color:var(--atom)">${totalF}</div>
+        <div class="sc-val" style="color:var(--accent)">${totalF}</div>
       </div>
     </div>
     <div class="subject-header" style="border-bottom-color:${FORMULA_DATA.c}30">
