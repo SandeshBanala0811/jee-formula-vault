@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JEE Formula Vault — 2D Geometry</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --bg: #080c14;
+  --bg2: #0e1420;
+  --card: #111827;
+  --card2: #161f30;
+  --border: #1c2840;
+  --fg: #e4e8f0;
+  --muted: #5e6e87;
+  --accent: #10b981; /* Emerald Theme */
+  --accent-glow: rgba(16, 185, 129, 0.05);
+  --accent-glow-active: rgba(16, 185, 129, 0.1);
+  --accent-mark: rgba(16, 185, 129, 0.25);
+  --radius: 10px;
+  --tip-bg: rgba(255, 193, 7, 0.06);
+  --tip-border: rgba(255, 193, 7, 0.25);
+  --tip-text: #ffc107;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 0%, var(--accent-glow), transparent 60%),
+              radial-gradient(ellipse at 80% 100%, rgba(0, 196, 255, 0.03), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2a3a5c; }
+
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 290px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease;
+}
+
+.sidebar-head {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-head h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.sidebar-head h2 i {
+  color: var(--accent);
+  font-size: .9rem;
+}
+
+.sidebar-head .sub {
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: .25rem;
+  letter-spacing: .03em;
+}
+
+.search-box {
+  padding: .75rem 1rem;
+  position: relative;
+}
+
+.search-box i {
+  position: absolute;
+  left: 1.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.search-box input {
+  width: 100%;
+  padding: .55rem .75rem .55rem 2.2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .82rem;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.search-box input:focus { border-color: var(--accent); }
+
+.sidebar-actions {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin-top: auto;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.action-btn.active {
+  background: var(--accent-glow-active);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#menuBtn {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  font-size: 1rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 90;
+}
+
+#main {
+  margin-left: 290px;
+  padding: 2rem 2.5rem 4rem;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.hero {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .85rem 1.1rem;
+  flex: 1;
+  min-width: 130px;
+  transition: border-color .2s, transform .2s;
+}
+
+.stat-card:hover {
+  border-color: rgba(255, 255, 255, .15);
+  transform: translateY(-2px);
+}
+
+.stat-card .sc-label {
+  font-size: .68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.stat-card .sc-val {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: .15rem;
+}
+
+.subject-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.subject-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.subject-header h1 i { font-size: 1.2rem; }
+
+.subject-header p {
+  color: var(--muted);
+  font-size: .9rem;
+  margin-top: .4rem;
+  line-height: 1.5;
+}
+
+.section { margin-bottom: 1rem; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .85rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+}
+
+.section-header:hover {
+  border-color: rgba(255, 255, 255, .15);
+  background: var(--card2);
+}
+
+.section-header.open {
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom-color: transparent;
+}
+
+.section-header .sh-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: .7rem;
+  flex-shrink: 0;
+}
+
+.section-header .sh-title {
+  font-size: .92rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.section-header .sh-count {
+  font-size: .7rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.section-header .sh-arrow {
+  color: var(--muted);
+  font-size: .7rem;
+  transition: transform .25s;
+}
+
+.section-header.open .sh-arrow { transform: rotate(180deg); }
+
+.section-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .35s ease, border-color .2s;
+  border: 1px solid transparent;
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.section-body.open {
+  max-height: 8000px;
+  border-color: var(--border);
+  background: var(--bg2);
+}
+
+.formula-grid {
+  padding: .75rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .5rem;
+}
+
+.formula-card {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: .7rem 0.85rem;
+  background: rgba(255, 255, 255, .015);
+  border: 1px solid rgba(255, 255, 255, .04);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+
+.formula-card:hover {
+  background: rgba(255, 255, 255, .035);
+  border-color: rgba(255, 255, 255, .08);
+}
+
+.formula-card:active { transform: scale(.995); }
+
+.formula-card .fc-name {
+  font-size: .78rem;
+  color: var(--muted);
+  min-width: 140px;
+  flex-shrink: 0;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.formula-card .fc-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--fg);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.formula-card .fc-copy {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  opacity: 0;
+  font-size: .65rem;
+  color: var(--muted);
+  transition: opacity .15s;
+}
+
+.formula-card .fc-star {
+  position: absolute;
+  top: .5rem;
+  right: 1.8rem;
+  opacity: 0;
+  font-size: .75rem;
+  color: #ffb81c;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.formula-card:hover .fc-copy, .formula-card:hover .fc-star { opacity: 1; }
+.formula-card .fc-star.active { opacity: 1 !important; }
+.formula-card .fc-star:active { transform: scale(1.2); }
+
+.jee-tip {
+  margin: .5rem .75rem .75rem;
+  padding: .65rem .85rem;
+  background: var(--tip-bg);
+  border: 1px solid var(--tip-border);
+  border-radius: 8px;
+  font-size: .78rem;
+  color: var(--tip-text);
+  line-height: 1.55;
+  display: flex;
+  gap: .5rem;
+  align-items: flex-start;
+}
+
+.jee-tip i { margin-top: 2px; flex-shrink: 0; }
+
+.master-sheet { margin-top: 2rem; display: none; }
+.master-sheet.show-master { display: block !important; }
+
+.master-sheet h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.master-sheet h2 i { color: var(--accent); }
+
+.master-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: .5rem;
+}
+
+.master-card {
+  display: flex;
+  gap: .6rem;
+  padding: .65rem .8rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.master-card:hover {
+  border-color: rgba(16, 185, 129, .3);
+  transform: translateY(-1px);
+}
+
+.master-card .mc-concept {
+  font-size: .72rem;
+  color: var(--muted);
+  min-width: 110px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.master-card .mc-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  line-height: 1.5;
+}
+
+mark {
+  background: var(--accent-mark);
+  color: var(--fg);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: .65rem 1.1rem;
+  background: var(--card2);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  font-size: .8rem;
+  color: var(--accent);
+  z-index: 500;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all .25s;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+#toast.show { opacity: 1; transform: translateY(0); }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  transform: scale(.9);
+  transition: transform .25s;
+}
+
+.modal-overlay.show .modal { transform: scale(1); }
+
+.modal .modal-subject {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: .5rem;
+}
+
+.modal .modal-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  min-height: 1.5rem;
+}
+
+.modal .modal-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 1.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.modal .modal-formula:hover { border-color: var(--accent); }
+
+.modal .modal-formula.hidden-f { filter: blur(8px); user-select: none; }
+
+.modal .modal-btns { display: flex; gap: .75rem; justify-content: center; }
+
+.modal .modal-btns button {
+  padding: .55rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.modal .modal-btns button:hover { border-color: var(--accent); color: var(--accent); }
+
+.modal .modal-btns button.primary { background: var(--accent); color: #080c14; border-color: var(--accent); font-weight: 600; }
+
+.modal .modal-btns button.primary:hover { opacity: .85; }
+
+#backTop {
+  position: fixed;
+  bottom: 2rem;
+  left: 310px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  opacity: 0;
+  transition: all .25s;
+  font-size: .85rem;
+}
+
+#backTop.show { opacity: 1; }
+#backTop:hover { color: var(--accent); border-color: var(--accent); }
+
+@media(max-width:860px){
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #menuBtn { display: flex; }
+  #main { margin-left: 0; padding: 1.25rem 1rem 3rem; padding-top: 3.5rem; }
+  #backTop { left: 1rem; bottom: 1rem; }
+  .hero { gap: .5rem; }
+  .stat-card { min-width: 100px; padding: .6rem .8rem; }
+  .stat-card .sc-val { font-size: 1.2rem; }
+  .formula-card { flex-direction: column; gap: .35rem; }
+  .formula-card .fc-name { min-width: unset; }
+  .master-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<button id="menuBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+<div id="overlay"></div>
+
+<aside id="sidebar">
+  <div class="sidebar-head">
+    <h2><i class="fa-solid fa-vault"></i> Formula Vault</h2>
+    <div class="sub">JEE Main & Advanced — Complete Reference</div>
+  </div>
+  <div class="search-box">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput" placeholder="Search formulas, topics..." aria-label="Search formulas">
+  </div>
+  <div style="padding: 0 1rem 0.5rem 1rem;">
+     <a href="../index.html" class="action-btn" style="width: 100%; border-color: rgba(255,255,255,0.1);"><i class="fa-solid fa-arrow-left"></i> Back to Portal</a>
+  </div>
+  <div class="sidebar-actions">
+    <button class="action-btn" id="qrBtn"><i class="fa-solid fa-bolt"></i> Quick Revision</button>
+    <button class="action-btn" id="randomBtn"><i class="fa-solid fa-shuffle"></i> Random Formula</button>
+    <button class="action-btn" id="expandBtn"><i class="fa-solid fa-expand"></i> Expand All</button>
+  </div>
+</aside>
+
+<main id="main"></main>
+
+<div id="toast"><i class="fa-solid fa-check"></i> <span id="toastMsg">Copied!</span></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-subject" id="modalSubject"></div>
+    <div class="modal-name" id="modalName"></div>
+    <div class="modal-formula hidden-f" id="modalFormula">—</div>
+    <div class="modal-btns">
+      <button id="modalReveal">Reveal</button>
+      <button id="modalNext" class="primary">Next</button>
+    </div>
+  </div>
+</div>
+<button id="backTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script>
+const FORMULA_DATA = {
+  id: '2d-geometry',
+  ti: '2D Geometry & Straight Lines',
+  ic: 'fa-solid fa-draw-polygon',
+  c: '#10b981',
+  d: 'Locus, transformation of axes, various line forms, foot of perpendicular, angle bisectors, family of lines, and pair of straight lines.',
+  sections: [
+    {
+      s: 'Basic Coordinates & Triangle Centers',
+      t: 'Distance and section formulas form the foundation. Memorise the centroid, incenter, and circumcenter coordinates.',
+      i: [
+        { n: 'Distance Formula', f: 'd = √[(x₂ - x₁)² + (y₂ - y₁)²]', qr: true },
+        { n: 'Section Formula (Internal)', f: 'x = (m x₂ + n x₁) / (m + n)  ;  y = (m y₂ + n y₁) / (m + n)' },
+        { n: 'Section Formula (External)', f: 'x = (m x₂ - n x₁) / (m - n)  ;  y = (m y₂ - n y₁) / (m - n)' },
+        { n: 'Area of Triangle (Shoelace)', f: 'Area = ½ | x₁(y₂ - y₃) + x₂(y₃ - y₁) + x₃(y₁ - y₂) |', qr: true },
+        { n: 'Centroid (G)', f: 'G = ((x₁+x₂+x₃)/3 , (y₁+y₂+y₃)/3)', qr: true },
+        { n: 'Incenter (I)', f: 'I = ((a x₁ + b x₂ + c x₃)/(a+b+c) , (a y₁ + b y₂ + c y₃)/(a+b+c))', qr: true },
+        { n: 'Excenter (I_A opposite A)', f: 'I_A = ((-a x₁ + b x₂ + c x₃)/(-a+b+c) , (-a y₁ + b y₂ + c y₃)/(-a+b+c))' }
+      ]
+    },
+    {
+      s: 'Locus & Transformation of Axes',
+      t: 'To find locus: assume moving point (h, k), apply given geometric conditions, then replace (h, k) with (x, y).',
+      i: [
+        { n: 'Shift of Origin (Translation)', f: 'x = X + h  ;  y = Y + k  (where origin shifted to (h,k))', qr: true },
+        { n: 'Rotation of Axes', f: 'X = x cos θ + y sin θ  ;  Y = -x sin θ + y cos θ', qr: true },
+        { n: 'Rotation Transformation Matrix', f: 'x = X cos θ - Y sin θ  ;  y = X sin θ + Y cos θ' }
+      ]
+    },
+    {
+      s: 'Equations of Straight Lines',
+      t: 'Slope m = tan θ. Two non-vertical lines are parallel if m₁ = m₂, and perpendicular if m₁ · m₂ = -1.',
+      i: [
+        { n: 'Slope of Line', f: 'm = tan θ = (y₂ - y₁) / (x₂ - x₁)' },
+        { n: 'Slope-Intercept Form', f: 'y = m x + c', qr: true },
+        { n: 'Point-Slope Form', f: 'y - y₁ = m (x - x₁)' },
+        { n: 'Two-Point Form', f: 'y - y₁ = [(y₂ - y₁) / (x₂ - x₁)] · (x - x₁)' },
+        { n: 'Intercept Form', f: 'x/a + y/b = 1  (a = x-intercept, b = y-intercept)', qr: true },
+        { n: 'Normal / Perpendicular Form', f: 'x cos α + y sin α = p  (p = perp distance from origin)', qr: true },
+        { n: 'Parametric / Symmetric Form', f: '(x - x₁) / cos θ = (y - y₁) / sin θ = r  (r = distance from point)', qr: true }
+      ]
+    },
+    {
+      s: 'Angles, Distance & Point Position',
+      t: 'The sign of (a x₁ + b y₁ + c) determines which side of the line a point lies relative to origin.',
+      i: [
+        { n: 'Angle Between Two Lines', f: 'tan θ = | (m₁ - m₂) / (1 + m₁ m₂) |', qr: true },
+        { n: 'Perpendicular Distance', f: 'd = |a x₁ + b y₁ + c| / √(a² + b²)', qr: true },
+        { n: 'Distance Between Parallel Lines', f: 'd = |c₁ - c₂| / √(a² + b²)', qr: true },
+        { n: 'Position of Two Points', f: 'Points on same side if (a x₁ + b y₁ + c)(a x₂ + b y₂ + c) > 0' }
+      ]
+    },
+    {
+      s: 'Foot of Perpendicular, Reflection & Bisectors',
+      t: 'Image formula differs from foot of perpendicular only by a factor of 2 in the multiplier.',
+      i: [
+        { n: 'Foot of Perpendicular (h, k)', f: '(h - x₁)/a = (k - y₁)/b = -(a x₁ + b y₁ + c)/(a² + b²)', qr: true },
+        { n: 'Image / Reflection (h, k)', f: '(h - x₁)/a = (k - y₁)/b = -2(a x₁ + b y₁ + c)/(a² + b²)', qr: true },
+        { n: 'Angle Bisector Equations', f: '(a₁ x + b₁ y + c₁) / √(a₁² + b₁²) = +- (a₂ x + b₂ y + c₂) / √(a₂² + b₂²)', qr: true },
+        { n: 'Acute / Obtuse Bisector Test', f: 'Make c₁, c₂ positive. If a₁ a₂ + b₁ b₂ > 0, then (+) gives Obtuse bisector' }
+      ]
+    },
+    {
+      s: 'Concurrency & Family of Lines',
+      t: 'Three lines are concurrent if the determinant formed by their coefficients equals zero.',
+      i: [
+        { n: 'Condition for Concurrency', f: '| a₁ b₁ c₁ ; a₂ b₂ c₂ ; a₃ b₃ c₃ | = 0', qr: true },
+        { n: 'Family of Straight Lines', f: 'L₁ + λ L₂ = 0  (represents all lines passing through L₁ ∩ L₂)', qr: true },
+        { n: 'Fixed Point of Family', f: 'Express line as A(x - x₀) + B(y - y₀) = 0 -> passes through (x₀, y₀)' }
+      ]
+    },
+    {
+      s: 'Pair of Straight Lines',
+      t: 'Homogeneous 2nd degree equation represents lines passing through the origin.',
+      i: [
+        { n: 'Homogeneous Pair Equation', f: 'a x² + 2h xy + b y² = 0', qr: true },
+        { n: 'Angle Between Pair', f: 'tan θ = 2 √(h² - a b) / |a + b|', qr: true },
+        { n: 'Perpendicular Lines Condition', f: 'a + b = 0  (coefficient of x² + coefficient of y² = 0)', qr: true },
+        { n: 'Coincident Lines Condition', f: 'h² = a b' },
+        { n: 'General 2nd Degree Pair Eq.', f: 'a x² + 2h xy + b y² + 2g x + 2f y + c = 0' },
+        { n: 'Condition for Pair of Lines', f: 'Δ = a b c + 2fgh - a f² - b g² - c h² = 0', qr: true },
+        { n: 'Point of Intersection of Pair', f: 'x = (b g - f h)/(h² - a b)  ;  y = (a f - g h)/(h² - a b)' }
+      ]
+    }
+  ]
+};
+
+let searchQuery = '', quickRevision = false, expandedSections = new Set(), allExpanded = false;
+
+function esc(s) { return String(s).replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function formatMathText(text) {
+  const tokens = []; let index = 0;
+  const protectedText = text.replace(/<(\/?)(mark|sub|sup)>/g, (m, slash, tag) => {
+    const token = `__TAG${index++}__`;
+    tokens.push(`<${slash}${tag}>`);
+    return token;
+  });
+  const escaped = protectedText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const rendered = escaped
+    .replace(/([A-Za-zα-ωΑ-Ω0-9\)\]])_\{([^}]+)\}/g, '$1<sub>$2</sub>')
+    .replace(/([A-Za-zα-ωΑ-Ω0-9\)\]])_([A-Za-z0-9]+)/g, '$1<sub>$2</sub>')
+    .replace(/\^\(([^)]+)\)/g, '<sup>( $1 )</sup>')
+    .replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>')
+    .replace(/\^([A-Za-z0-9]+)/g, '<sup>$1</sup>');
+  return rendered.replace(/__TAG(\d+)__/g, (_, i) => tokens[Number(i)]);
+}
+
+function highlight(text, q) {
+  const safeText = esc(text);
+  if (!q) return formatMathText(safeText);
+  const e = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return formatMathText(safeText.replace(new RegExp(`(${e})`, 'gi'), '<mark>$1</mark>'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show'); clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('Formula copied!')).catch(() => {});
+}
+
+function toggleStar(event, name, formula) {
+  event.stopPropagation();
+  let starred = JSON.parse(localStorage.getItem('starredFormulas')) || [];
+  const idx = starred.findIndex(item => item.formula === formula);
+  
+  if (idx > -1) {
+    starred.splice(idx, 1);
+    showToast('Removed from Cheat Sheet');
+    event.currentTarget.classList.remove('active');
+    event.currentTarget.innerHTML = '<i class="fa-regular fa-star"></i>';
+  } else {
+    starred.push({ subject: FORMULA_DATA.ti, name: name, formula: formula });
+    showToast('Saved to Starred Cheat Sheet!');
+    event.currentTarget.classList.add('active');
+    event.currentTarget.innerHTML = '<i class="fa-solid fa-star"></i>';
+  }
+  localStorage.setItem('starredFormulas', JSON.stringify(starred));
+}
+
+function isStarred(formula) {
+  const starred = JSON.parse(localStorage.getItem('starredFormulas')) || [];
+  return starred.some(item => item.formula === formula);
+}
+
+function renderContent() {
+  const main = document.getElementById('main');
+  const q = searchQuery.toLowerCase().trim();
+  
+  let sectionHtml = '';
+  let totalF = 0;
+  let activeSections = 0;
+
+  FORMULA_DATA.sections.forEach((sec, si) => {
+    const itemsFiltered = sec.i.filter(item => {
+      if (item.qrOnly) return false;
+      return !q || item.n.toLowerCase().includes(q) || item.f.toLowerCase().includes(q);
+    });
+
+    if (itemsFiltered.length > 0) {
+      activeSections++;
+      totalF += itemsFiltered.length;
+      const key = `${FORMULA_DATA.id}-${si}`;
+      const isOpen = expandedSections.has(key) || q;
+
+      sectionHtml += `
+        <div class="section">
+          <div class="section-header ${isOpen ? 'open' : ''}" data-key="${key}" style="border-left: 3px solid ${FORMULA_DATA.c}">
+            <div class="sh-icon" style="background:${FORMULA_DATA.c}15; color:${FORMULA_DATA.c}">
+              <i class="fa-solid fa-chevron-right" style="font-size:.55rem"></i>
+            </div>
+            <span class="sh-title">${highlight(sec.s, searchQuery)}</span>
+            <span class="sh-count">${itemsFiltered.length}</span>
+            <i class="fa-solid fa-chevron-down sh-arrow"></i>
+          </div>
+          <div class="section-body ${isOpen ? 'open' : ''}">
+            <div class="formula-grid">`;
+      
+      itemsFiltered.forEach(item => {
+        const starClass = isStarred(item.f) ? 'active' : '';
+        const starIcon = isStarred(item.f) ? 'fa-solid fa-star' : 'fa-regular fa-star';
+        
+        sectionHtml += `
+          <div class="formula-card" data-formula="${esc(item.f)}" onclick="copyText(this.dataset.formula)">
+            <span class="fc-copy"><i class="fa-regular fa-copy"></i></span>
+            <span class="fc-star ${starClass}" onclick="toggleStar(event, '${esc(item.n)}', '${esc(item.f)}')">
+              <i class="${starIcon}"></i>
+            </span>
+            <span class="fc-name">${highlight(item.n, searchQuery)}</span>
+            <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
+          </div>`;
+      });
+
+      sectionHtml += `</div>`;
+      if (sec.t && !q) {
+        sectionHtml += `<div class="jee-tip"><i class="fa-solid fa-lightbulb"></i><span>${sec.t}</span></div>`;
+      }
+      sectionHtml += `</div></div>`;
+    }
+  });
+
+  const revisionItems = [];
+  FORMULA_DATA.sections.forEach(sec => {
+    sec.i.forEach(item => {
+      if (item.qr || item.qrOnly) {
+        revisionItems.push(item);
+      }
+    });
+  });
+
+  let revisionHtml = `
+    <div class="master-sheet ${quickRevision && !q ? 'show-master' : ''}">
+      <h2><i class="fa-solid fa-bolt"></i> Master Formula Sheet — ${FORMULA_DATA.ti}</h2>
+      <div class="master-grid">`;
+  
+  revisionItems.forEach(m => {
+    revisionHtml += `
+      <div class="master-card" data-formula="${esc(m.f)}" onclick="copyText(this.dataset.formula)">
+        <span class="mc-concept">${highlight(m.n, searchQuery)}</span>
+        <span class="mc-formula">${highlight(m.f, searchQuery)}</span>
+      </div>`;
+  });
+  revisionHtml += `</div></div>`;
+
+  let combinedLayout = `
+    <div class="hero">
+      <div class="stat-card">
+        <div class="sc-label">Section Count</div>
+        <div class="sc-val" style="color:var(--accent)">${FORMULA_DATA.sections.length}</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Active Formulas</div>
+        <div class="sc-val" style="color:var(--accent)">${totalF}</div>
+      </div>
+    </div>
+    <div class="subject-header" style="border-bottom-color:${FORMULA_DATA.c}30">
+      <h1><i class="${FORMULA_DATA.ic}" style="color:${FORMULA_DATA.c}"></i> ${FORMULA_DATA.ti}</h1>
+      <p>${FORMULA_DATA.d}</p>
+    </div>
+  `;
+
+  if (quickRevision && !q) {
+    combinedLayout += revisionHtml;
+  } else {
+    combinedLayout += sectionHtml + revisionHtml;
+  }
+
+  main.innerHTML = combinedLayout;
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'quick') {
+  quickRevision = true;
+  document.getElementById('qrBtn').classList.add('active');
+}
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  renderContent();
+});
+
+document.getElementById('main').addEventListener('click', e => {
+  const header = e.target.closest('.section-header');
+  if (!header) return;
+  const key = header.dataset.key;
+  if (expandedSections.has(key)) expandedSections.delete(key); else expandedSections.add(key);
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+});
+
+document.getElementById('qrBtn').addEventListener('click', () => {
+  quickRevision = !quickRevision;
+  document.getElementById('qrBtn').classList.toggle('active', quickRevision);
+  renderContent();
+  showToast(quickRevision ? 'Quick Revision mode on' : 'Full view restored');
+});
+
+document.getElementById('expandBtn').addEventListener('click', () => {
+  allExpanded = !allExpanded;
+  if (allExpanded) {
+    FORMULA_DATA.sections.forEach((sec, si) => expandedSections.add(`${FORMULA_DATA.id}-${si}`));
+    document.getElementById('expandBtn').innerHTML = '<i class="fa-solid fa-compress"></i> Collapse All';
+  } else {
+    expandedSections.clear();
+    document.getElementById('expandBtn').innerHTML = '<i class="fa-solid fa-expand"></i> Expand All';
+  }
+  renderContent();
+});
+
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').style.display = 'block';
+});
+document.getElementById('overlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').style.display = 'none';
+});
+
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => { backTop.classList.toggle('show', window.scrollY > 400); });
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+const modal = document.getElementById('modal');
+const modalSubject = document.getElementById('modalSubject');
+const modalName = document.getElementById('modalName');
+const modalFormula = document.getElementById('modalFormula');
+let modalRevealed = false;
+
+function showRandomFormula() {
+  const allSubFormulas = [];
+  FORMULA_DATA.sections.forEach(sec => sec.i.forEach(item => allSubFormulas.push(item)));
+  
+  const f = allSubFormulas[Math.floor(Math.random() * allSubFormulas.length)];
+  modalSubject.textContent = FORMULA_DATA.ti;
+  modalSubject.style.color = FORMULA_DATA.c;
+  modalName.textContent = f.n;
+  modalFormula.textContent = f.f;
+  modalFormula.classList.add('hidden-f');
+  modalRevealed = false;
+  document.getElementById('modalReveal').textContent = 'Reveal';
+  modal.classList.add('show');
+}
+
+document.getElementById('randomBtn').addEventListener('click', showRandomFormula);
+document.getElementById('modalReveal').addEventListener('click', () => {
+  if (!modalRevealed) {
+    modalFormula.classList.remove('hidden-f');
+    modalRevealed = true;
+    document.getElementById('modalReveal').textContent = 'Copy';
+  } else {
+    copyText(modalFormula.textContent);
+  }
+});
+document.getElementById('modalNext').addEventListener('click', showRandomFormula);
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+
+expandedSections.add(`${FORMULA_DATA.id}-0`);
+renderContent();
+</script>
+</body>
+</html>
