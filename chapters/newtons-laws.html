@@ -664,16 +664,19 @@ const FORMULA_DATA = {
         { n: 'Newton\'s Second Law', f: 'F⃗_net = dp⃗/dt = d/dt(m v⃗)', qr: true },
         { n: 'Constant Mass Force', f: 'F⃗ = m · a⃗  (if dm/dt = 0)' },
         { n: 'Impulse of a Force', f: 'J⃗ = ∫ F⃗ dt = Δp⃗ = m v⃗_f - m v⃗_i', qr: true },
-        { n: 'Newton\'s Third Law', f: 'F⃗_AB = -F⃗_BA  (Equal & opposite action-reaction)' }
+        { n: 'Newton\'s Third Law', f: 'F⃗_AB = -F⃗_BA  (Equal & opposite action-reaction)' },
+        { n: 'Impulsive Force Approximation', f: 'F_avg = Δp / Δt  (F_avg is extremely large over a tiny Δt)' }
       ]
     },
     {
-      s: 'Equilibrium & Lami\'s Theorem',
+      s: 'Equilibrium & Tension Limits',
       t: 'Lami\'s Theorem only applies to three coplanar, concurrent forces holding a particle in equilibrium.',
       i: [
         { n: 'Translational Equilibrium', f: 'Σ F⃗ = 0  =>  Σ F_x = 0, Σ F_y = 0, Σ F_z = 0', qr: true },
         { n: 'Lami\'s Theorem', f: 'A / sin(α) = B / sin(β) = C / sin(γ)', qr: true },
-        { n: 'Apparent Weight in Elevator', f: 'N = m(g +- a)  (+ for upward accel, - for downward accel)' }
+        { n: 'Apparent Weight in Elevator', f: 'N = m(g +- a)  (+ for upward accel, - for downward accel)' },
+        { n: 'Climbing up a massive rope', f: 'T_max = m(g + a_max)  =>  a_max = (T_max - mg) / m' },
+        { n: 'Climbing down a massive rope', f: 'T_min = m(g - a_min)  =>  a_min = (mg - T_min) / m', qr: true }
       ]
     },
     {
@@ -684,7 +687,8 @@ const FORMULA_DATA = {
         { n: 'Atwood String Tension', f: 'T = 2 m₁ m₂ g / (m₁ + m₂)', qr: true },
         { n: 'Horizontal Table System Accel', f: 'a = m₂ g / (m₁ + m₂)  (m₂ hanging vertically)' },
         { n: 'Horizontal Table Tension', f: 'T = m₁ m₂ g / (m₁ + m₂)' },
-        { n: 'Pulley Force on Clamp', f: 'F_clamp = 2 T cos(θ/2)  (where θ is string wrap angle)' }
+        { n: 'Pulley Force on Clamp', f: 'F_clamp = 2 T cos(θ/2)  (where θ is string wrap angle)' },
+        { n: 'Atwood Machine with Massive Pulley', f: 'a = (m₂ - m₁)g / (m₁ + m₂ + I/R²)  (where I is pulley moment of inertia)', qr: true }
       ]
     },
     {
@@ -694,7 +698,8 @@ const FORMULA_DATA = {
         { n: 'String Work Constraint Method', f: 'Σ T_i · a_i = 0  (Tension work sum is zero)', qr: true },
         { n: 'String Length Constraint', f: 'x₁ + 2·x₂ + x_p = constant  =>  a₁ + 2·a₂ = 0' },
         { n: 'Wedge Normal Constraint', f: 'a_wedge · sin(θ) = a_block · cos(θ)', qr: true },
-        { n: 'Contact normal constraint', f: 'Components of acceleration along the normal contact line must be equal.' }
+        { n: 'Contact normal constraint', f: 'Components of acceleration along the normal contact line must be equal.' },
+        { n: 'Movable Pulley Acceleration', f: 'a_pulley = (a_left + a_right) / 2  (with proper sign direction)' }
       ]
     },
     {
@@ -703,18 +708,22 @@ const FORMULA_DATA = {
       i: [
         { n: 'Hooke\'s Law', f: 'F_s = -k · x  (where x is displacement from mean pos.)', qr: true },
         { n: 'Spring stiffness-length link', f: 'k · L = constant  =>  k ∝ 1/L', qr: true },
+        { n: 'Spring Cutting Rule', f: 'k₁ · L₁ = k₂ · L₂ = k_original · L_original', qr: true },
         { n: 'Series Combination', f: '1 / k_eq = 1/k₁ + 1/k₂ + ...', qr: true },
-        { n: 'Parallel Combination', f: 'k_eq = k₁ + k₂ + ...', qr: true }
+        { n: 'Parallel Combination', f: 'k_eq = k₁ + k₂ + ...', qr: true },
+        { n: 'Maximum Spring Elongation', f: 'x_max = 2 F / k  (when constant force F is suddenly applied)' }
       ]
     },
     {
-      s: 'Pseudo Force & Frame of Reference',
+      s: 'Pseudo Force & Non-Inertial Frames',
       t: 'Pseudo forces are imaginary forces used to apply Newton\'s laws inside non-inertial (accelerating) reference frames.',
       i: [
         { n: 'Pseudo Force Formula', f: 'F⃗_pseudo = -m · a⃗_0  (opposite to frame acceleration)', qr: true },
         { n: 'Equation in Accelerating Frame', f: 'Σ F⃗_real + F⃗_pseudo = m · a⃗_relative' },
         { n: 'Simple Pendulum Tilt Angle', f: 'tan(θ) = a_0 / g  (in car accelerating with a_0)', qr: true },
-        { n: 'Effective Gravity', f: 'g_eff = √(g² + a_0²)' }
+        { n: 'Effective Gravity', f: 'g_eff = √(g² + a_0²)' },
+        { n: 'Pendulum in turning vehicle', f: 'tan(θ) = v² / (R · g)  (with respect to vertical)' },
+        { n: 'Block on accelerating incline', f: 'a_0 = g · tan(θ)  (acceleration of incline to keep block stationary relative to it)', qr: true }
       ]
     },
     {
@@ -728,7 +737,21 @@ const FORMULA_DATA = {
         { n: 'Block on incline: Accel down', f: 'a = g · (sin θ - μ_k cos θ)  (if θ > θ_repose)' },
         { n: 'Block on incline: Accel up', f: 'a = g · (sin θ + μ_k cos θ)  (if pushed up)' },
         { n: 'Minimum Pulling Force', f: 'F_min = μ m g / √(1 + μ²)  at angle θ = tan⁻¹(μ)', qr: true },
-        { n: 'Frictional Work (Heat)', f: 'W_f = -f_k · s_rel  (s_rel is relative slide distance)' }
+        { n: 'Minimum Force against Wall', f: 'F_min = m g / μ_s  (force to prevent block sliding down vertical wall)', qr: true },
+        { n: 'Two-Block system: Top Block Force', f: 'F_max = μ_s m₁ g · (1 + m₁/m₂)  (max force on top block m₁ so they move together)' },
+        { n: 'Two-Block system: Bottom Block Force', f: 'F_max = (m₁ + m₂) · μ_s · g  (max force on bottom block m₂ so they move together)', qr: true }
+      ]
+    },
+    {
+      s: 'Circular Motion Dynamics',
+      t: 'Centripetal force is not a new force; it is provided by friction, normal reaction, gravity, or tension.',
+      i: [
+        { n: 'Safe Speed (Unbanked Road)', f: 'v_max = √(μ_s · g · R)', qr: true },
+        { n: 'Optimum Speed (Banked Road)', f: 'v_0 = √(g · R · tan θ)', qr: true },
+        { n: 'Max Safe Speed (With Friction)', f: 'v_max = √[ g · R · (μ_s + tan θ) / (1 - μ_s · tan θ) ]', qr: true },
+        { n: 'Min Safe Speed (With Friction)', f: 'v_min = √[ g · R · (tan θ - μ_s) / (1 + μ_s · tan θ) ]' },
+        { n: 'Conical Pendulum Time Period', f: 'T = 2π · √(L · cos θ / g)', qr: true },
+        { n: 'Rotor / Death Well min speed', f: 'v_min = √(g · R / μ_s)  (to prevent sliding down walls)' }
       ]
     },
     {
