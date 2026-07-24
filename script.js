@@ -68,6 +68,16 @@ const CHAPTER_MANIFEST = [
     count: 52,
     path: 'chapters/units-dimensions.html',
     keywords: ['dimension', 'unit', 'error', 'vernier', 'screw gauge', 'significant', 'least count']
+  },
+  {
+    id: 'newtons-laws',
+    title: 'Newton\'s Laws of Motion',
+    desc: 'Force and momentum definitions, equilibrium constraints, Atwood machines, spring combinations, friction dynamics, and rocket propulsion.',
+    icon: 'fa-solid fa-gears',
+    color: '#f43f5e', /* Rose theme for NLM */
+    count: 40,
+    path: 'chapters/newtons-laws.html',
+    keywords: ['force', 'momentum', 'friction', 'constraint', 'pulley', 'atwood', 'rocket', 'spring']
   }
 ];
 
