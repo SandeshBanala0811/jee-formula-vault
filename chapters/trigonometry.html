@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JEE Formula Vault — Trigonometry</title>
+<title>JEE Formula Vault — Trigonometry (Full)</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -15,7 +15,7 @@
   --border: #1c2840;
   --fg: #e4e8f0;
   --muted: #5e6e87;
-  --accent: #3b82f6; /* Royal Blue Theme */
+  --accent: #3b82f6; /* Royal Blue */
   --accent-glow: rgba(59, 130, 246, 0.05);
   --accent-glow-active: rgba(59, 130, 246, 0.1);
   --accent-mark: rgba(59, 130, 246, 0.25);
@@ -78,32 +78,11 @@ body::before {
   gap: .5rem;
 }
 
-.sidebar-head h2 i {
-  color: var(--accent);
-  font-size: .9rem;
-}
+.sidebar-head h2 i { color: var(--accent); font-size: .9rem; }
+.sidebar-head .sub { font-size: .72rem; color: var(--muted); margin-top: .25rem; letter-spacing: .03em; }
 
-.sidebar-head .sub {
-  font-size: .72rem;
-  color: var(--muted);
-  margin-top: .25rem;
-  letter-spacing: .03em;
-}
-
-.search-box {
-  padding: .75rem 1rem;
-  position: relative;
-}
-
-.search-box i {
-  position: absolute;
-  left: 1.65rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
-  font-size: .8rem;
-}
-
+.search-box { padding: .75rem 1rem; position: relative; }
+.search-box i { position: absolute; left: 1.65rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: .8rem; }
 .search-box input {
   width: 100%;
   padding: .55rem .75rem .55rem 2.2rem;
@@ -116,7 +95,6 @@ body::before {
   outline: none;
   transition: border-color .2s;
 }
-
 .search-box input:focus { border-color: var(--accent); }
 
 .sidebar-actions {
@@ -146,17 +124,8 @@ body::before {
   text-decoration: none;
 }
 
-.action-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-glow);
-}
-
-.action-btn.active {
-  background: var(--accent-glow-active);
-  border-color: var(--accent);
-  color: var(--accent);
-}
+.action-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+.action-btn.active { background: var(--accent-glow-active); border-color: var(--accent); color: var(--accent); }
 
 #menuBtn {
   display: none;
@@ -176,13 +145,7 @@ body::before {
   justify-content: center;
 }
 
-#overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 90;
-}
+#overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 90; }
 
 #main {
   margin-left: 290px;
@@ -192,13 +155,7 @@ body::before {
   min-height: 100vh;
 }
 
-.hero {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-
+.hero { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
 .stat-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -208,52 +165,16 @@ body::before {
   min-width: 130px;
   transition: border-color .2s, transform .2s;
 }
+.stat-card:hover { border-color: rgba(255, 255, 255, .15); transform: translateY(-2px); }
+.stat-card .sc-label { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.stat-card .sc-val { font-size: 1.5rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-top: .15rem; }
 
-.stat-card:hover {
-  border-color: rgba(255, 255, 255, .15);
-  transform: translateY(-2px);
-}
-
-.stat-card .sc-label {
-  font-size: .68rem;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: .05em;
-}
-
-.stat-card .sc-val {
-  font-size: 1.5rem;
-  font-weight: 700;
-  font-family: 'JetBrains Mono', monospace;
-  margin-top: .15rem;
-}
-
-.subject-header {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.subject-header h1 {
-  font-size: 1.8rem;
-  font-weight: 800;
-  letter-spacing: -.03em;
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-}
-
+.subject-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.subject-header h1 { font-size: 1.8rem; font-weight: 800; letter-spacing: -.03em; display: flex; align-items: center; gap: .6rem; }
 .subject-header h1 i { font-size: 1.2rem; }
-
-.subject-header p {
-  color: var(--muted);
-  font-size: .9rem;
-  margin-top: .4rem;
-  line-height: 1.5;
-}
+.subject-header p { color: var(--muted); font-size: .9rem; margin-top: .4rem; line-height: 1.5; }
 
 .section { margin-bottom: 1rem; }
-
 .section-header {
   display: flex;
   align-items: center;
@@ -266,46 +187,12 @@ body::before {
   transition: all .2s;
   user-select: none;
 }
-
-.section-header:hover {
-  border-color: rgba(255, 255, 255, .15);
-  background: var(--card2);
-}
-
-.section-header.open {
-  border-radius: var(--radius) var(--radius) 0 0;
-  border-bottom-color: transparent;
-}
-
-.section-header .sh-icon {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  font-size: .7rem;
-  flex-shrink: 0;
-}
-
-.section-header .sh-title {
-  font-size: .92rem;
-  font-weight: 600;
-  flex: 1;
-}
-
-.section-header .sh-count {
-  font-size: .7rem;
-  color: var(--muted);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.section-header .sh-arrow {
-  color: var(--muted);
-  font-size: .7rem;
-  transition: transform .25s;
-}
-
+.section-header:hover { border-color: rgba(255, 255, 255, .15); background: var(--card2); }
+.section-header.open { border-radius: var(--radius) var(--radius) 0 0; border-bottom-color: transparent; }
+.section-header .sh-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: .7rem; flex-shrink: 0; }
+.section-header .sh-title { font-size: .92rem; font-weight: 600; flex: 1; }
+.section-header .sh-count { font-size: .7rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.section-header .sh-arrow { color: var(--muted); font-size: .7rem; transition: transform .25s; }
 .section-header.open .sh-arrow { transform: rotate(180deg); }
 
 .section-body {
@@ -316,25 +203,14 @@ body::before {
   border-top: none;
   border-radius: 0 0 var(--radius) var(--radius);
 }
+.section-body.open { max-height: 8000px; border-color: var(--border); background: var(--bg2); }
 
-.section-body.open {
-  max-height: 8000px;
-  border-color: var(--border);
-  background: var(--bg2);
-}
-
-.formula-grid {
-  padding: .75rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: .5rem;
-}
-
+.formula-grid { padding: .75rem; display: grid; grid-template-columns: 1fr; gap: .6rem; }
 .formula-card {
   display: flex;
-  align-items: flex-start;
-  gap: .75rem;
-  padding: .7rem 0.85rem;
+  flex-direction: column;
+  gap: .25rem;
+  padding: .75rem .9rem;
   background: rgba(255, 255, 255, .015);
   border: 1px solid rgba(255, 255, 255, .04);
   border-radius: 8px;
@@ -342,52 +218,25 @@ body::before {
   transition: all .2s;
   position: relative;
 }
-
-.formula-card:hover {
-  background: rgba(255, 255, 255, .035);
-  border-color: rgba(255, 255, 255, .08);
-}
-
+.formula-card:hover { background: rgba(255, 255, 255, .035); border-color: rgba(255, 255, 255, .08); }
 .formula-card:active { transform: scale(.995); }
 
-.formula-card .fc-name {
-  font-size: .78rem;
-  color: var(--muted);
-  min-width: 140px;
-  flex-shrink: 0;
-  font-weight: 500;
-  line-height: 1.4;
-}
+.fc-main-row { display: flex; align-items: flex-start; gap: .75rem; width: 100%; }
+.formula-card .fc-name { font-size: .8rem; color: var(--muted); min-width: 150px; flex-shrink: 0; font-weight: 600; line-height: 1.4; }
+.formula-card .fc-formula { font-family: 'JetBrains Mono', monospace; font-size: .82rem; font-weight: 500; color: var(--fg); line-height: 1.5; word-break: break-word; flex-grow: 1; }
 
-.formula-card .fc-formula {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .82rem;
-  font-weight: 500;
-  color: var(--fg);
-  line-height: 1.5;
-  word-break: break-word;
+.formula-card .fc-exp {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+  line-height: 1.45;
+  font-weight: 400;
+  padding-left: 0.1rem;
 }
+.formula-card .fc-exp i { color: var(--accent); margin-right: 0.35rem; }
 
-.formula-card .fc-copy {
-  position: absolute;
-  top: .5rem;
-  right: .5rem;
-  opacity: 0;
-  font-size: .65rem;
-  color: var(--muted);
-  transition: opacity .15s;
-}
-
-.formula-card .fc-star {
-  position: absolute;
-  top: .5rem;
-  right: 1.8rem;
-  opacity: 0;
-  font-size: .75rem;
-  color: #ffb81c;
-  transition: opacity 0.15s, transform 0.1s;
-}
-
+.formula-card .fc-copy { position: absolute; top: .5rem; right: .5rem; opacity: 0; font-size: .65rem; color: var(--muted); transition: opacity .15s; }
+.formula-card .fc-star { position: absolute; top: .5rem; right: 1.8rem; opacity: 0; font-size: .75rem; color: #ffb81c; transition: opacity 0.15s, transform 0.1s; }
 .formula-card:hover .fc-copy, .formula-card:hover .fc-star { opacity: 1; }
 .formula-card .fc-star.active { opacity: 1 !important; }
 .formula-card .fc-star:active { transform: scale(1.2); }
@@ -405,65 +254,19 @@ body::before {
   gap: .5rem;
   align-items: flex-start;
 }
-
 .jee-tip i { margin-top: 2px; flex-shrink: 0; }
 
 .master-sheet { margin-top: 2rem; display: none; }
 .master-sheet.show-master { display: block !important; }
-
-.master-sheet h2 {
-  font-size: 1.15rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-}
-
+.master-sheet h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
 .master-sheet h2 i { color: var(--accent); }
+.master-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: .5rem; }
+.master-card { display: flex; gap: .6rem; padding: .65rem .8rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all .2s; }
+.master-card:hover { border-color: rgba(59, 130, 246, .3); transform: translateY(-1px); }
+.master-card .mc-concept { font-size: .72rem; color: var(--muted); min-width: 110px; flex-shrink: 0; font-weight: 500; }
+.master-card .mc-formula { font-family: 'JetBrains Mono', monospace; font-size: .78rem; line-height: 1.5; }
 
-.master-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: .5rem;
-}
-
-.master-card {
-  display: flex;
-  gap: .6rem;
-  padding: .65rem .8rem;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all .2s;
-}
-
-.master-card:hover {
-  border-color: rgba(59, 130, 246, .3);
-  transform: translateY(-1px);
-}
-
-.master-card .mc-concept {
-  font-size: .72rem;
-  color: var(--muted);
-  min-width: 110px;
-  flex-shrink: 0;
-  font-weight: 500;
-}
-
-.master-card .mc-formula {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .78rem;
-  line-height: 1.5;
-}
-
-mark {
-  background: var(--accent-mark);
-  color: var(--fg);
-  border-radius: 2px;
-  padding: 0 2px;
-}
+mark { background: var(--accent-mark); color: var(--fg); border-radius: 2px; padding: 0 2px; }
 
 #toast {
   position: fixed;
@@ -484,114 +287,24 @@ mark {
   align-items: center;
   gap: .5rem;
 }
-
 #toast.show { opacity: 1; transform: translateY(0); }
 
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.7);
-  z-index: 300;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .25s;
-}
-
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 300; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .25s; }
 .modal-overlay.show { opacity: 1; pointer-events: auto; }
-
-.modal {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 2rem;
-  max-width: 500px;
-  width: 90%;
-  text-align: center;
-  transform: scale(.9);
-  transition: transform .25s;
-}
-
+.modal { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; max-width: 500px; width: 90%; text-align: center; transform: scale(.9); transition: transform .25s; }
 .modal-overlay.show .modal { transform: scale(1); }
-
-.modal .modal-subject {
-  font-size: .72rem;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  margin-bottom: .5rem;
-}
-
-.modal .modal-name {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 1.25rem;
-  min-height: 1.5rem;
-}
-
-.modal .modal-formula {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.3rem;
-  font-weight: 600;
-  padding: 1.25rem;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  min-height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all .2s;
-}
-
+.modal .modal-subject { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; }
+.modal .modal-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.25rem; min-height: 1.5rem; }
+.modal .modal-formula { font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 600; padding: 1.25rem; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; min-height: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; }
 .modal .modal-formula:hover { border-color: var(--accent); }
-
 .modal .modal-formula.hidden-f { filter: blur(8px); user-select: none; }
-
 .modal .modal-btns { display: flex; gap: .75rem; justify-content: center; }
-
-.modal .modal-btns button {
-  padding: .55rem 1.25rem;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--fg);
-  font-family: inherit;
-  font-size: .82rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all .2s;
-}
-
+.modal .modal-btns button { padding: .55rem 1.25rem; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--fg); font-family: inherit; font-size: .82rem; font-weight: 500; cursor: pointer; transition: all .2s; }
 .modal .modal-btns button:hover { border-color: var(--accent); color: var(--accent); }
-
 .modal .modal-btns button.primary { background: var(--accent); color: #080c14; border-color: var(--accent); font-weight: 600; }
-
 .modal .modal-btns button.primary:hover { opacity: .85; }
 
-#backTop {
-  position: fixed;
-  bottom: 2rem;
-  left: 310px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 50;
-  opacity: 0;
-  transition: all .25s;
-  font-size: .85rem;
-}
-
+#backTop { position: fixed; bottom: 2rem; left: 310px; width: 38px; height: 38px; border-radius: 50%; background: var(--card); border: 1px solid var(--border); color: var(--muted); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; opacity: 0; transition: all .25s; font-size: .85rem; }
 #backTop.show { opacity: 1; }
 #backTop:hover { color: var(--accent); border-color: var(--accent); }
 
@@ -604,7 +317,7 @@ mark {
   .hero { gap: .5rem; }
   .stat-card { min-width: 100px; padding: .6rem .8rem; }
   .stat-card .sc-val { font-size: 1.2rem; }
-  .formula-card { flex-direction: column; gap: .35rem; }
+  .formula-card .fc-main-row { flex-direction: column; gap: .25rem; }
   .formula-card .fc-name { min-width: unset; }
   .master-grid { grid-template-columns: 1fr; }
 }
@@ -663,111 +376,152 @@ const FORMULA_DATA = {
       s: 'Basic Pythagorean Identities & Quadrants',
       t: 'ASTC rule: All positive in Q1, Sin/Csc in Q2, Tan/Cot in Q3, Cos/Sec in Q4.',
       i: [
-        { n: 'Fundamental Identity 1', f: 'sin² θ + cos² θ = 1', qr: true },
-        { n: 'Fundamental Identity 2', f: 'sec² θ - tan² θ = 1  =>  sec θ - tan θ = 1 / (sec θ + tan θ)', qr: true },
-        { n: 'Fundamental Identity 3', f: 'csc² θ - cot² θ = 1  =>  csc θ - cot θ = 1 / (csc θ + cot θ)' },
-        { n: 'Complementary Angle Rules', f: 'sin(90° - θ) = cos θ  ;  tan(90° - θ) = cot θ  ;  sec(90° - θ) = csc θ' },
-        { n: 'Supplementary Angle Rules', f: 'sin(180° - θ) = sin θ  ;  cos(180° - θ) = -cos θ  ;  tan(180° - θ) = -tan θ' }
+        { n: 'Fundamental Identity 1', f: 'sin² θ + cos² θ = 1', qr: true, e: 'Base Pythagorean identity. Holds for all real angles θ.' },
+        { n: 'Fundamental Identity 2', f: 'sec² θ - tan² θ = 1  =>  sec θ - tan θ = 1 / (sec θ + tan θ)', qr: true, e: 'Crucial algebraic reciprocal relation used to convert linear sums into differences.' },
+        { n: 'Fundamental Identity 3', f: 'csc² θ - cot² θ = 1  =>  csc θ - cot θ = 1 / (csc θ + cot θ)', e: 'Holds for all θ where sin θ != 0.' },
+        { n: 'Complementary Angle Rules', f: 'sin(90° - θ) = cos θ  ;  tan(90° - θ) = cot θ  ;  sec(90° - θ) = csc θ', e: 'Trigonometric functions switch to co-functions across odd multiples of 90°.' },
+        { n: 'Supplementary Angle Rules', f: 'sin(180° - θ) = sin θ  ;  cos(180° - θ) = -cos θ  ;  tan(180° - θ) = -tan θ', e: 'Functions retain their name across multiples of 180°, only sign changes per quadrant.' }
       ]
     },
     {
       s: 'Compound Angle Formulas',
-      t: 'Compound angle expansions are fundamental. Memorise product difference identities like sin(A+B)sin(A-B).',
+      t: 'Compound expansions convert sums of angles into products of individual trigonometric functions.',
       i: [
-        { n: 'sin(A +- B)', f: 'sin(A +- B) = sin A cos B +- cos A sin B', qr: true },
-        { n: 'cos(A +- B)', f: 'cos(A +- B) = cos A cos B -+ sin A sin B', qr: true },
-        { n: 'tan(A +- B)', f: 'tan(A +- B) = (tan A +- tan B) / (1 -+ tan A tan B)', qr: true },
-        { n: 'cot(A +- B)', f: 'cot(A +- B) = (cot A cot B -+ 1) / (cot B +- cot A)' },
-        { n: 'sin(A+B) · sin(A-B)', f: 'sin² A - sin² B = cos² B - cos² A', qr: true },
-        { n: 'cos(A+B) · cos(A-B)', f: 'cos² A - sin² B = cos² B - sin² A' },
-        { n: 'tan(A + B + C)', f: 'tan(A+B+C) = (S₁ - S₃) / (1 - S₂)  [S₁=ΣtanA, S₂=ΣtanA tanB, S₃=tanA tanB tanC]' }
+        { n: 'sin(A +- B)', f: 'sin(A +- B) = sin A cos B +- cos A sin B', qr: true, e: 'Expands sine of sum or difference. Sign remains same as input operator.' },
+        { n: 'cos(A +- B)', f: 'cos(A +- B) = cos A cos B -+ sin A sin B', qr: true, e: 'Expands cosine of sum or difference. Notice the sign flips (-+).' },
+        { n: 'tan(A +- B)', f: 'tan(A +- B) = (tan A +- tan B) / (1 -+ tan A tan B)', qr: true, e: 'Useful for finding angles between two intersecting lines with slopes m₁ and m₂.' },
+        { n: 'cot(A +- B)', f: 'cot(A +- B) = (cot A cot B -+ 1) / (cot B +- cot A)', e: 'Note the order of terms in the denominator (cot B +- cot A).' },
+        { n: 'sin(A+B) · sin(A-B)', f: 'sin² A - sin² B = cos² B - cos² A', qr: true, e: 'High-yield identity converting product of compound sines into differences of squares.' },
+        { n: 'cos(A+B) · cos(A-B)', f: 'cos² A - sin² B = cos² B - sin² A', e: 'Notice the mixed terms (cos² A - sin² B).' },
+        { n: 'tan(A + B + C)', f: 'tan(A+B+C) = (S₁ - S₃) / (1 - S₂)  [where S₁=ΣtanA, S₂=ΣtanA tanB, S₃=tanA tanB tanC]', e: 'General expansion for three angles. Useful for conditional identity derivations.' }
       ]
     },
     {
       s: 'Transformation Formulas (Sum/Diff <=> Product)',
-      t: 'Use sum-to-product when converting sum series, and product-to-sum when integrating product functions.',
+      t: 'Sum-to-product transforms addition into multiplication for factoring; product-to-sum simplifies calculus integrals.',
       i: [
-        { n: '2 sin A cos B', f: 'sin(A + B) + sin(A - B)', qr: true },
-        { n: '2 cos A sin B', f: 'sin(A + B) - sin(A - B)' },
-        { n: '2 cos A cos B', f: 'cos(A + B) + cos(A - B)', qr: true },
-        { n: '2 sin A sin B', f: 'cos(A - B) - cos(A + B)', qr: true },
-        { n: 'sin C + sin D', f: '2 sin((C+D)/2) · cos((C-D)/2)', qr: true },
-        { n: 'sin C - sin D', f: '2 cos((C+D)/2) · sin((C-D)/2)' },
-        { n: 'cos C + cos D', f: '2 cos((C+D)/2) · cos((C-D)/2)', qr: true },
-        { n: 'cos C - cos D', f: '-2 sin((C+D)/2) · sin((C-D)/2) = 2 sin((C+D)/2) · sin((D-C)/2)' }
+        { n: '2 sin A cos B', f: 'sin(A + B) + sin(A - B)', qr: true, e: 'Converts product of mixed sine and cosine into sum of sines.' },
+        { n: '2 cos A sin B', f: 'sin(A + B) - sin(A - B)', e: 'Difference of sines when cosine precedes sine.' },
+        { n: '2 cos A cos B', f: 'cos(A + B) + cos(A - B)', qr: true, e: 'Converts product of cosines into sum of cosines.' },
+        { n: '2 sin A sin B', f: 'cos(A - B) - cos(A + B)', qr: true, e: 'Notice cos(A - B) comes FIRST to keep the result positive.' },
+        { n: 'sin C + sin D', f: '2 sin((C+D)/2) · cos((C-D)/2)', qr: true, e: 'Factorization tool for sine addition.' },
+        { n: 'sin C - sin D', f: '2 cos((C+D)/2) · sin((C-D)/2)', e: 'Factorization tool for sine subtraction.' },
+        { n: 'cos C + cos D', f: '2 cos((C+D)/2) · cos((C-D)/2)', qr: true, e: 'Factorization tool for cosine addition.' },
+        { n: 'cos C - cos D', f: '-2 sin((C+D)/2) · sin((C-D)/2) = 2 sin((C+D)/2) · sin((D-C)/2)', e: 'Note the negative sign or switched argument (D - C).' }
       ]
     },
     {
       s: 'Multiple & Submultiple Angle Formulas',
-      t: 'Expressing sin 2θ and cos 2θ in terms of tan θ is essential for algebraic and integral substitutions.',
+      t: 'Double and triple angle expansions allow degree reduction in algebraic manipulations.',
       i: [
-        { n: 'sin 2θ', f: '2 sin θ cos θ = (2 tan θ) / (1 + tan² θ)', qr: true },
-        { n: 'cos 2θ', f: 'cos² θ - sin² θ = 2 cos² θ - 1 = 1 - 2 sin² θ = (1 - tan² θ) / (1 + tan² θ)', qr: true },
-        { n: 'tan 2θ', f: '(2 tan θ) / (1 - tan² θ)', qr: true },
-        { n: 'Half-angle 1 - cos θ', f: '1 - cos θ = 2 sin²(θ/2)', qr: true },
-        { n: 'Half-angle 1 + cos θ', f: '1 + cos θ = 2 cos²(θ/2)', qr: true },
-        { n: 'sin 3θ', f: '3 sin θ - 4 sin³ θ', qr: true },
-        { n: 'cos 3θ', f: '4 cos³ θ - 3 cos θ', qr: true },
-        { n: 'tan 3θ', f: '(3 tan θ - tan³ θ) / (1 - 3 tan² θ)' }
+        { n: 'sin 2θ', f: '2 sin θ cos θ = (2 tan θ) / (1 + tan² θ)', qr: true, e: 'Parametric tangent form is heavily used in integral calculus substitutions.' },
+        { n: 'cos 2θ', f: 'cos² θ - sin² θ = 2 cos² θ - 1 = 1 - 2 sin² θ = (1 - tan² θ) / (1 + tan² θ)', qr: true, e: 'Four equivalent forms. Essential for power reduction (cos² θ = (1+cos 2θ)/2).' },
+        { n: 'tan 2θ', f: '(2 tan θ) / (1 - tan² θ)', qr: true, e: 'Denominator is (1 - tan² θ), whereas sin 2θ has (1 + tan² θ).' },
+        { n: 'Half-angle 1 - cos θ', f: '1 - cos θ = 2 sin²(θ/2)', qr: true, e: 'Primary power-reduction identity for simplifying square roots in limits.' },
+        { n: 'Half-angle 1 + cos θ', f: '1 + cos θ = 2 cos²(θ/2)', qr: true, e: 'Primary power-reduction identity for cosine.' },
+        { n: 'sin 3θ', f: '3 sin θ - 4 sin³ θ', qr: true, e: 'Triple angle expansion for sine.' },
+        { n: 'cos 3θ', f: '4 cos³ θ - 3 cos θ', qr: true, e: 'Triple angle expansion for cosine.' },
+        { n: 'tan 3θ', f: '(3 tan θ - tan³ θ) / (1 - 3 tan² θ)', e: 'Derived by evaluating tan(2θ + θ).' }
       ]
     },
     {
-      s: 'Special Angles, Products & Sum Series',
-      t: 'Values like sin 18° = (√5 - 1)/4 appear frequently in objective tests.',
+      s: 'Conditional Identities (For A + B + C = π)',
+      t: 'These relations hold specifically when A, B, C are interior angles of a triangle.',
       i: [
-        { n: 'sin 18° & cos 72°', f: '(√5 - 1) / 4', qr: true },
-        { n: 'cos 36° & sin 54°', f: '(√5 + 1) / 4', qr: true },
-        { n: 'tan 15° & cot 75°', f: '2 - √3 = (√3 - 1) / (√3 + 1)', qr: true },
-        { n: 'tan 75° & cot 15°', f: '2 + √3 = (√3 + 1) / (√3 - 1)' },
-        { n: 'tan(22.5°)', f: '√2 - 1' },
-        { n: 'Geometric Cosine Product', f: 'cos θ · cos(2θ) · cos(2²θ) ... cos(2ⁿ⁻¹θ) = sin(2ⁿθ) / (2ⁿ sin θ)', qr: true }
+        { n: 'Tangent Sum-Product Equality', f: 'tan A + tan B + tan C = tan A · tan B · tan C', qr: true, e: 'Holds when A+B+C = π (or nπ). Converts sum of tangents into their product.' },
+        { n: 'Pairwise Cotangent Sum', f: 'cot A cot B + cot B cot C + cot C cot A = 1', qr: true, e: 'Derived by taking cot(A + B) = cot(π - C).' },
+        { n: 'Half-Angle Tangent Pairwise', f: 'tan(A/2)tan(B/2) + tan(B/2)tan(C/2) + tan(C/2)tan(A/2) = 1', e: 'Holds for any triangle ABC since A/2 + B/2 + C/2 = π/2.' },
+        { n: 'Half-Angle Cotangent Sum', f: 'cot(A/2) + cot(B/2) + cot(C/2) = cot(A/2) · cot(B/2) · cot(C/2)', e: 'Analogous to the full angle tangent product equality.' },
+        { n: 'Double Angle Sine Sum', f: 'sin 2A + sin 2B + sin 2C = 4 sin A sin B sin C', qr: true, e: 'High-frequency identity in JEE Advanced proofs.' },
+        { n: 'Double Angle Cosine Sum', f: 'cos 2A + cos 2B + cos 2C = -1 - 4 cos A cos B cos C', e: 'Notice the constant term -1 on the RHS.' },
+        { n: 'Single Angle Sine Sum', f: 'sin A + sin B + sin C = 4 cos(A/2) cos(B/2) cos(C/2)', qr: true, e: 'Converts sum of sines of triangle angles into product of half-angle cosines.' },
+        { n: 'Single Angle Cosine Sum', f: 'cos A + cos B + cos C = 1 + 4 sin(A/2) sin(B/2) sin(C/2)', e: 'Related directly to the inradius formula r = 4R sin(A/2) sin(B/2) sin(C/2).' }
       ]
     },
     {
-      s: 'Maximum & Minimum Values',
-      t: 'To find range of a cos θ + b sin θ, rewrite in single harmonic form R cos(θ - α).',
+      s: 'Special Angles, Products & Series',
+      t: 'Memorising key radical values saves calculation time during objective tests.',
       i: [
-        { n: 'Range of a cos θ + b sin θ', f: '-√(a² + b²) <= a cos θ + b sin θ <= √(a² + b²)', qr: true },
-        { n: 'Range of a² tan² θ + b² cot² θ', f: 'Minimum value = 2 a b  (by AM >= GM inequality)', qr: true }
+        { n: 'sin 18° & cos 72°', f: '(√5 - 1) / 4', qr: true, e: 'Golden ratio derivative. Positive root of 4x² + 2x - 1 = 0.' },
+        { n: 'cos 36° & sin 54°', f: '(√5 + 1) / 4', qr: true, e: 'Note that cos 36° - sin 18° = 1/2.' },
+        { n: 'tan 15° & cot 75°', f: '2 - √3 = (√3 - 1) / (√3 + 1)', qr: true, e: 'Evaluated via tan(45° - 30°).' },
+        { n: 'tan 75° & cot 15°', f: '2 + √3 = (√3 + 1) / (√3 - 1)', e: 'Evaluated via tan(45° + 30°).' },
+        { n: 'tan(22.5°)', f: '√2 - 1', e: 'Half of 45°. Evaluated using tan(θ/2) = (1 - cos θ) / sin θ.' },
+        { n: 'Geometric Cosine Product', f: 'cos θ · cos(2θ) · cos(4θ) ... cos(2ⁿ⁻¹θ) = sin(2ⁿθ) / (2ⁿ sin θ)', qr: true, e: 'Applies when angles double in geometric progression. Multiply numerator and denominator by 2 sin θ to collapse telescopically.' },
+        { n: 'Finite Sine Sum Series', f: 'Σ sin(α + k β) = [sin(n β/2) / sin(β/2)] · sin(α + (n-1)β/2)', qr: true, e: 'Sums sines whose angles form an Arithmetic Progression with common difference β.' },
+        { n: 'Finite Cosine Sum Series', f: 'Σ cos(α + k β) = [sin(n β/2) / sin(β/2)] · cos(α + (n-1)β/2)', e: 'Sums cosines whose angles form an AP with common difference β.' }
+      ]
+    },
+    {
+      s: 'Maximum & Minimum Values (Extrema)',
+      t: 'Linear combinations of sine and cosine can be expressed as a single phase-shifted wave.',
+      i: [
+        { n: 'Range of a cos θ + b sin θ', f: '-√(a² + b²) <= a cos θ + b sin θ <= √(a² + b²)', qr: true, e: 'Derived by writing a = R cos φ and b = R sin φ, turning expression into R cos(θ - φ).' },
+        { n: 'Range of a² tan² θ + b² cot² θ', f: 'Minimum value = 2 a b  (for real θ where defined)', qr: true, e: 'Derived using the Arithmetic Mean >= Geometric Mean (AM-GM) inequality.' },
+        { n: 'Range of a² sec² θ + b² csc² θ', f: 'Minimum value = (a + b)²', e: 'Rewrite as a² + b² + a² tan² θ + b² cot² θ and apply AM-GM.' }
       ]
     },
     {
       s: 'Trigonometric Equations & General Solutions',
-      t: 'Always check if prospective roots cause original functions like tan θ or csc θ to become undefined.',
+      t: 'Check for extraneous roots that cause undefined terms (such as division by zero in tan or csc).',
       i: [
-        { n: 'sin θ = sin α', f: 'θ = n π + (-1)ⁿ α  ,  n ∈ Z', qr: true },
-        { n: 'cos θ = cos α', f: 'θ = 2n π +- α  ,  n ∈ Z', qr: true },
-        { n: 'tan θ = tan α', f: 'θ = n π + α  ,  n ∈ Z', qr: true },
-        { n: 'Squared Form Equalizer', f: 'sin² θ = sin² α  or  cos² θ = cos² α  =>  θ = n π +- α', qr: true }
+        { n: 'sin θ = sin α', f: 'θ = n π + (-1)ⁿ α  ,  n ∈ Z', qr: true, e: 'General solution for sine equality.' },
+        { n: 'cos θ = cos α', f: 'θ = 2n π +- α  ,  n ∈ Z', qr: true, e: 'General solution for cosine equality.' },
+        { n: 'tan θ = tan α', f: 'θ = n π + α  ,  n ∈ Z', qr: true, e: 'General solution for tangent equality.' },
+        { n: 'Squared Form Equalizer', f: 'sin² θ = sin² α  or  cos² θ = cos² α  =>  θ = n π +- α', qr: true, e: 'Unified general solution for all squared trigonometric equations.' }
       ]
     },
     {
-      s: 'Inverse Trigonometric Functions (ITF)',
-      t: 'Pay close attention to principal domain/range bounds when evaluating composed functions.',
+      s: 'Inverse Trigonometric Functions (ITF) - Fundamentals',
+      t: 'Principal values determine the exact outputs of inverse functions.',
       i: [
-        { n: 'sin⁻¹(x) Domain & Range', f: 'Domain: [-1, 1]  ;  Range: [-π/2, π/2]', qr: true },
-        { n: 'cos⁻¹(x) Domain & Range', f: 'Domain: [-1, 1]  ;  Range: [0, π]', qr: true },
-        { n: 'tan⁻¹(x) Domain & Range', f: 'Domain: R  ;  Range: (-π/2, π/2)', qr: true },
-        { n: 'Negative Argument Rules (Odd)', f: 'sin⁻¹(-x) = -sin⁻¹(x)  ;  tan⁻¹(-x) = -tan⁻¹(x)  ;  csc⁻¹(-x) = -csc⁻¹(x)' },
-        { n: 'Negative Argument Rules (π minus)', f: 'cos⁻¹(-x) = π - cos⁻¹(x)  ;  cot⁻¹(-x) = π - cot⁻¹(x)  ;  sec⁻¹(-x) = π - sec⁻¹(x)', qr: true },
-        { n: 'Complementary Sum Identity', f: 'sin⁻¹ x + cos⁻¹ x = π/2  ;  tan⁻¹ x + cot⁻¹ x = π/2  ;  sec⁻¹ x + csc⁻¹ x = π/2', qr: true },
-        { n: 'tan⁻¹ x + tan⁻¹ y (xy < 1)', f: 'tan⁻¹((x + y) / (1 - x y))', qr: true },
-        { n: '2 tan⁻¹ x (Conversions)', f: '2 tan⁻¹ x = sin⁻¹(2x/(1+x²)) = cos⁻¹((1-x²)/(1+x²)) = tan⁻¹(2x/(1-x²))', qr: true }
+        { n: 'sin⁻¹(x) Domain & Range', f: 'Domain: [-1, 1]  ;  Range: [-π/2, π/2]', qr: true, e: 'Odd function. Strictly increasing over its domain.' },
+        { n: 'cos⁻¹(x) Domain & Range', f: 'Domain: [-1, 1]  ;  Range: [0, π]', qr: true, e: 'Neither even nor odd. Strictly decreasing over its domain.' },
+        { n: 'tan⁻¹(x) Domain & Range', f: 'Domain: R  ;  Range: (-π/2, π/2)', qr: true, e: 'Odd function bounded by horizontal asymptotes y = +- π/2.' },
+        { n: 'Negative Argument Rules (Odd)', f: 'sin⁻¹(-x) = -sin⁻¹(x)  ;  tan⁻¹(-x) = -tan⁻¹(x)  ;  csc⁻¹(-x) = -csc⁻¹(x)', e: 'Odd symmetry allows pulling the negative sign outside.' },
+        { n: 'Negative Argument Rules (π minus)', f: 'cos⁻¹(-x) = π - cos⁻¹(x)  ;  cot⁻¹(-x) = π - cot⁻¹(x)  ;  sec⁻¹(-x) = π - sec⁻¹(x)', qr: true, e: 'Flips range into Quadrant II for negative inputs.' },
+        { n: 'Complementary Sum Identity', f: 'sin⁻¹ x + cos⁻¹ x = π/2  ;  tan⁻¹ x + cot⁻¹ x = π/2  ;  sec⁻¹ x + csc⁻¹ x = π/2', qr: true, e: 'Holds for all x in the respective common domains.' }
+      ]
+    },
+    {
+      s: 'ITF Conversions & Piecewise Expansions',
+      t: 'Multi-value conversions require checking the signs of x and y to avoid principal value domain errors.',
+      i: [
+        { n: 'tan⁻¹ x + tan⁻¹ y (xy < 1)', f: 'tan⁻¹((x + y) / (1 - x y))', qr: true, e: 'Standard addition formula when product xy < 1.' },
+        { n: 'tan⁻¹ x + tan⁻¹ y (x>0, y>0, xy>1)', f: 'π + tan⁻¹((x + y) / (1 - x y))', qr: true, e: 'Adds π correction factor when the sum exceeds π/2 into Quadrant II.' },
+        { n: 'tan⁻¹ x - tan⁻¹ y (xy > -1)', f: 'tan⁻¹((x - y) / (1 + x y))', e: 'Standard subtraction formula for inverse tangents.' },
+        { n: '2 tan⁻¹ x (Sine form)', f: '2 tan⁻¹ x = sin⁻¹(2x / (1 + x²))  [for |x| <= 1]', qr: true, e: 'If x > 1, 2 tan⁻¹ x = π - sin⁻¹(2x/(1+x²)).' },
+        { n: '2 tan⁻¹ x (Cosine form)', f: '2 tan⁻¹ x = cos⁻¹((1 - x²) / (1 + x²))  [for x >= 0]', qr: true, e: 'If x < 0, 2 tan⁻¹ x = -cos⁻¹((1-x²)/(1+x²)).' },
+        { n: 'sin⁻¹(sin x) Graph Form', f: 'sin⁻¹(sin x) = x  for x ∈ [-π/2, π/2]  ;  π - x  for x ∈ [π/2, 3π/2]', qr: true, e: 'Periodic sawtooth wave with period 2π. Maps inputs back into principal range [-π/2, π/2].' },
+        { n: 'cos⁻¹(cos x) Graph Form', f: 'cos⁻¹(cos x) = x  for x ∈ [0, π]  ;  2π - x  for x ∈ [π, 2π]', qr: true, e: 'Periodic triangular wave with period 2π. Maps inputs back into principal range [0, π].' }
       ]
     },
     {
       s: 'Properties of Triangles (Solution of Triangles)',
       t: 'Let a, b, c be sides opposite to angles A, B, C ; s = (a+b+c)/2 ; R = circumradius ; r = inradius.',
       i: [
-        { n: 'Sine Rule', f: 'a / sin A = b / sin B = c / sin C = 2 R', qr: true },
-        { n: 'Cosine Rule', f: 'cos A = (b² + c² - a²) / (2 b c)  ;  a² = b² + c² - 2 b c cos A', qr: true },
-        { n: 'Projection Rule', f: 'a = b cos C + c cos B', qr: true },
-        { n: 'Napier\'s Analogy (Tangent Rule)', f: 'tan((B - C)/2) = [(b - c)/(b + c)] · cot(A/2)', qr: true },
-        { n: 'Half-Angle sin(A/2)', f: 'sin(A/2) = √[ ((s - b)(s - c)) / (b c) ]' },
-        { n: 'Half-Angle cos(A/2)', f: 'cos(A/2) = √[ (s(s - a)) / (b c) ]' },
-        { n: 'Area of Triangle (Δ)', f: 'Δ = ½ a b sin C = √[ s(s-a)(s-b)(s-c) ] = (a b c) / (4 R) = r · s', qr: true },
-        { n: 'Inradius (r)', f: 'r = Δ / s = (s - a) tan(A/2) = 4 R sin(A/2) sin(B/2) sin(C/2)', qr: true },
-        { n: 'Ex-radii (r_A)', f: 'r_A = Δ / (s - a) = s tan(A/2) = 4 R sin(A/2) cos(B/2) cos(C/2)', qr: true }
+        { n: 'Sine Rule', f: 'a / sin A = b / sin B = c / sin C = 2 R', qr: true, e: 'Relates side lengths to sines of opposite angles and the circumradius R.' },
+        { n: 'Cosine Rule', f: 'cos A = (b² + c² - a²) / (2 b c)  ;  a² = b² + c² - 2 b c cos A', qr: true, e: 'Calculates unknown side or angle given two sides and included angle.' },
+        { n: 'Projection Rule', f: 'a = b cos C + c cos B', qr: true, e: 'Projects two sides onto the baseline to yield the third side.' },
+        { n: 'Napier\'s Analogy (Tangent Rule)', f: 'tan((B - C)/2) = [(b - c)/(b + c)] · cot(A/2)', qr: true, e: 'Used in solving triangles given two sides and the included angle.' },
+        { n: 'Half-Angle sin(A/2)', f: 'sin(A/2) = √[ ((s - b)(s - c)) / (b c) ]', e: 'Evaluated using semi-perimeter s.' },
+        { n: 'Half-Angle cos(A/2)', f: 'cos(A/2) = √[ (s(s - a)) / (b c) ]', e: 'Evaluated using semi-perimeter s.' },
+        { n: 'Area of Triangle (Δ)', f: 'Δ = ½ a b sin C = √[ s(s-a)(s-b)(s-c) ] = (a b c) / (4 R) = r · s', qr: true, e: 'Four standard area formulations including Heron\'s formula and circumradius link.' },
+        { n: 'Inradius (r)', f: 'r = Δ / s = (s - a) tan(A/2) = 4 R sin(A/2) sin(B/2) sin(C/2)', qr: true, e: 'Radius of the inscribed circle touching all three sides.' },
+        { n: 'Ex-radii (r_A)', f: 'r_A = Δ / (s - a) = s tan(A/2) = 4 R sin(A/2) cos(B/2) cos(C/2)', qr: true, e: 'Radius of escribed circle opposite to vertex A.' },
+        { n: 'Ex-radii Reciprocal Sum', f: '1/r_A + 1/r_B + 1/r_C = 1/r', qr: true, e: 'Fundamental relation linking all three ex-radii to the inradius.' },
+        { n: 'Ex-radii & Inradius Sum', f: 'r_A + r_B + r_C - r = 4 R', e: 'Relates ex-radii and inradius to the circumradius.' }
+      ]
+    },
+    {
+      s: 'm-n Theorem & Distance Between Triangle Centers',
+      t: 'Advanced triangle relations tested frequently in JEE Advanced geometry questions.',
+      i: [
+        { n: 'm-n Theorem (Angle Form)', f: '(m + n) cot θ = m cot α - n cot β', qr: true, e: 'Line from vertex A divides base BC in ratio m:n, creating angles α, β at A and θ with BC.' },
+        { n: 'm-n Theorem (Base Form)', f: '(m + n) cot θ = n cot B - m cot C', qr: true, e: 'Alternative form using base interior angles B and C.' },
+        { n: 'Circumcenter-Incenter Distance (OI)', f: 'OI² = R² - 2 R r  (Euler\'s Theorem)', qr: true, e: 'Calculates squared distance between circumcenter O and incenter I. Implies R >= 2r.' },
+        { n: 'Circumcenter-Orthocenter Distance (OH)', f: 'OH² = R² (1 - 8 cos A cos B cos C)', qr: true, e: 'Distance between circumcenter O and orthocenter H.' },
+        { n: 'Incenter-Excenter Distance (I I_A)', f: 'I I_A = 4 R sin(A/2)', e: 'Distance between incenter I and excenter I_A.' }
       ]
     }
   ]
@@ -847,7 +601,7 @@ function renderContent() {
   FORMULA_DATA.sections.forEach((sec, si) => {
     const itemsFiltered = sec.i.filter(item => {
       if (item.qrOnly) return false;
-      return !q || item.n.toLowerCase().includes(q) || item.f.toLowerCase().includes(q);
+      return !q || item.n.toLowerCase().includes(q) || item.f.toLowerCase().includes(q) || (item.e && item.e.toLowerCase().includes(q));
     });
 
     if (itemsFiltered.length > 0) {
@@ -872,15 +626,19 @@ function renderContent() {
       itemsFiltered.forEach(item => {
         const starClass = isStarred(item.f) ? 'active' : '';
         const starIcon = isStarred(item.f) ? 'fa-solid fa-star' : 'fa-regular fa-star';
-        
+        const expBlock = item.e ? `<div class="fc-exp"><i class="fa-solid fa-circle-info"></i> ${highlight(item.e, searchQuery)}</div>` : '';
+
         sectionHtml += `
           <div class="formula-card" data-formula="${esc(item.f)}" onclick="copyText(this.dataset.formula)">
             <span class="fc-copy"><i class="fa-regular fa-copy"></i></span>
             <span class="fc-star ${starClass}" onclick="toggleStar(event, '${esc(item.n)}', '${esc(item.f)}')">
               <i class="${starIcon}"></i>
             </span>
-            <span class="fc-name">${highlight(item.n, searchQuery)}</span>
-            <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
+            <div class="fc-main-row">
+              <span class="fc-name">${highlight(item.n, searchQuery)}</span>
+              <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
+            </div>
+            ${expBlock}
           </div>`;
       });
 
