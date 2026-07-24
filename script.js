@@ -78,6 +78,26 @@ const CHAPTER_MANIFEST = [
     count: 55,
     path: 'chapters/newtons-laws.html',
     keywords: ['force', 'momentum', 'friction', 'constraint', 'pulley', 'atwood', 'rocket', 'spring']
+  },
+  {
+    id: '2d-geometry',
+    title: '2D Geometry & Straight Lines',
+    desc: 'Locus, transformation of axes, various line forms, foot of perpendicular, angle bisectors, family of lines, and pair of straight lines.',
+    icon: 'fa-solid fa-draw-polygon',
+    color: '#10b981', /* Emerald Green */
+    count: 48,
+    path: 'chapters/2d-geometry.html',
+    keywords: ['geometry', 'locus', 'straight line', 'slope', 'bisector', 'concurrency', 'pair of lines', 'transformation']
+  },
+  {
+    id: 'trigonometry',
+    title: 'Trigonometry (Full)',
+    desc: 'Ratios, compound angles, transformation formulas, trigonometric equations, ITF domain/range, and properties of triangles.',
+    icon: 'fa-solid fa-wave-square',
+    color: '#3b82f6', /* Royal Blue */
+    count: 54,
+    path: 'chapters/trigonometry.html',
+    keywords: ['trigonometry', 'sine', 'cosine', 'tangent', 'compound', 'ITF', 'inverse', 'triangle', 'solution of triangle']
   }
 ];
 
