@@ -16,9 +16,9 @@
   --fg: #e4e8f0;
   --muted: #5e6e87;
   --accent: #3b82f6; /* Royal Blue */
-  --accent-glow: rgba(59, 130, 246, 0.05);
-  --accent-glow-active: rgba(59, 130, 246, 0.1);
-  --accent-mark: rgba(59, 130, 246, 0.25);
+  --accent-glow: rgba(59, 130, 246, 0.08);
+  --accent-glow-active: rgba(59, 130, 246, 0.15);
+  --accent-mark: rgba(59, 130, 246, 0.3);
   --radius: 10px;
   --tip-bg: rgba(255, 193, 7, 0.06);
   --tip-border: rgba(255, 193, 7, 0.25);
@@ -205,41 +205,127 @@ body::before {
 }
 .section-body.open { max-height: 16000px; border-color: var(--border); background: var(--bg2); }
 
-.formula-grid { padding: .75rem; display: grid; grid-template-columns: 1fr; gap: .6rem; }
+.formula-grid { padding: .75rem; display: grid; grid-template-columns: 1fr; gap: .75rem; }
+
+/* Computer Formula Card Styling */
 .formula-card {
   display: flex;
   flex-direction: column;
-  gap: .25rem;
-  padding: .75rem .9rem;
-  background: rgba(255, 255, 255, .015);
-  border: 1px solid rgba(255, 255, 255, .04);
-  border-radius: 8px;
+  gap: .5rem;
+  padding: .85rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
   cursor: pointer;
-  transition: all .2s;
+  transition: all .2s ease;
   position: relative;
 }
-.formula-card:hover { background: rgba(255, 255, 255, .035); border-color: rgba(255, 255, 255, .08); }
-.formula-card:active { transform: scale(.995); }
-
-.fc-main-row { display: flex; align-items: flex-start; gap: .75rem; width: 100%; }
-.formula-card .fc-name { font-size: .8rem; color: var(--muted); min-width: 150px; flex-shrink: 0; font-weight: 600; line-height: 1.4; }
-.formula-card .fc-formula { font-family: 'JetBrains Mono', monospace; font-size: .82rem; font-weight: 500; color: var(--fg); line-height: 1.5; word-break: break-word; flex-grow: 1; }
-
-.formula-card .fc-exp {
-  font-size: 0.74rem;
-  color: #94a3b8;
-  margin-top: 0.25rem;
-  line-height: 1.45;
-  font-weight: 400;
-  padding-left: 0.1rem;
+.formula-card:hover {
+  background: var(--card2);
+  border-color: rgba(59, 130, 246, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
-.formula-card .fc-exp i { color: var(--accent); margin-right: 0.35rem; }
 
-.formula-card .fc-copy { position: absolute; top: .5rem; right: .5rem; opacity: 0; font-size: .65rem; color: var(--muted); transition: opacity .15s; }
-.formula-card .fc-star { position: absolute; top: .5rem; right: 1.8rem; opacity: 0; font-size: .75rem; color: #ffb81c; transition: opacity 0.15s, transform 0.1s; }
-.formula-card:hover .fc-copy, .formula-card:hover .fc-star { opacity: 1; }
-.formula-card .fc-star.active { opacity: 1 !important; }
-.formula-card .fc-star:active { transform: scale(1.2); }
+.fc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.fc-name {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--fg);
+  letter-spacing: -.01em;
+}
+
+.fc-actions {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin-left: auto;
+}
+
+.fc-qr-tag {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  padding: .15rem .45rem;
+  border-radius: 4px;
+  letter-spacing: .04em;
+}
+
+.fc-star-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: .85rem;
+  cursor: pointer;
+  padding: .2rem .4rem;
+  border-radius: 4px;
+  transition: all .15s;
+}
+.fc-star-btn:hover { color: #ffb81c; }
+.fc-star-btn.active { color: #ffb81c !important; }
+
+.fc-copy-btn {
+  font-size: .7rem;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  padding: .2rem .55rem;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  transition: all .15s;
+}
+.formula-card:hover .fc-copy-btn {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* Code / Math Formula Box Container */
+.fc-formula-box {
+  background: #050811;
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: .7rem .95rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .88rem;
+  font-weight: 500;
+  color: #93c5fd; /* Soft bright cyan-blue */
+  line-height: 1.55;
+  word-break: break-word;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.fc-formula-box code {
+  font-family: inherit;
+  color: inherit;
+}
+
+.fc-exp {
+  font-size: .76rem;
+  color: #94a3b8;
+  line-height: 1.45;
+  padding: .35rem .6rem;
+  background: rgba(255, 255, 255, 0.015);
+  border-radius: 6px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: flex-start;
+  gap: .4rem;
+}
+.fc-exp i { color: var(--accent); margin-top: .15rem; flex-shrink: 0; }
 
 .jee-tip {
   margin: .5rem .75rem .75rem;
@@ -260,11 +346,40 @@ body::before {
 .master-sheet.show-master { display: block !important; }
 .master-sheet h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem; }
 .master-sheet h2 i { color: var(--accent); }
-.master-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: .5rem; }
-.master-card { display: flex; gap: .6rem; padding: .65rem .8rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all .2s; }
-.master-card:hover { border-color: rgba(59, 130, 246, .3); transform: translateY(-1px); }
-.master-card .mc-concept { font-size: .72rem; color: var(--muted); min-width: 110px; flex-shrink: 0; font-weight: 500; }
-.master-card .mc-formula { font-family: 'JetBrains Mono', monospace; font-size: .78rem; line-height: 1.5; }
+.master-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: .6rem; }
+
+.master-card {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  padding: .75rem .9rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.master-card:hover {
+  border-color: rgba(59, 130, 246, .4);
+  transform: translateY(-1px);
+}
+.master-card .mc-concept {
+  font-size: .78rem;
+  color: var(--fg);
+  font-weight: 600;
+}
+.master-card .mc-formula-box {
+  background: #050811;
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  border-left: 2px solid var(--accent);
+  border-radius: 5px;
+  padding: .5rem .7rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  color: #93c5fd;
+  line-height: 1.5;
+  word-break: break-word;
+}
 
 mark { background: var(--accent-mark); color: var(--fg); border-radius: 2px; padding: 0 2px; }
 
@@ -295,7 +410,23 @@ mark { background: var(--accent-mark); color: var(--fg); border-radius: 2px; pad
 .modal-overlay.show .modal { transform: scale(1); }
 .modal .modal-subject { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .5rem; }
 .modal .modal-name { font-size: 1.1rem; font-weight: 600; margin-bottom: 1.25rem; min-height: 1.5rem; }
-.modal .modal-formula { font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 600; padding: 1.25rem; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; min-height: 60px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; }
+.modal .modal-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 600;
+  padding: 1.25rem;
+  background: #050811;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+  color: #93c5fd;
+}
 .modal .modal-formula:hover { border-color: var(--accent); }
 .modal .modal-formula.hidden-f { filter: blur(8px); user-select: none; }
 .modal .modal-btns { display: flex; gap: .75rem; justify-content: center; }
@@ -317,8 +448,8 @@ mark { background: var(--accent-mark); color: var(--fg); border-radius: 2px; pad
   .hero { gap: .5rem; }
   .stat-card { min-width: 100px; padding: .6rem .8rem; }
   .stat-card .sc-val { font-size: 1.2rem; }
-  .formula-card .fc-main-row { flex-direction: column; gap: .25rem; }
-  .formula-card .fc-name { min-width: unset; }
+  .fc-header { flex-direction: column; align-items: flex-start; gap: .35rem; }
+  .fc-actions { margin-left: 0; width: 100%; justify-content: space-between; }
   .master-grid { grid-template-columns: 1fr; }
 }
 </style>
@@ -656,21 +787,22 @@ function copyText(text) {
   navigator.clipboard.writeText(text).then(() => showToast('Formula copied!')).catch(() => {});
 }
 
-function toggleStar(event, name, formula) {
+function toggleStar(event, name, formula, btnEl) {
   event.stopPropagation();
   let starred = JSON.parse(localStorage.getItem('starredFormulas')) || [];
   const idx = starred.findIndex(item => item.formula === formula);
   
+  const targetBtn = btnEl || event.currentTarget;
   if (idx > -1) {
     starred.splice(idx, 1);
     showToast('Removed from Cheat Sheet');
-    event.currentTarget.classList.remove('active');
-    event.currentTarget.innerHTML = '<i class="fa-regular fa-star"></i>';
+    targetBtn.classList.remove('active');
+    targetBtn.innerHTML = '<i class="fa-regular fa-star"></i>';
   } else {
     starred.push({ subject: FORMULA_DATA.ti, name: name, formula: formula });
     showToast('Saved to Starred Cheat Sheet!');
-    event.currentTarget.classList.add('active');
-    event.currentTarget.innerHTML = '<i class="fa-solid fa-star"></i>';
+    targetBtn.classList.add('active');
+    targetBtn.innerHTML = '<i class="fa-solid fa-star"></i>';
   }
   localStorage.setItem('starredFormulas', JSON.stringify(starred));
 }
@@ -714,19 +846,26 @@ function renderContent() {
             <div class="formula-grid">`;
       
       itemsFiltered.forEach(item => {
-        const starClass = isStarred(item.f) ? 'active' : '';
-        const starIcon = isStarred(item.f) ? 'fa-solid fa-star' : 'fa-regular fa-star';
-        const expBlock = item.e ? `<div class="fc-exp"><i class="fa-solid fa-circle-info"></i> ${highlight(item.e, searchQuery)}</div>` : '';
+        const isStar = isStarred(item.f);
+        const starClass = isStar ? 'active' : '';
+        const starIcon = isStar ? 'fa-solid fa-star' : 'fa-regular fa-star';
+        const qrTag = item.qr ? `<span class="fc-qr-tag">High Yield</span>` : '';
+        const expBlock = item.e ? `<div class="fc-exp"><i class="fa-solid fa-circle-info"></i><span>${highlight(item.e, searchQuery)}</span></div>` : '';
 
         sectionHtml += `
           <div class="formula-card" data-formula="${esc(item.f)}" onclick="copyText(this.dataset.formula)">
-            <span class="fc-copy"><i class="fa-regular fa-copy"></i></span>
-            <span class="fc-star ${starClass}" onclick="toggleStar(event, '${esc(item.n)}', '${esc(item.f)}')">
-              <i class="${starIcon}"></i>
-            </span>
-            <div class="fc-main-row">
+            <div class="fc-header">
               <span class="fc-name">${highlight(item.n, searchQuery)}</span>
-              <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
+              <div class="fc-actions">
+                ${qrTag}
+                <button class="fc-star-btn ${starClass}" title="Bookmark" onclick="toggleStar(event, '${esc(item.n)}', '${esc(item.f)}', this)">
+                  <i class="${starIcon}"></i>
+                </button>
+                <span class="fc-copy-btn"><i class="fa-regular fa-copy"></i> Copy</span>
+              </div>
+            </div>
+            <div class="fc-formula-box">
+              <code>${highlight(item.f, searchQuery)}</code>
             </div>
             ${expBlock}
           </div>`;
@@ -758,7 +897,7 @@ function renderContent() {
     revisionHtml += `
       <div class="master-card" data-formula="${esc(m.f)}" onclick="copyText(this.dataset.formula)">
         <span class="mc-concept">${highlight(m.n, searchQuery)}</span>
-        <span class="mc-formula">${highlight(m.f, searchQuery)}</span>
+        <div class="mc-formula-box">${highlight(m.f, searchQuery)}</div>
       </div>`;
   });
   revisionHtml += `</div></div>`;
