@@ -203,7 +203,7 @@ body::before {
   border-top: none;
   border-radius: 0 0 var(--radius) var(--radius);
 }
-.section-body.open { max-height: 12000px; border-color: var(--border); background: var(--bg2); }
+.section-body.open { max-height: 16000px; border-color: var(--border); background: var(--bg2); }
 
 .formula-grid { padding: .75rem; display: grid; grid-template-columns: 1fr; gap: .6rem; }
 .formula-card {
@@ -370,7 +370,7 @@ const FORMULA_DATA = {
   ti: 'Trigonometry (Pure)',
   ic: 'fa-solid fa-wave-square',
   c: '#3b82f6',
-  d: 'Ratios, compound angles, transformation formulas, trigonometric equations, special series & products, inequalities, solution of triangles, pedal triangles, regular polygons, and heights & distances.',
+  d: 'Ratios, compound angles, submultiple radical forms, power reductions, transformation formulas, trigonometric equations, special series & products, inequalities, solution of triangles, pedal triangles, regular polygons, and heights & distances.',
   sections: [
     {
       s: 'Basic Pythagorean Identities & Quadrants',
@@ -403,6 +403,50 @@ const FORMULA_DATA = {
       ]
     },
     {
+      s: 'Submultiple & Radical Half-Angle Formulas',
+      t: 'Radical forms allow explicit angle trisection and halving. Determine sign (+/-) based on quadrant of θ/2.',
+      i: [
+        { n: 'Radical sin(θ/2)', f: 'sin(θ/2) = +- √[ (1 - cos θ) / 2 ]', qr: true, e: 'Primary radical formula for half-angle sine. Sign chosen according to quadrant of θ/2.' },
+        { n: 'Radical cos(θ/2)', f: 'cos(θ/2) = +- √[ (1 + cos θ) / 2 ]', qr: true, e: 'Primary radical formula for half-angle cosine. Sign chosen according to quadrant of θ/2.' },
+        { n: 'Radical tan(θ/2)', f: 'tan(θ/2) = +- √[ (1 - cos θ) / (1 + cos θ) ]', qr: true, e: 'Expresses half-angle tangent as square root of ratio.' },
+        { n: 'Rational tan(θ/2)', f: 'tan(θ/2) = (1 - cos θ) / sin θ = sin θ / (1 + cos θ) = csc θ - cot θ', qr: true, e: 'Avoids radical sign entirely; heavily used in indefinite integration.' },
+        { n: 'Radical cot(θ/2)', f: 'cot(θ/2) = +- √[ (1 + cos θ) / (1 - cos θ) ]', e: 'Square root form for half-angle cotangent.' },
+        { n: 'Rational cot(θ/2)', f: 'cot(θ/2) = (1 + cos θ) / sin θ = sin θ / (1 - cos θ) = csc θ + cot θ', qr: true, e: 'Avoids radical sign entirely; converts csc + cot into cot(θ/2).' },
+        { n: 'Sine/Cosine Sum Radical', f: 'sin θ + cos θ = +- √(1 + sin 2θ) = √2 sin(θ + π/4) = √2 cos(θ - π/4)', qr: true, e: 'Expresses linear sum of sine and cosine as a single phase-shifted wave or square root.' },
+        { n: 'Sine/Cosine Difference Radical', f: 'sin θ - cos θ = +- √(1 - sin 2θ) = √2 sin(θ - π/4)', qr: true, e: 'Expresses difference of sine and cosine in single wave form.' }
+      ]
+    },
+    {
+      s: 'Multiple Angle & Power Reduction Formulas',
+      t: 'Double, triple, and power reduction expansions allow degree reduction in calculus and algebra.',
+      i: [
+        { n: 'sin 2θ', f: '2 sin θ cos θ = (2 tan θ) / (1 + tan² θ)', qr: true, e: 'Parametric tangent form is heavily used in integral calculus substitutions.' },
+        { n: 'cos 2θ', f: 'cos² θ - sin² θ = 2 cos² θ - 1 = 1 - 2 sin² θ = (1 - tan² θ) / (1 + tan² θ)', qr: true, e: 'Four equivalent forms. Essential for power reduction.' },
+        { n: 'tan 2θ', f: '(2 tan θ) / (1 - tan² θ)', qr: true, e: 'Denominator is (1 - tan² θ), whereas sin 2θ has (1 + tan² θ).' },
+        { n: 'cot 2θ', f: '(cot² θ - 1) / (2 cot θ)', e: 'Double angle expansion for cotangent.' },
+        { n: 'Power Reduction sin² θ', f: 'sin² θ = (1 - cos 2θ) / 2', qr: true, e: 'Converts squared sine into linear cosine.' },
+        { n: 'Power Reduction cos² θ', f: 'cos² θ = (1 + cos 2θ) / 2', qr: true, e: 'Converts squared cosine into linear cosine.' },
+        { n: 'sin 3θ', f: '3 sin θ - 4 sin³ θ  =>  sin³ θ = (3 sin θ - sin 3θ) / 4', qr: true, e: 'Triple angle expansion and power reduction for sin³ θ.' },
+        { n: 'cos 3θ', f: '4 cos³ θ - 3 cos θ  =>  cos³ θ = (3 cos θ + cos 3θ) / 4', qr: true, e: 'Triple angle expansion and power reduction for cos³ θ.' },
+        { n: 'tan 3θ', f: '(3 tan θ - tan³ θ) / (1 - 3 tan² θ)', e: 'Derived by evaluating tan(2θ + θ).' },
+        { n: 'cot 3θ', f: '(3 cot θ - cot³ θ) / (1 - 3 cot² θ)', e: 'Derived by evaluating cot(2θ + θ).' },
+        { n: 'sin 4θ', f: '4 sin θ cos θ (1 - 2 sin² θ)', e: 'Quadruple angle expansion for sine.' },
+        { n: 'cos 4θ', f: '8 cos⁴ θ - 8 cos² θ + 1', e: 'Quadruple angle expansion for cosine in terms of cos θ.' },
+        { n: 'cot θ - tan θ', f: '2 cot(2θ)', qr: true, e: 'High-frequency simplification identity for telescoping sum reduction.' },
+        { n: 'cot θ + tan θ', f: '2 csc(2θ)', qr: true, e: 'Converts sum of tangent and cotangent into single cosecant term.' }
+      ]
+    },
+    {
+      s: 'Symmetrical Power Reductions & Higher Degree Combinations',
+      t: 'Reduces high-degree symmetric sums of sine and cosine into double and quadruple angle cosines.',
+      i: [
+        { n: 'Degree 4 Symmetrical Sum', f: 'sin⁴ θ + cos⁴ θ = 1 - 2 sin² θ cos² θ = 1 - ½ sin²(2θ) = (3 + cos 4θ) / 4', qr: true, e: 'Standard quartic simplification used in maximum/minimum and integral problems.' },
+        { n: 'Degree 6 Symmetrical Sum', f: 'sin⁶ θ + cos⁶ θ = 1 - 3 sin² θ cos² θ = 1 - ¾ sin²(2θ) = (5 + 3 cos 4θ) / 8', qr: true, e: 'Sextic simplification formula.' },
+        { n: 'Degree 8 Symmetrical Sum', f: 'sin⁸ θ + cos⁸ θ = 1 - 4 sin² θ cos² θ + 2 sin⁴ θ cos⁴ θ = 1 - sin²(2θ) + ⅛ sin⁴(2θ)', e: 'Octic expansion for sine and cosine.' },
+        { n: 'Quartic Sine-Cosine Difference', f: 'cos⁴ θ - sin⁴ θ = cos² θ - sin² θ = cos 2θ', qr: true, e: 'Collapses via difference of squares (cos² θ - sin² θ)(cos² θ + sin² θ).' }
+      ]
+    },
+    {
       s: 'Transformation Formulas (Sum/Diff <=> Product)',
       t: 'Sum-to-product transforms addition into multiplication for factoring; product-to-sum simplifies calculus integrals.',
       i: [
@@ -414,27 +458,6 @@ const FORMULA_DATA = {
         { n: 'sin C - sin D', f: '2 cos((C+D)/2) · sin((C-D)/2)', e: 'Factorization tool for sine subtraction.' },
         { n: 'cos C + cos D', f: '2 cos((C+D)/2) · cos((C-D)/2)', qr: true, e: 'Factorization tool for cosine addition.' },
         { n: 'cos C - cos D', f: '-2 sin((C+D)/2) · sin((C-D)/2) = 2 sin((C+D)/2) · sin((D-C)/2)', e: 'Note the negative sign or switched argument (D - C).' }
-      ]
-    },
-    {
-      s: 'Multiple & Submultiple Angle Formulas',
-      t: 'Double, triple, and quadruple angle expansions allow degree reduction in algebraic manipulations.',
-      i: [
-        { n: 'sin 2θ', f: '2 sin θ cos θ = (2 tan θ) / (1 + tan² θ)', qr: true, e: 'Parametric tangent form is heavily used in integral calculus substitutions.' },
-        { n: 'cos 2θ', f: 'cos² θ - sin² θ = 2 cos² θ - 1 = 1 - 2 sin² θ = (1 - tan² θ) / (1 + tan² θ)', qr: true, e: 'Four equivalent forms. Essential for power reduction (cos² θ = (1+cos 2θ)/2).' },
-        { n: 'tan 2θ', f: '(2 tan θ) / (1 - tan² θ)', qr: true, e: 'Denominator is (1 - tan² θ), whereas sin 2θ has (1 + tan² θ).' },
-        { n: 'cot 2θ', f: '(cot² θ - 1) / (2 cot θ)', e: 'Double angle expansion for cotangent.' },
-        { n: 'Half-angle 1 - cos θ', f: '1 - cos θ = 2 sin²(θ/2)', qr: true, e: 'Primary power-reduction identity for simplifying square roots in limits.' },
-        { n: 'Half-angle 1 + cos θ', f: '1 + cos θ = 2 cos²(θ/2)', qr: true, e: 'Primary power-reduction identity for cosine.' },
-        { n: 'tan(θ/2) Identity', f: 'tan(θ/2) = (1 - cos θ) / sin θ = sin θ / (1 + cos θ)', qr: true, e: 'Rational forms of half-angle tangent avoiding square root signs.' },
-        { n: 'sin 3θ', f: '3 sin θ - 4 sin³ θ', qr: true, e: 'Triple angle expansion for sine.' },
-        { n: 'cos 3θ', f: '4 cos³ θ - 3 cos θ', qr: true, e: 'Triple angle expansion for cosine.' },
-        { n: 'tan 3θ', f: '(3 tan θ - tan³ θ) / (1 - 3 tan² θ)', e: 'Derived by evaluating tan(2θ + θ).' },
-        { n: 'cot 3θ', f: '(3 cot θ - cot³ θ) / (1 - 3 cot² θ)', e: 'Derived by evaluating cot(2θ + θ).' },
-        { n: 'sin 4θ', f: '4 sin θ cos θ (1 - 2 sin² θ)', e: 'Quadruple angle expansion for sine.' },
-        { n: 'cos 4θ', f: '8 cos⁴ θ - 8 cos² θ + 1', e: 'Quadruple angle expansion for cosine in terms of cos θ.' },
-        { n: 'cot θ - tan θ', f: '2 cot(2θ)', qr: true, e: 'High-frequency simplification identity for telescoping sum reduction.' },
-        { n: 'cot θ + tan θ', f: '2 csc(2θ)', qr: true, e: 'Converts sum of tangent and cotangent into single cosecant term.' }
       ]
     },
     {
@@ -455,7 +478,13 @@ const FORMULA_DATA = {
         { n: 'tan(22.5°) & cot(67.5°)', f: '√2 - 1', e: 'Half of 45°. Evaluated using tan(θ/2) = (1 - cos θ) / sin θ.' },
         { n: 'tan(67.5°) & cot(22.5°)', f: '√2 + 1', e: 'Reciprocal of tan(22.5°).' },
         { n: 'sin(22.5°)', f: '√(2 - √2) / 2', e: 'Half-angle evaluation for sine of 45°.' },
-        { n: 'cos(22.5°)', f: '√(2 + √2) / 2', e: 'Half-angle evaluation for cosine of 45°.' }
+        { n: 'cos(22.5°)', f: '√(2 + √2) / 2', e: 'Half-angle evaluation for cosine of 45°.' },
+        { n: 'sin(7.5°) & cos(82.5°)', f: '√(4 - √6 - √2) / 2', e: 'Half of 15°.' },
+        { n: 'cos(7.5°) & sin(82.5°)', f: '√(4 + √6 + √2) / 2', e: 'Half of 15° cosine.' },
+        { n: 'tan(7.5°)', f: '√6 - √3 + √2 - 2', e: 'Evaluated via (√3 - √2)(√2 - 1).' },
+        { n: 'cot(7.5°)', f: '√6 + √3 + √2 + 2', e: 'Reciprocal of tan(7.5°).' },
+        { n: 'sin 9° & cos 81°', f: '[ √(3 + √5) - √(5 - √5) ] / 4', e: 'Evaluated from 18° half-angle.' },
+        { n: 'cos 9° & sin 81°', f: '[ √(3 + √5) + √(5 - √5) ] / 4', e: 'Evaluated from 18° half-angle cosine.' }
       ]
     },
     {
@@ -472,11 +501,12 @@ const FORMULA_DATA = {
         { n: 'Single Angle Cosine Sum', f: 'cos A + cos B + cos C = 1 + 4 sin(A/2) sin(B/2) sin(C/2)', e: 'Related directly to the inradius formula r = 4R sin(A/2) sin(B/2) sin(C/2).' },
         { n: 'Squared Sine Sum', f: 'sin² A + sin² B + sin² C = 2 + 2 cos A cos B cos C', e: 'Holds for interior angles of any triangle.' },
         { n: 'Squared Cosine Sum', f: 'cos² A + cos² B + cos² C = 1 - 2 cos A cos B cos C', e: 'Dual relation to squared sines.' },
-        { n: 'Half-Angle Squared Sine Sum', f: 'sin²(A/2) + sin²(B/2) + sin²(C/2) = 1 - 2 sin(A/2) sin(B/2) sin(C/2)', e: 'Half-angle squared identity.' }
+        { n: 'Half-Angle Squared Sine Sum', f: 'sin²(A/2) + sin²(B/2) + sin²(C/2) = 1 - 2 sin(A/2) sin(B/2) sin(C/2)', e: 'Half-angle squared identity.' },
+        { n: 'Half-Angle Squared Cosine Sum', f: 'cos²(A/2) + cos²(B/2) + cos²(C/2) = 2 + 2 sin(A/2) sin(B/2) sin(C/2)', e: 'Half-angle squared cosine identity.' }
       ]
     },
     {
-      s: 'Special Series, Telescoping Sums & Products',
+      s: 'Special Series, Telescoping Sums & Infinite Products',
       t: 'Telescoping identities condense infinite or finite trigonometric sums and products.',
       i: [
         { n: 'Geometric Cosine Product', f: 'cos θ · cos(2θ) · cos(4θ) ... cos(2ⁿ⁻¹θ) = sin(2ⁿθ) / (2ⁿ sin θ)', qr: true, e: 'Applies when angles double in geometric progression. Multiply numerator and denominator by 2 sin θ to collapse telescopically.' },
@@ -484,7 +514,10 @@ const FORMULA_DATA = {
         { n: 'Finite Cosine Sum Series', f: 'Σ cos(α + k β) = [sin(n β/2) / sin(β/2)] · cos(α + (n-1)β/2)', e: 'Sums cosines whose angles form an AP with common difference β.' },
         { n: 'Telescoping Csc Series', f: 'Σ csc(2ᵏ θ) = cot θ - cot(2ⁿ θ)  [for k = 0 to n-1]', qr: true, e: 'Uses csc(2x) = cot(x) - cot(2x).' },
         { n: 'Telescoping Sec Product Series', f: 'Σ sec(k θ) sec((k+1)θ) = [tan((n+1)θ) - tan θ] / sin θ', e: 'Derived by rewriting sec(x)sec(y) as [tan(y) - tan(x)] / sin(y - x).' },
-        { n: 'Telescoping Tan Series', f: 'Σ tan(2ᵏ⁻¹ θ) = cot θ - 2ⁿ cot(2ⁿ θ)  [for k = 1 to n]', e: 'Uses tan(x) = cot(x) - 2 cot(2x).' }
+        { n: 'Telescoping Tan Series', f: 'Σ tan(2ᵏ⁻¹ θ) = cot θ - 2ⁿ cot(2ⁿ θ)  [for k = 1 to n]', e: 'Uses tan(x) = cot(x) - 2 cot(2x).' },
+        { n: 'Viète\'s Infinite Cosine Product', f: 'Π_{k=1}^∞ cos(θ / 2ᵏ) = sin θ / θ', qr: true, e: 'Infinite product formula evaluating limit of geometric cosine products.' },
+        { n: 'Sine Product with AP Angles', f: 'Π_{k=1}^{n-1} sin(k π / n) = n / 2ⁿ⁻¹', qr: true, e: 'Product of sines evenly spaced over half-circle.' },
+        { n: 'Cosine Product for Odd Polygons', f: 'Π_{k=1}^n cos(k π / (2n + 1)) = 1 / 2ⁿ', e: 'Product of cosines with odd denominator.' }
       ]
     },
     {
@@ -492,8 +525,11 @@ const FORMULA_DATA = {
       t: 'Linear combinations of sine and cosine can be expressed as a single phase-shifted wave.',
       i: [
         { n: 'Range of a cos θ + b sin θ', f: '-√(a² + b²) <= a cos θ + b sin θ <= √(a² + b²)', qr: true, e: 'Derived by writing a = R cos φ and b = R sin φ, turning expression into R cos(θ - φ).' },
+        { n: 'General Quadratic in sin & cos', f: 'a sin² θ + b sin θ cos θ + c cos² θ = (a+c)/2 + ½ √[(a-c)² + b²] cos(2θ - φ)', qr: true, e: 'Transformed into single wave cosine expression to read off min and max values.' },
         { n: 'Range of a² tan² θ + b² cot² θ', f: 'Minimum value = 2 a b  (for real θ where defined)', qr: true, e: 'Derived using the Arithmetic Mean >= Geometric Mean (AM-GM) inequality.' },
         { n: 'Range of a² sec² θ + b² csc² θ', f: 'Minimum value = (a + b)²', e: 'Rewrite as a² + b² + a² tan² θ + b² cot² θ and apply AM-GM.' },
+        { n: 'Basic Angle Inequality (0 < θ < π/2)', f: 'sin θ < θ < tan θ', qr: true, e: 'Fundamental inequality used for evaluating trigonometric limits at origin.' },
+        { n: 'Cosine Quadratic Bound', f: '1 - θ²/2 < cos θ < 1', e: 'Taylor expansion lower bound for cosine.' },
         { n: 'Inequality for Sine Product in Δ', f: 'sin(A/2) sin(B/2) sin(C/2) <= 1/8', qr: true, e: 'Maximum occurs when triangle is equilateral (A = B = C = 60°).' },
         { n: 'Inequality for Cosine Sum in Δ', f: 'cos A + cos B + cos C <= 3/2', qr: true, e: 'Maximum occurs in equilateral triangle.' },
         { n: 'Inequality for Sine Sum in Δ', f: 'sin A + sin B + sin C <= (3√3) / 2', e: 'Maximum occurs in equilateral triangle.' },
@@ -525,11 +561,13 @@ const FORMULA_DATA = {
         { n: 'Half-Angle cos(A/2)', f: 'cos(A/2) = √[ (s(s - a)) / (b c) ]', e: 'Evaluated using semi-perimeter s.' },
         { n: 'Half-Angle tan(A/2)', f: 'tan(A/2) = √[ ((s - b)(s - c)) / (s(s - a)) ] = (s - b)(s - c) / Δ = Δ / (s(s - a))', e: 'Evaluated using semi-perimeter s and area Δ.' },
         { n: 'Area of Triangle (Δ)', f: 'Δ = ½ a b sin C = √[ s(s-a)(s-b)(s-c) ] = (a b c) / (4 R) = r · s = 2 R² sin A sin B sin C', qr: true, e: 'Five standard area formulations including Heron\'s formula and circumradius link.' },
+        { n: 'Area from One Side & Angles', f: 'Δ = (a² sin B sin C) / (2 sin A)', e: 'Calculates area using one side length and all three interior angles.' },
         { n: 'Inradius (r)', f: 'r = Δ / s = (s - a) tan(A/2) = 4 R sin(A/2) sin(B/2) sin(C/2)', qr: true, e: 'Radius of the inscribed circle touching all three sides.' },
         { n: 'Ex-radii (r_A)', f: 'r_A = Δ / (s - a) = s tan(A/2) = 4 R sin(A/2) cos(B/2) cos(C/2)', qr: true, e: 'Radius of escribed circle opposite to vertex A.' },
         { n: 'Ex-radii Reciprocal Sum', f: '1/r_A + 1/r_B + 1/r_C = 1/r', qr: true, e: 'Fundamental relation linking all three ex-radii to the inradius.' },
         { n: 'Ex-radii & Inradius Sum', f: 'r_A + r_B + r_C - r = 4 R', e: 'Relates ex-radii and inradius to the circumradius.' },
-        { n: 'Ex-radii Product Formula', f: 'r_A · r_B · r_C = Δ² / s = r · s²', e: 'Product of all three ex-radii.' }
+        { n: 'Ex-radii Product Formula', f: 'r_A · r_B · r_C = Δ² / s = r · s²', e: 'Product of all three ex-radii.' },
+        { n: 'Ex-radii Area Product', f: 'Δ = √[ r · r_A · r_B · r_C ]', qr: true, e: 'Calculates area directly from inradius and three ex-radii.' }
       ]
     },
     {
@@ -539,9 +577,11 @@ const FORMULA_DATA = {
         { n: 'Length of Median (m_a)', f: 'm_a = ½ √(2b² + 2c² - a²)', qr: true, e: 'Calculated using Apollonius Theorem.' },
         { n: 'Length of Internal Angle Bisector (l_A)', f: 'l_A = (2 b c cos(A/2)) / (b + c)', qr: true, e: 'Length of angle bisector from vertex A to side a.' },
         { n: 'Length of Altitude (h_a)', f: 'h_a = (2 Δ) / a = b sin C = c sin B', e: 'Altitude from vertex A to side a.' },
+        { n: 'Reciprocal Altitudes Sum', f: '1/h_a + 1/h_b + 1/h_c = 1/r', e: 'Sum of reciprocal altitudes equals reciprocal inradius.' },
         { n: 'Pedal Triangle Side Lengths', f: 'a\' = a cos A  ;  b\' = b cos B  ;  c\' = c cos C  (for acute Δ)', qr: true, e: 'Sides of triangle formed by joining feet of altitudes.' },
         { n: 'Pedal Triangle Inradius & Circumradius', f: 'r\' = 2 R cos A cos B cos C  ;  R\' = R / 2', e: 'Inradius and circumradius of pedal triangle.' },
         { n: 'Distance Vertices to Orthocenter (H)', f: 'AH = 2 R cos A  ;  BH = 2 R cos B  ;  CH = 2 R cos C', qr: true, e: 'Distances from vertices of triangle ABC to orthocenter H.' },
+        { n: 'Distance Vertices to Incenter (I)', f: 'IA = r / sin(A/2) = 4 R sin(B/2) sin(C/2)', e: 'Distance from vertex A to incenter I.' },
         { n: 'm-n Theorem (Angle Form)', f: '(m + n) cot θ = m cot α - n cot β', qr: true, e: 'Line from vertex A divides base BC in ratio m:n, creating angles α, β at A and θ with BC.' },
         { n: 'm-n Theorem (Base Form)', f: '(m + n) cot θ = n cot B - m cot C', qr: true, e: 'Alternative form using base interior angles B and C.' },
         { n: 'Circumcenter-Incenter Distance (OI)', f: 'OI² = R² - 2 R r  (Euler\'s Distance Formula)', qr: true, e: 'Calculates squared distance between circumcenter O and incenter I.' },
@@ -558,16 +598,19 @@ const FORMULA_DATA = {
         { n: 'Circumradius of Regular n-gon', f: 'R = (a / 2) csc(π / n)', qr: true, e: 'Radius of circumscribed circle passing through all vertices.' },
         { n: 'Area of Regular n-gon (Side a)', f: 'Δ = (n a² / 4) cot(π / n)', qr: true, e: 'Total area expressed in terms of side length a.' },
         { n: 'Area of Regular n-gon (Circumradius R)', f: 'Δ = (n R² / 2) sin(2π / n)', e: 'Total area expressed in terms of circumradius R.' },
-        { n: 'Area of Regular n-gon (Inradius r)', f: 'Δ = n r² tan(π / n)', e: 'Total area expressed in terms of inradius r.' }
+        { n: 'Area of Regular n-gon (Inradius r)', f: 'Δ = n r² tan(π / n)', e: 'Total area expressed in terms of inradius r.' },
+        { n: 'Perimeter Inscribed Regular n-gon', f: 'P = 2 n R sin(π / n)', e: 'Perimeter of n-gon inscribed in circle of radius R.' },
+        { n: 'Perimeter Circumscribed Regular n-gon', f: 'P = 2 n r tan(π / n)', e: 'Perimeter of n-gon circumscribed around circle of radius r.' }
       ]
     },
     {
-      s: 'Heights and Distances',
+      s: 'Heights and Distances (2D & 3D Applications)',
       t: 'Geometric application of trigonometric ratios in 2D and 3D altitude problems.',
       i: [
         { n: 'Height of Object on Horizontal Plane', f: 'h = d · tan α · tan β / (tan β - tan α)', qr: true, e: 'Height of tower observed from two points in line at distance d with elevation angles α and β.' },
         { n: 'Vertical Post Subtending Equal Angles', f: 'h = a / (2 sin α)', e: 'Height of vertical post at center of circumcircle of triangle with side a.' },
         { n: 'Slope on Inclined Plane', f: 'h = d · sin α sin β / sin(β - α)', e: 'Applies to elevation problems measured on an inclined surface.' },
+        { n: 'Tower on Inclined Hill', f: 'h = d · sin(α - β) / (cos α cos β)', qr: true, e: 'Height of vertical tower on hill inclined at angle β observed from distance d downhill with elevation α.' },
         { n: 'Apparent Dip / Elevation Relation', f: 'tan² θ = tan² α + tan² β', e: 'Relates true elevation angle θ with two perpendicular apparent elevation angles α and β.' }
       ]
     }
