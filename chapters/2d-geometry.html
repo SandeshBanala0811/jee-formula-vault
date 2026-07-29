@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JEE Formula Vault — 2D Geometry</title>
+<title>JEE Formula Vault — 2D Geometry & Straight Lines</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -318,7 +318,7 @@ body::before {
 }
 
 .section-body.open {
-  max-height: 8000px;
+  max-height: 12000px;
   border-color: var(--border);
   background: var(--bg2);
 }
@@ -327,14 +327,14 @@ body::before {
   padding: .75rem;
   display: grid;
   grid-template-columns: 1fr;
-  gap: .5rem;
+  gap: .6rem;
 }
 
 .formula-card {
   display: flex;
-  align-items: flex-start;
-  gap: .75rem;
-  padding: .7rem 0.85rem;
+  flex-direction: column;
+  gap: .25rem;
+  padding: .75rem .9rem;
   background: rgba(255, 255, 255, .015);
   border: 1px solid rgba(255, 255, 255, .04);
   border-radius: 8px;
@@ -350,12 +350,14 @@ body::before {
 
 .formula-card:active { transform: scale(.995); }
 
+.fc-main-row { display: flex; align-items: flex-start; gap: .75rem; width: 100%; }
+
 .formula-card .fc-name {
-  font-size: .78rem;
+  font-size: .8rem;
   color: var(--muted);
-  min-width: 140px;
+  min-width: 150px;
   flex-shrink: 0;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.4;
 }
 
@@ -366,7 +368,18 @@ body::before {
   color: var(--fg);
   line-height: 1.5;
   word-break: break-word;
+  flex-grow: 1;
 }
+
+.formula-card .fc-exp {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+  line-height: 1.45;
+  font-weight: 400;
+  padding-left: 0.1rem;
+}
+.formula-card .fc-exp i { color: var(--accent); margin-right: 0.35rem; }
 
 .formula-card .fc-copy {
   position: absolute;
@@ -604,7 +617,7 @@ mark {
   .hero { gap: .5rem; }
   .stat-card { min-width: 100px; padding: .6rem .8rem; }
   .stat-card .sc-val { font-size: 1.2rem; }
-  .formula-card { flex-direction: column; gap: .35rem; }
+  .formula-card .fc-main-row { flex-direction: column; gap: .25rem; }
   .formula-card .fc-name { min-width: unset; }
   .master-grid { grid-template-columns: 1fr; }
 }
@@ -657,83 +670,124 @@ const FORMULA_DATA = {
   ti: '2D Geometry & Straight Lines',
   ic: 'fa-solid fa-draw-polygon',
   c: '#10b981',
-  d: 'Locus, transformation of axes, various line forms, foot of perpendicular, angle bisectors, family of lines, and pair of straight lines.',
+  d: 'Coordinates, locus, transformation of axes, forms of lines, distance formulas, foot of perpendicular, image, angle bisectors, family of lines, pair of straight lines, and homogenization.',
   sections: [
     {
-      s: 'Basic Coordinates & Triangle Centers',
-      t: 'Distance and section formulas form the foundation. Memorise the centroid, incenter, and circumcenter coordinates.',
+      s: 'Basic Coordinate Geometry & Point Relations',
+      t: 'Distance and section formulas form the core foundation for all coordinate geometry questions.',
       i: [
-        { n: 'Distance Formula', f: 'd = √[(x₂ - x₁)² + (y₂ - y₁)²]', qr: true },
-        { n: 'Section Formula (Internal)', f: 'x = (m x₂ + n x₁) / (m + n)  ;  y = (m y₂ + n y₁) / (m + n)' },
-        { n: 'Section Formula (External)', f: 'x = (m x₂ - n x₁) / (m - n)  ;  y = (m y₂ - n y₁) / (m - n)' },
-        { n: 'Area of Triangle (Shoelace)', f: 'Area = ½ | x₁(y₂ - y₃) + x₂(y₃ - y₁) + x₃(y₁ - y₂) |', qr: true },
-        { n: 'Centroid (G)', f: 'G = ((x₁+x₂+x₃)/3 , (y₁+y₂+y₃)/3)', qr: true },
-        { n: 'Incenter (I)', f: 'I = ((a x₁ + b x₂ + c x₃)/(a+b+c) , (a y₁ + b y₂ + c y₃)/(a+b+c))', qr: true },
-        { n: 'Excenter (I_A opposite A)', f: 'I_A = ((-a x₁ + b x₂ + c x₃)/(-a+b+c) , (-a y₁ + b y₂ + c y₃)/(-a+b+c))' }
+        { n: 'Distance Formula', f: 'd = √[(x₂ - x₁)² + (y₂ - y₁)²]', qr: true, e: 'Euclidean distance between two Cartesian points.' },
+        { n: 'Section Formula (Internal)', f: 'x = (m x₂ + n x₁) / (m + n)  ;  y = (m y₂ + n y₁) / (m + n)', qr: true, e: 'Divides line segment joining (x₁,y₁) and (x₂,y₂) internally in ratio m:n.' },
+        { n: 'Section Formula (External)', f: 'x = (m x₂ - n x₁) / (m - n)  ;  y = (m y₂ - n y₁) / (m - n)', e: 'Divides line segment externally in ratio m:n.' },
+        { n: 'Midpoint Formula', f: 'x = (x₁ + x₂) / 2  ;  y = (y₁ + y₂) / 2', e: 'Special case of section formula with m : n = 1 : 1.' },
+        { n: 'Collinearity Condition', f: '| x₁ y₁ 1 ; x₂ y₂ 1 ; x₃ y₃ 1 | = 0', qr: true, e: 'Three points are collinear if area of triangle formed by them is zero.' },
+        { n: 'Harmonic Conjugates Ratio', f: '2 / AB = 1 / AC + 1 / AD', e: 'Holds when C and D divide AB internally and externally in the same ratio m:n.' },
+        { n: 'Polar Distance Formula', f: 'd = √[r₁² + r₂² - 2 r₁ r₂ cos(θ₁ - θ₂)]', e: 'Distance between two points given in polar coordinates (r₁, θ₁) and (r₂, θ₂).' }
+      ]
+    },
+    {
+      s: 'Triangle Centers & Geometric Properties',
+      t: 'Memorise centroid, incenter, orthocenter, and circumcenter coordinates along with the Euler line property.',
+      i: [
+        { n: 'Shoelace Area Formula', f: 'Area = ½ | x₁(y₂ - y₃) + x₂(y₃ - y₁) + x₃(y₁ - y₂) |', qr: true, e: 'Calculates area of triangle from vertex coordinates.' },
+        { n: 'Centroid (G)', f: 'G = ((x₁ + x₂ + x₃)/3 , (y₁ + y₂ + y₃)/3)', qr: true, e: 'Intersection of medians. Divides medians in 2:1 ratio.' },
+        { n: 'Incenter (I)', f: 'I = ((a x₁ + b x₂ + c x₃)/(a+b+c) , (a y₁ + b y₂ + c y₃)/(a+b+c))', qr: true, e: 'Intersection of internal angle bisectors. Center of inscribed circle.' },
+        { n: 'Excenter (I_A opposite A)', f: 'I_A = ((-a x₁ + b x₂ + c x₃)/(-a+b+c) , (-a y₁ + b y₂ + c y₃)/(-a+b+c))', e: 'Center of excircle touching side a externally.' },
+        { n: 'Orthocenter (H)', f: 'H = ((x₁ tan A + x₂ tan B + x₃ tan C)/Σtan A , (y₁ tan A + y₂ tan B + y₃ tan C)/Σtan A)', qr: true, e: 'Intersection of altitudes of triangle ABC.' },
+        { n: 'Circumcenter (O)', f: 'O = ((x₁ sin 2A + x₂ sin 2B + x₃ sin 2C)/Σsin 2A , (y₁ sin 2A + y₂ sin 2B + y₃ sin 2C)/Σsin 2A)', qr: true, e: 'Intersection of perpendicular bisectors of sides.' },
+        { n: 'Nine-Point Center (N)', f: 'N = (O + H) / 2', e: 'Center of nine-point circle. Lies exactly at midpoint of OH.' },
+        { n: 'Euler Line Collinearity', f: 'O, G, H are collinear and O G : G H = 1 : 2', qr: true, e: 'Centroid G divides line segment connecting Circumcenter O and Orthocenter H in 1:2 ratio.' }
       ]
     },
     {
       s: 'Locus & Transformation of Axes',
-      t: 'To find locus: assume moving point (h, k), apply given geometric conditions, then replace (h, k) with (x, y).',
+      t: 'To find locus: assume moving point (h, k), apply geometric constraints, then replace (h, k) with (x, y).',
       i: [
-        { n: 'Shift of Origin (Translation)', f: 'x = X + h  ;  y = Y + k  (where origin shifted to (h,k))', qr: true },
-        { n: 'Rotation of Axes', f: 'X = x cos θ + y sin θ  ;  Y = -x sin θ + y cos θ', qr: true },
-        { n: 'Rotation Transformation Matrix', f: 'x = X cos θ - Y sin θ  ;  y = X sin θ + Y cos θ' }
+        { n: 'Locus Solving Protocol', f: 'Assume P(h,k) -> apply geometric relation -> eliminate parameters -> replace (h,k) -> (x,y)', qr: true, e: 'Standard 5-step method for solving locus problems.' },
+        { n: 'Shift of Origin (Translation)', f: 'x = X + h  ;  y = Y + k  [where new origin is at (h, k)]', qr: true, e: 'Translates origin without rotating coordinate axes.' },
+        { n: 'Rotation of Axes', f: 'X = x cos θ + y sin θ  ;  Y = -x sin θ + y cos θ', qr: true, e: 'Rotates axes counter-clockwise by angle θ without shifting origin.' },
+        { n: 'Inverse Rotation Matrix', f: 'x = X cos θ - Y sin θ  ;  y = X sin θ + Y cos θ', e: 'Expresses old coordinates in terms of new rotated coordinates.' },
+        { n: 'Combined Translation & Rotation', f: 'x = h + X cos θ - Y sin θ  ;  y = k + X sin θ + Y cos θ', e: 'Performs shift of origin to (h, k) followed by counter-clockwise rotation by θ.' }
       ]
     },
     {
-      s: 'Equations of Straight Lines',
-      t: 'Slope m = tan θ. Two non-vertical lines are parallel if m₁ = m₂, and perpendicular if m₁ · m₂ = -1.',
+      s: 'Forms of Straight Line Equations',
+      t: 'Choose parametric form when dealing with distances along a line; use intercept form when axis lengths are given.',
       i: [
-        { n: 'Slope of Line', f: 'm = tan θ = (y₂ - y₁) / (x₂ - x₁)' },
-        { n: 'Slope-Intercept Form', f: 'y = m x + c', qr: true },
-        { n: 'Point-Slope Form', f: 'y - y₁ = m (x - x₁)' },
-        { n: 'Two-Point Form', f: 'y - y₁ = [(y₂ - y₁) / (x₂ - x₁)] · (x - x₁)' },
-        { n: 'Intercept Form', f: 'x/a + y/b = 1  (a = x-intercept, b = y-intercept)', qr: true },
-        { n: 'Normal / Perpendicular Form', f: 'x cos α + y sin α = p  (p = perp distance from origin)', qr: true },
-        { n: 'Parametric / Symmetric Form', f: '(x - x₁) / cos θ = (y - y₁) / sin θ = r  (r = distance from point)', qr: true }
+        { n: 'Slope of Line', f: 'm = tan θ = (y₂ - y₁) / (x₂ - x₁)', e: 'Inclination angle θ measured counter-clockwise from positive x-axis.' },
+        { n: 'General Linear Form', f: 'a x + b y + c = 0  =>  Slope m = -a/b', qr: true, e: 'Standard equation of a straight line in 2D space.' },
+        { n: 'Slope-Intercept Form', f: 'y = m x + c', qr: true, e: 'm = slope, c = y-intercept.' },
+        { n: 'Point-Slope Form', f: 'y - y₁ = m (x - x₁)', e: 'Line passing through (x₁, y₁) with given slope m.' },
+        { n: 'Two-Point Form', f: 'y - y₁ = [(y₂ - y₁) / (x₂ - x₁)] · (x - x₁)', e: 'Line passing through two distinct points (x₁, y₁) and (x₂, y₂).' },
+        { n: 'Intercept Form', f: 'x/a + y/b = 1  (a = x-intercept, b = y-intercept)', qr: true, e: 'Useful when intercepts on coordinate axes are specified.' },
+        { n: 'Normal / Perpendicular Form', f: 'x cos α + y sin α = p', qr: true, e: 'p = length of perpendicular from origin, α = angle of normal with x-axis.' },
+        { n: 'Parametric / Symmetric Form', f: '(x - x₁) / cos θ = (y - y₁) / sin θ = r  =>  (x, y) = (x₁ + r cos θ, y₁ + r sin θ)', qr: true, e: 'r is distance of point (x, y) from fixed point (x₁, y₁) along direction θ.' },
+        { n: 'Polar Line Equation', f: 'r cos(θ - α) = p', e: 'Polar equivalent of normal form.' }
       ]
     },
     {
-      s: 'Angles, Distance & Point Position',
-      t: 'The sign of (a x₁ + b y₁ + c) determines which side of the line a point lies relative to origin.',
+      s: 'Angles, Perpendicular Distances & Line Relations',
+      t: 'Two lines are parallel if m₁ = m₂ and perpendicular if m₁ · m₂ = -1.',
       i: [
-        { n: 'Angle Between Two Lines', f: 'tan θ = | (m₁ - m₂) / (1 + m₁ m₂) |', qr: true },
-        { n: 'Perpendicular Distance', f: 'd = |a x₁ + b y₁ + c| / √(a² + b²)', qr: true },
-        { n: 'Distance Between Parallel Lines', f: 'd = |c₁ - c₂| / √(a² + b²)', qr: true },
-        { n: 'Position of Two Points', f: 'Points on same side if (a x₁ + b y₁ + c)(a x₂ + b y₂ + c) > 0' }
+        { n: 'Angle Between Two Lines', f: 'tan θ = | (m₁ - m₂) / (1 + m₁ m₂) |', qr: true, e: 'Acute angle between lines with slopes m₁ and m₂.' },
+        { n: 'Parallel Lines Condition', f: 'm₁ = m₂  =>  a₁ / a₂ = b₁ / b₂', qr: true, e: 'Slopes are equal for parallel lines.' },
+        { n: 'Perpendicular Lines Condition', f: 'm₁ · m₂ = -1  =>  a₁ a₂ + b₁ b₂ = 0', qr: true, e: 'Product of slopes equals -1.' },
+        { n: 'Perpendicular Distance', f: 'd = |a x₁ + b y₁ + c| / √(a² + b²)', qr: true, e: 'Shortest distance from point (x₁, y₁) to line a x + b y + c = 0.' },
+        { n: 'Distance Between Parallel Lines', f: 'd = |c₁ - c₂| / √(a² + b²)', qr: true, e: 'Applies for parallel lines a x + b y + c₁ = 0 and a x + b y + c₂ = 0.' },
+        { n: 'Origin Perp Distance Intercept Form', f: '1 / p² = 1 / a² + 1 / b²', qr: true, e: 'Relates perpendicular distance from origin p to x and y intercepts a and b.' },
+        { n: 'Position of Two Points', f: 'Same side if (a x₁ + b y₁ + c)(a x₂ + b y₂ + c) > 0  ;  Opposite if < 0', e: 'Determines if two points lie on same or opposite sides of a line.' },
+        { n: 'Point Inside Triangle Test', f: 'P is inside ΔABC if L_i(P) and L_i(vertex) have same sign for all 3 sides', qr: true, e: 'Checks whether point P lies strictly interior to triangle ABC.' }
       ]
     },
     {
       s: 'Foot of Perpendicular, Reflection & Bisectors',
       t: 'Image formula differs from foot of perpendicular only by a factor of 2 in the multiplier.',
       i: [
-        { n: 'Foot of Perpendicular (h, k)', f: '(h - x₁)/a = (k - y₁)/b = -(a x₁ + b y₁ + c)/(a² + b²)', qr: true },
-        { n: 'Image / Reflection (h, k)', f: '(h - x₁)/a = (k - y₁)/b = -2(a x₁ + b y₁ + c)/(a² + b²)', qr: true },
-        { n: 'Angle Bisector Equations', f: '(a₁ x + b₁ y + c₁) / √(a₁² + b₁²) = +- (a₂ x + b₂ y + c₂) / √(a₂² + b₂²)', qr: true },
-        { n: 'Acute / Obtuse Bisector Test', f: 'Make c₁, c₂ positive. If a₁ a₂ + b₁ b₂ > 0, then (+) gives Obtuse bisector' }
+        { n: 'Foot of Perpendicular (h, k)', f: '(h - x₁)/a = (k - y₁)/b = -(a x₁ + b y₁ + c) / (a² + b²)', qr: true, e: 'Calculates foot of altitude dropped from (x₁, y₁) onto line a x + b y + c = 0.' },
+        { n: 'Image / Reflection (h, k)', f: '(h - x₁)/a = (k - y₁)/b = -2(a x₁ + b y₁ + c) / (a² + b²)', qr: true, e: 'Finds mirror image of point (x₁, y₁) across line mirror a x + b y + c = 0.' },
+        { n: 'Angle Bisector Equations', f: '(a₁ x + b₁ y + c₁) / √(a₁² + b₁²) = +- (a₂ x + b₂ y + c₂) / √(a₂² + b₂²)', qr: true, e: 'Equations of two lines bisecting angles between intersecting lines.' },
+        { n: 'Acute / Obtuse Bisector Test', f: 'Make c₁, c₂ > 0. If a₁ a₂ + b₁ b₂ > 0, (+) is Obtuse, (-) is Acute', qr: true, e: 'Determines which bisector corresponds to acute or obtuse angle.' },
+        { n: 'Origin Containing Bisector', f: 'Make c₁, c₂ > 0. Then (+) sign gives bisector of region containing origin', e: 'Identifies the angle bisector passing through origin domain.' },
+        { n: 'Point Containing Bisector', f: 'Evaluate L₁(x₀,y₀) & L₂(x₀,y₀). If same sign, (+) sign gives bisector containing (x₀,y₀)', e: 'Identifies bisector passing through region containing specific point (x₀, y₀).' }
       ]
     },
     {
-      s: 'Concurrency & Family of Lines',
+      s: 'Concurrency, Family of Lines & Area Formulas',
       t: 'Three lines are concurrent if the determinant formed by their coefficients equals zero.',
       i: [
-        { n: 'Condition for Concurrency', f: '| a₁ b₁ c₁ ; a₂ b₂ c₂ ; a₃ b₃ c₃ | = 0', qr: true },
-        { n: 'Family of Straight Lines', f: 'L₁ + λ L₂ = 0  (represents all lines passing through L₁ ∩ L₂)', qr: true },
-        { n: 'Fixed Point of Family', f: 'Express line as A(x - x₀) + B(y - y₀) = 0 -> passes through (x₀, y₀)' }
+        { n: 'Concurrency Condition', f: '| a₁ b₁ c₁ ; a₂ b₂ c₂ ; a₃ b₃ c₃ | = 0', qr: true, e: 'Condition for three non-parallel lines to pass through a common point.' },
+        { n: 'Family of Straight Lines', f: 'L₁ + λ L₂ = 0', qr: true, e: 'Represents all straight lines passing through intersection of L₁ = 0 and L₂ = 0.' },
+        { n: 'Fixed Point of Line Family', f: 'Express line as A(x - x₀) + B(y - y₀) = 0 => fixed point is (x₀, y₀)', e: 'Finds concurrence point for single parameter line family.' },
+        { n: 'Area of Triangle with Axes', f: 'Area = c² / (2 |a b|)', qr: true, e: 'Area of triangle bounded by line a x + b y + c = 0 and coordinate axes.' },
+        { n: 'Parallelogram Area Formula', f: 'Area = | (c₁ - d₁)(c₂ - d₂) / (a₁ b₂ - a₂ b₁) |', qr: true, e: 'Area of parallelogram formed by parallel line pairs a₁x+b₁y+c₁=0, a₁x+b₁y+d₁=0, a₂x+b₂y+c₂=0, a₂x+b₂y+d₂=0.' },
+        { n: 'Triangle Area from 3 Lines', f: 'Area = ½ Σ [ (c₁ - c₂)² / |m₁ - m₂| ]', e: 'Area formed by three lines y = m₁x + c₁, y = m₂x + c₂, y = m₃x + c₃.' }
       ]
     },
     {
-      s: 'Pair of Straight Lines',
-      t: 'Homogeneous 2nd degree equation represents lines passing through the origin.',
+      s: 'Pair of Straight Lines (Homogeneous & General)',
+      t: 'Homogeneous 2nd degree equation represents two straight lines passing through origin.',
       i: [
-        { n: 'Homogeneous Pair Equation', f: 'a x² + 2h xy + b y² = 0', qr: true },
-        { n: 'Angle Between Pair', f: 'tan θ = 2 √(h² - a b) / |a + b|', qr: true },
-        { n: 'Perpendicular Lines Condition', f: 'a + b = 0  (coefficient of x² + coefficient of y² = 0)', qr: true },
-        { n: 'Coincident Lines Condition', f: 'h² = a b' },
-        { n: 'General 2nd Degree Pair Eq.', f: 'a x² + 2h xy + b y² + 2g x + 2f y + c = 0' },
-        { n: 'Condition for Pair of Lines', f: 'Δ = a b c + 2fgh - a f² - b g² - c h² = 0', qr: true },
-        { n: 'Point of Intersection of Pair', f: 'x = (b g - f h)/(h² - a b)  ;  y = (a f - g h)/(h² - a b)' }
+        { n: 'Homogeneous Pair Equation', f: 'a x² + 2h xy + b y² = 0', qr: true, e: 'Represents pair of straight lines passing through origin.' },
+        { n: 'Sum and Product of Slopes', f: 'm₁ + m₂ = -2h / b  ;  m₁ m₂ = a / b', qr: true, e: 'Slopes m₁, m₂ of individual lines in homogeneous pair.' },
+        { n: 'Angle Between Pair', f: 'tan θ = 2 √(h² - a b) / |a + b|', qr: true, e: 'Acute angle between pair of lines represented by homogenous 2nd degree equation.' },
+        { n: 'Perpendicular Pair Condition', f: 'a + b = 0  (Coeff of x² + Coeff of y² = 0)', qr: true, e: 'Lines are mutually perpendicular when sum of squared terms coefficients is zero.' },
+        { n: 'Coincident / Real Pair Condition', f: 'h² = a b  (Coincident)  ;  h² > a b  (Real and distinct)', e: 'Discriminant condition for line nature.' },
+        { n: 'Pair Angle Bisectors', f: '(x² - y²) / (a - b) = x y / h  =>  h(x² - y²) - (a - b) x y = 0', qr: true, e: 'Combined equation of angle bisectors for homogeneous pair.' },
+        { n: 'Product of Perp Distances', f: 'd₁ d₂ = |a x₁² + 2h x₁ y₁ + b y₁²| / √[(a - b)² + 4h²]', e: 'Product of perpendicular distances from point (x₁, y₁) to lines of homogeneous pair.' },
+        { n: 'General 2nd Degree Equation', f: 'a x² + 2h xy + b y² + 2g x + 2f y + c = 0', e: 'General quadratic curve equation in x and y.' },
+        { n: 'Condition for Pair of Lines', f: 'Δ = a b c + 2fgh - a f² - b g² - c h² = 0  and  h² >= a b', qr: true, e: 'Determinant condition for general 2nd degree equation to split into two linear factors.' },
+        { n: 'Point of Intersection of Pair', f: 'x = (b g - f h) / (h² - a b)  ;  y = (a f - g h) / (h² - a b)', qr: true, e: 'Coordinates of intersection point of general pair of lines.' },
+        { n: 'Distance Between Parallel Pair', f: 'd = 2 √[(g² - a c) / (a(a + b))] = 2 √[(f² - b c) / (b(a + b))]', qr: true, e: 'Distance between two parallel lines represented by general 2nd degree pair.' }
+      ]
+    },
+    {
+      s: 'Homogenization & Chord Formulas',
+      t: 'Homogenization finds lines joining origin to points of intersection of a curve and a line.',
+      i: [
+        { n: 'Homogenization Protocol', f: 'Substitute 1 = (l x + m y) / (-n) into 2nd degree curve equation', qr: true, e: 'Converts non-homogeneous curve equation into degree-2 homogeneous equation representing lines joining origin to intersection points.' },
+        { n: 'Perpendicular Chord Condition', f: 'Coeff of x² + Coeff of y² = 0 in homogenized equation', qr: true, e: 'Ensures chord subtends a right angle at origin.' },
+        { n: 'Chord with Midpoint (x₁, y₁)', f: 'T = S₁', qr: true, e: 'Equation of chord of 2nd degree curve having given midpoint (x₁, y₁).' },
+        { n: 'Area of Triangle with Line', f: 'Area = n² √(h² - a b) / |a m² - 2h l m + b l²|', e: 'Area of triangle formed by pair ax² + 2hxy + by² = 0 and line lx + my + n = 0.' }
       ]
     }
   ]
@@ -813,7 +867,7 @@ function renderContent() {
   FORMULA_DATA.sections.forEach((sec, si) => {
     const itemsFiltered = sec.i.filter(item => {
       if (item.qrOnly) return false;
-      return !q || item.n.toLowerCase().includes(q) || item.f.toLowerCase().includes(q);
+      return !q || item.n.toLowerCase().includes(q) || item.f.toLowerCase().includes(q) || (item.e && item.e.toLowerCase().includes(q));
     });
 
     if (itemsFiltered.length > 0) {
@@ -838,15 +892,19 @@ function renderContent() {
       itemsFiltered.forEach(item => {
         const starClass = isStarred(item.f) ? 'active' : '';
         const starIcon = isStarred(item.f) ? 'fa-solid fa-star' : 'fa-regular fa-star';
-        
+        const expBlock = item.e ? `<div class="fc-exp"><i class="fa-solid fa-circle-info"></i> ${highlight(item.e, searchQuery)}</div>` : '';
+
         sectionHtml += `
           <div class="formula-card" data-formula="${esc(item.f)}" onclick="copyText(this.dataset.formula)">
             <span class="fc-copy"><i class="fa-regular fa-copy"></i></span>
             <span class="fc-star ${starClass}" onclick="toggleStar(event, '${esc(item.n)}', '${esc(item.f)}')">
               <i class="${starIcon}"></i>
             </span>
-            <span class="fc-name">${highlight(item.n, searchQuery)}</span>
-            <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
+            <div class="fc-main-row">
+              <span class="fc-name">${highlight(item.n, searchQuery)}</span>
+              <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
+            </div>
+            ${expBlock}
           </div>`;
       });
 
