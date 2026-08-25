@@ -3,293 +3,1037 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JEE Formula Vault — Vectors & 3D Geometry (Deep Dive)</title>
+<title>JEE Formula Vault — Vectors & 3D Geometry</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root {
-  --bg: #080c14; --bg2: #0e1420; --card: #111827; --card2: #161f30;
-  --border: #1c2840; --fg: #e4e8f0; --muted: #5e6e87;
+  --bg: #080c14;
+  --bg2: #0e1420;
+  --card: #111827;
+  --card2: #161f30;
+  --border: #1c2840;
+  --fg: #e4e8f0;
+  --muted: #5e6e87;
   --accent: #6366f1; /* Indigo Theme */
-  --accent-glow: rgba(99, 102, 241, 0.05);
-  --accent-mark: rgba(99, 102, 241, 0.25);
+  --accent-glow: rgba(99, 102, 241, 0.06);
+  --accent-glow-active: rgba(99, 102, 241, 0.12);
+  --accent-mark: rgba(99, 102, 241, 0.28);
   --radius: 10px;
-  --tip-bg: rgba(255, 193, 7, 0.06); --tip-text: #ffc107;
+  --tip-bg: rgba(255, 193, 7, 0.06);
+  --tip-border: rgba(255, 193, 7, 0.25);
+  --tip-text: #ffc107;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--fg); min-height: 100vh; overflow-x: hidden; }
-body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 0%, var(--accent-glow), transparent 60%); pointer-events: none; z-index: 0; }
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 0%, var(--accent-glow), transparent 60%),
+              radial-gradient(ellipse at 80% 100%, rgba(0, 196, 255, 0.03), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
 
 ::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2a3a5c; }
 
-#sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 290px; background: var(--bg2); border-right: 1px solid var(--border); z-index: 100; display: flex; flex-direction: column; transition: transform .3s ease; }
-.sidebar-head { padding: 1.25rem; border-bottom: 1px solid var(--border); }
-.sidebar-head h2 { font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: .5rem; }
-.sidebar-head h2 i { color: var(--accent); }
-.sidebar-head .sub { font-size: .72rem; color: var(--muted); margin-top: .25rem; }
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 290px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease;
+}
 
-.search-box { padding: .75rem 1rem; position: relative; }
-.search-box i { position: absolute; left: 1.65rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: .8rem; }
-.search-box input { width: 100%; padding: .55rem .75rem .55rem 2.2rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; color: var(--fg); outline: none; }
+.sidebar-head {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
 
-.sidebar-actions { padding: 1rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: .5rem; margin-top: auto; }
-.action-btn { display: flex; align-items: center; justify-content: center; gap: .5rem; padding: .6rem; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--fg); font-size: .8rem; cursor: pointer; text-decoration: none; }
-.action-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
-.action-btn.active { background: rgba(99, 102, 241, 0.1); border-color: var(--accent); color: var(--accent); }
+.sidebar-head h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
 
-#main { margin-left: 290px; padding: 2rem 2.5rem 4rem; position: relative; z-index: 1; }
-.hero { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: .85rem 1.1rem; flex: 1; min-width: 130px; }
-.stat-card .sc-label { font-size: .68rem; color: var(--muted); text-transform: uppercase; }
-.stat-card .sc-val { font-size: 1.5rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; margin-top: .15rem; }
+.sidebar-head h2 i {
+  color: var(--accent);
+  font-size: .9rem;
+}
 
-.subject-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
-.subject-header h1 { font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; gap: .6rem; }
+.sidebar-head .sub {
+  font-size: .72rem;
+  color: var(--muted);
+  margin-top: .25rem;
+  letter-spacing: .03em;
+}
+
+.search-box {
+  padding: .75rem 1rem;
+  position: relative;
+}
+
+.search-box i {
+  position: absolute;
+  left: 1.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.search-box input {
+  width: 100%;
+  padding: .55rem .75rem .55rem 2.2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .82rem;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.search-box input:focus { border-color: var(--accent); }
+
+.sidebar-actions {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  margin-top: auto;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+}
+
+.action-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.action-btn.active {
+  background: var(--accent-glow-active);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#menuBtn {
+  display: none;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 200;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  font-size: 1rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 90;
+}
+
+#main {
+  margin-left: 290px;
+  padding: 2rem 2.5rem 4rem;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.hero {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .85rem 1.1rem;
+  flex: 1;
+  min-width: 130px;
+  transition: border-color .2s, transform .2s;
+}
+
+.stat-card:hover {
+  border-color: rgba(255, 255, 255, .15);
+  transform: translateY(-2px);
+}
+
+.stat-card .sc-label {
+  font-size: .68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.stat-card .sc-val {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: .15rem;
+}
+
+.subject-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.subject-header h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.subject-header h1 i { font-size: 1.2rem; }
+
+.subject-header p {
+  color: var(--muted);
+  font-size: .9rem;
+  margin-top: .4rem;
+  line-height: 1.5;
+}
 
 .section { margin-bottom: 1rem; }
-.section-header { display: flex; align-items: center; gap: .6rem; padding: .85rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; }
-.section-header .sh-title { font-size: .92rem; font-weight: 600; flex: 1; }
-.section-header .sh-count { font-size: .7rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
-.section-header .sh-arrow { color: var(--muted); font-size: .7rem; transition: transform .25s; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .85rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+}
+
+.section-header:hover {
+  border-color: rgba(255, 255, 255, .15);
+  background: var(--card2);
+}
+
+.section-header.open {
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom-color: transparent;
+}
+
+.section-header .sh-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: .7rem;
+  flex-shrink: 0;
+}
+
+.section-header .sh-title {
+  font-size: .92rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.section-header .sh-count {
+  font-size: .7rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.section-header .sh-arrow {
+  color: var(--muted);
+  font-size: .7rem;
+  transition: transform .25s;
+}
+
 .section-header.open .sh-arrow { transform: rotate(180deg); }
 
-.section-body { overflow: hidden; max-height: 0; transition: max-height .35s ease; border: 1px solid transparent; border-top: none; }
-.section-body.open { max-height: 20000px; border-color: var(--border); background: var(--bg2); padding-bottom: 1rem; border-radius: 0 0 var(--radius) var(--radius); }
+.section-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .35s ease, border-color .2s;
+  border: 1px solid transparent;
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
 
-.formula-grid { padding: .75rem; display: grid; grid-template-columns: 1fr; gap: .6rem; }
-.formula-card { display: flex; flex-direction: column; gap: .25rem; padding: .75rem .9rem; background: rgba(255, 255, 255, .015); border: 1px solid rgba(255, 255, 255, .04); border-radius: 8px; position: relative; cursor: pointer; }
-.formula-card:hover { background: rgba(255, 255, 255, .035); border-color: rgba(255, 255, 255, .08); }
+.section-body.open {
+  max-height: 14000px;
+  border-color: var(--border);
+  background: var(--bg2);
+}
+
+.formula-grid {
+  padding: .75rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .6rem;
+}
+
+.formula-card {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  padding: .75rem .9rem;
+  background: rgba(255, 255, 255, .015);
+  border: 1px solid rgba(255, 255, 255, .04);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+
+.formula-card:hover {
+  background: rgba(255, 255, 255, .035);
+  border-color: rgba(255, 255, 255, .08);
+}
+
+.formula-card:active { transform: scale(.995); }
 
 .fc-main-row { display: flex; align-items: flex-start; gap: .75rem; width: 100%; }
-.fc-name { font-size: .8rem; color: var(--muted); min-width: 180px; flex-shrink: 0; font-weight: 600; }
-.fc-formula { font-family: 'JetBrains Mono', monospace; font-size: .82rem; color: var(--fg); flex-grow: 1; }
-.fc-exp { font-size: 0.74rem; color: #94a3b8; margin-top: 0.25rem; border-left: 1px solid var(--accent); padding-left: 0.5rem; }
 
-.jee-tip { margin: .5rem .75rem; padding: .65rem .85rem; background: var(--tip-bg); border-radius: 8px; font-size: .78rem; color: var(--tip-text); display: flex; gap: .5rem; }
+.formula-card .fc-name {
+  font-size: .8rem;
+  color: var(--muted);
+  min-width: 160px;
+  flex-shrink: 0;
+  font-weight: 600;
+  line-height: 1.4;
+}
 
-#toast { position: fixed; bottom: 2rem; right: 2rem; padding: .65rem 1.1rem; background: var(--card2); border: 1px solid var(--accent); border-radius: 8px; color: var(--accent); opacity: 0; transition: .25s; pointer-events: none; }
-#toast.show { opacity: 1; transform: translateY(-10px); }
+.formula-card .fc-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--fg);
+  line-height: 1.5;
+  word-break: break-word;
+  flex-grow: 1;
+}
 
-#menuBtn { display: none; position: fixed; top: 1rem; left: 1rem; z-index: 200; width: 40px; height: 40px; border-radius: 8px; background: var(--card); border: 1px solid var(--border); color: var(--fg); }
+.formula-card .fc-exp {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+  line-height: 1.45;
+  font-weight: 400;
+  padding-left: 0.1rem;
+}
+.formula-card .fc-exp i { color: var(--accent); margin-right: 0.35rem; }
+
+.formula-card .fc-copy {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  opacity: 0;
+  font-size: .65rem;
+  color: var(--muted);
+  transition: opacity .15s;
+}
+
+.formula-card .fc-star {
+  position: absolute;
+  top: .5rem;
+  right: 1.8rem;
+  opacity: 0;
+  font-size: .75rem;
+  color: #ffb81c;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.formula-card:hover .fc-copy, .formula-card:hover .fc-star { opacity: 1; }
+.formula-card .fc-star.active { opacity: 1 !important; }
+.formula-card .fc-star:active { transform: scale(1.2); }
+
+.jee-tip {
+  margin: .5rem .75rem .75rem;
+  padding: .65rem .85rem;
+  background: var(--tip-bg);
+  border: 1px solid var(--tip-border);
+  border-radius: 8px;
+  font-size: .78rem;
+  color: var(--tip-text);
+  line-height: 1.55;
+  display: flex;
+  gap: .5rem;
+  align-items: flex-start;
+}
+
+.jee-tip i { margin-top: 2px; flex-shrink: 0; }
+
+.master-sheet { margin-top: 2rem; display: none; }
+.master-sheet.show-master { display: block !important; }
+
+.master-sheet h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.master-sheet h2 i { color: var(--accent); }
+
+.master-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: .5rem;
+}
+
+.master-card {
+  display: flex;
+  gap: .6rem;
+  padding: .65rem .8rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.master-card:hover {
+  border-color: rgba(99, 102, 241, .3);
+  transform: translateY(-1px);
+}
+
+.master-card .mc-concept {
+  font-size: .72rem;
+  color: var(--muted);
+  min-width: 110px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.master-card .mc-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .78rem;
+  line-height: 1.5;
+}
+
+mark {
+  background: var(--accent-mark);
+  color: var(--fg);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: .65rem 1.1rem;
+  background: var(--card2);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  font-size: .8rem;
+  color: var(--accent);
+  z-index: 500;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all .25s;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+#toast.show { opacity: 1; transform: translateY(0); }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+
+.modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  transform: scale(.9);
+  transition: transform .25s;
+}
+
+.modal-overlay.show .modal { transform: scale(1); }
+
+.modal .modal-subject {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: .5rem;
+}
+
+.modal .modal-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  min-height: 1.5rem;
+}
+
+.modal .modal-formula {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 1.25rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.modal .modal-formula:hover { border-color: var(--accent); }
+
+.modal .modal-formula.hidden-f { filter: blur(8px); user-select: none; }
+
+.modal .modal-btns { display: flex; gap: .75rem; justify-content: center; }
+
+.modal .modal-btns button {
+  padding: .55rem 1.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: .82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.modal .modal-btns button:hover { border-color: var(--accent); color: var(--accent); }
+
+.modal .modal-btns button.primary { background: var(--accent); color: #ffffff; border-color: var(--accent); font-weight: 600; }
+
+.modal .modal-btns button.primary:hover { opacity: .85; }
+
+#backTop {
+  position: fixed;
+  bottom: 2rem;
+  left: 310px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  opacity: 0;
+  transition: all .25s;
+  font-size: .85rem;
+}
+
+#backTop.show { opacity: 1; }
+#backTop:hover { color: var(--accent); border-color: var(--accent); }
 
 @media(max-width:860px){
   #sidebar { transform: translateX(-100%); }
   #sidebar.open { transform: translateX(0); }
-  #menuBtn { display: flex; align-items: center; justify-content: center; }
-  #main { margin-left: 0; padding: 4rem 1rem; }
-  .fc-main-row { flex-direction: column; }
-  .fc-name { min-width: 100%; }
+  #menuBtn { display: flex; }
+  #main { margin-left: 0; padding: 1.25rem 1rem 3rem; padding-top: 3.5rem; }
+  #backTop { left: 1rem; bottom: 1rem; }
+  .hero { gap: .5rem; }
+  .stat-card { min-width: 100px; padding: .6rem .8rem; }
+  .stat-card .sc-val { font-size: 1.2rem; }
+  .formula-card .fc-main-row { flex-direction: column; gap: .25rem; }
+  .formula-card .fc-name { min-width: unset; }
+  .master-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<button id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+<button id="menuBtn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+<div id="overlay"></div>
 
 <aside id="sidebar">
   <div class="sidebar-head">
-    <h2><i class="fa-solid fa-layer-group"></i> Vector Vault</h2>
-    <div class="sub">Advanced 3D Geometry & Vectors</div>
+    <h2><i class="fa-solid fa-vault"></i> Formula Vault</h2>
+    <div class="sub">JEE Main & Advanced — Complete Reference</div>
   </div>
   <div class="search-box">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" id="searchInput" placeholder="Search 50+ formulas...">
+    <input type="text" id="searchInput" placeholder="Search formulas, topics..." aria-label="Search formulas">
   </div>
-  <div style="padding: 0 1rem;"><a href="../index.html" class="action-btn"><i class="fa-solid fa-house"></i> Home</a></div>
+  <div style="padding: 0 1rem 0.5rem 1rem;">
+     <a href="../index.html" class="action-btn" style="width: 100%; border-color: rgba(255,255,255,0.1);"><i class="fa-solid fa-arrow-left"></i> Back to Portal</a>
+  </div>
   <div class="sidebar-actions">
     <button class="action-btn" id="qrBtn"><i class="fa-solid fa-bolt"></i> Quick Revision</button>
+    <button class="action-btn" id="randomBtn"><i class="fa-solid fa-shuffle"></i> Random Formula</button>
     <button class="action-btn" id="expandBtn"><i class="fa-solid fa-expand"></i> Expand All</button>
   </div>
 </aside>
 
-<main id="main">
-  <div class="hero">
-    <div class="stat-card"><div class="sc-label">Sub-Topics</div><div class="sc-val" style="color:var(--accent)">9</div></div>
-    <div class="stat-card"><div class="sc-label">Total Formulas</div><div class="sc-val" id="totalFormulaCount">0</div></div>
-  </div>
-  <div class="subject-header">
-    <h1>Vectors & 3D Geometry (Complete)</h1>
-    <p>Comprehensive reference covering Vector Algebra, STP, VTP, Lines, Planes, and Point-Plane interactions.</p>
-  </div>
-  <div id="content"></div>
-</main>
+<main id="main"></main>
 
-<div id="toast">Copied to clipboard!</div>
+<div id="toast"><i class="fa-solid fa-check"></i> <span id="toastMsg">Copied!</span></div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-subject" id="modalSubject"></div>
+    <div class="modal-name" id="modalName"></div>
+    <div class="modal-formula hidden-f" id="modalFormula">—</div>
+    <div class="modal-btns">
+      <button id="modalReveal">Reveal</button>
+      <button id="modalNext" class="primary">Next</button>
+    </div>
+  </div>
+</div>
+<button id="backTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
 
 <script>
-const DATA = [
-  {
-    s: 'Vector Fundamentals & Dot Product',
-    t: 'JEE Trap: Scalar projection is a scalar (a.b/|b|), but vector projection is a vector (a.b/|b|^2)b.',
-    i: [
-      { n: 'Modulus/Magnitude', f: '|a⃗| = √(a₁² + a₂² + a₃²)', qr: true, e: 'Length of vector a = a₁i + a₂j + a₃k.' },
-      { n: 'Unit Vector', f: 'â = a⃗ / |a⃗|', qr: true, e: 'A vector with magnitude 1 in the direction of a.' },
-      { n: 'Dot Product', f: 'a⃗ · b⃗ = |a⃗||b⃗| cos θ', qr: true, e: 'If a ⊥ b, then a · b = 0. Also a · a = |a|².' },
-      { n: 'Scalar Projection', f: 'Proj_a_on_b = (a⃗ · b⃗) / |b⃗|', e: 'The length of the shadow of a onto b.' },
-      { n: 'Vector Projection', f: 'VProj_a_on_b = [(a⃗ · b⃗) / |b⃗|²] b⃗', e: 'The vector component of a in the direction of b.' },
-      { n: 'Direction Cosines (Vector)', f: 'cos α = a₁/|a⃗|, cos β = a₂/|a⃗|, cos γ = a₃/|a⃗|', e: 'Angles vector makes with X, Y, Z axes respectively.' },
-      { n: 'Parallelogram Law', f: '|a⃗ + b⃗|² + |a⃗ - b⃗|² = 2(|a⃗|² + |b⃗|²)', e: 'Relates diagonals and sides of a parallelogram.' }
-    ]
-  },
-  {
-    s: 'Cross Product & Geometry',
-    t: 'Order matters! a × b = -(b × a). Use cross product to find a vector perpendicular to a plane.',
-    i: [
-      { n: 'Cross Product (Vector)', f: 'a⃗ × b⃗ = |a⃗||b⃗| sin θ n̂', qr: true, e: 'n̂ is the unit normal vector perpendicular to a and b.' },
-      { n: 'Cross Product (Coord)', f: 'a⃗ × b⃗ = det|i j k; a₁ a₂ a₃; b₁ b₂ b₃|', qr: true, e: 'Determinant form for calculation.' },
-      { n: 'Area of Parallelogram', f: 'Area = |a⃗ × b⃗|', e: 'Where a and b are adjacent side vectors.' },
-      { n: 'Area of Triangle', f: 'Area = ½ |a⃗ × b⃗|', qr: true, e: 'Half the area of the corresponding parallelogram.' },
-      { n: 'Unit Normal to Plane', f: 'n̂ = ± (a⃗ × b⃗) / |a⃗ × b⃗|', e: 'Vector perpendicular to the plane containing a and b.' },
-      { n: 'Lagrange\'s Identity', f: '|a⃗ × b⃗|² = |a⃗|²|b⃗|² - (a⃗ · b⃗)²', qr: true, e: 'Connects dot and cross product magnitudes.' }
-    ]
-  },
-  {
-    s: 'Triple Products (STP & VTP)',
-    t: 'STP [a b c] = 0 means vectors are coplanar. This is the most common JEE question.',
-    i: [
-      { n: 'Scalar Triple Product', f: '[a⃗ b⃗ c⃗] = a⃗ · (b⃗ × c⃗) = det|a; b; c|', qr: true, e: 'Volume of parallelepiped. Cyclic order: [a b c] = [b c a] = [c a b].' },
-      { n: 'Volume of Tetrahedron', f: 'V = ⅙ |[a⃗ b⃗ c⃗]|', e: 'Where a, b, c are coterminous edge vectors from one vertex.' },
-      { n: 'Vector Triple Product', f: 'a⃗ × (b⃗ × c⃗) = (a⃗ · c⃗) b⃗ - (a⃗ · b⃗) c⃗', qr: true, e: 'Memory tip: (Middle · Outer) - (Outer · Middle). Result lies in plane of b and c.' },
-      { n: 'Scalar Product of 4 Vectors', f: '(a⃗ × b⃗) · (c⃗ × d⃗) = (a⃗·c⃗)(b⃗·d⃗) - (a⃗·d⃗)(b⃗·c⃗)', e: 'Also known as Binet-Cauchy identity in vector form.' },
-      { n: 'Vector Product of 4 Vectors', f: '(a⃗ × b⃗) × (c⃗ × d⃗) = [a⃗ b⃗ d⃗] c⃗ - [a⃗ b⃗ c⃗] d⃗', e: 'Expresses the product in terms of vectors c and d.' }
-    ]
-  },
-  {
-    s: 'Reciprocal System of Vectors',
-    t: 'Advanced Topic: a · a\' = b · b\' = c · c\' = 1. All other dot products are zero.',
-    i: [
-      { n: 'Reciprocal Vector a\'', f: 'a⃗\' = (b⃗ × c⃗) / [a⃗ b⃗ c⃗]', e: 'Defined such that it is perpendicular to b and c.' },
-      { n: 'Reciprocal Vector b\'', f: 'b⃗\' = (c⃗ × a⃗) / [a⃗ b⃗ c⃗]', e: 'Defined such that it is perpendicular to c and a.' },
-      { n: 'Reciprocal Vector c\'', f: 'c⃗\' = (a⃗ × b⃗) / [a⃗ b⃗ c⃗]', e: 'Defined such that it is perpendicular to a and b.' },
-      { n: 'Property of STP', f: '[a⃗\' b⃗\' c⃗\'] = 1 / [a⃗ b⃗ c⃗]', e: 'Volume of reciprocal parallelepiped is the inverse of the original.' }
-    ]
-  },
-  {
-    s: '3D Lines',
-    t: 'Skew lines are neither parallel nor intersecting. Their shortest distance is non-zero.',
-    i: [
-      { n: 'Line: Vector Form', f: 'r⃗ = a⃗ + λ b⃗', qr: true, e: 'a = point vector, b = direction vector.' },
-      { n: 'Line: Cartesian Form', f: '(x-x₁)/a = (y-y₁)/b = (z-z₁)/c', qr: true, e: '(x₁,y₁,z₁) is a point, (a,b,c) are direction ratios.' },
-      { n: 'Angle between Lines', f: 'cos θ = |(b₁⃗ · b₂⃗) / (|b₁⃗||b₂⃗|)|', e: 'Angle depends only on the direction vectors b₁ and b₂.' },
-      { n: 'Shortest Dist (Skew)', f: 'SD = |(a₂⃗ - a₁⃗) · (b₁⃗ × b₂⃗)| / |b₁⃗ × b₂⃗|', qr: true, e: 'Distance between r=a₁+λb₁ and r=a₂+μb₂.' },
-      { n: 'Shortest Dist (Parallel)', f: 'SD = |(a₂⃗ - a₁⃗) × b⃗| / |b⃗|', e: 'Used when direction vectors are same (b₁=b₂=b).' },
-      { n: 'Intersection of 2 Lines', f: 'Equate x, y, z components; solve for λ and μ. Check in 3rd equation.', e: 'Standard procedural method for JEE.' }
-    ]
-  },
-  {
-    s: '3D Planes',
-    t: 'The coefficients (a, b, c) in ax+by+cz+d=0 are the DRs of the NORMAL to the plane.',
-    i: [
-      { n: 'Normal Form', f: 'lx + my + nz = p', e: 'l,m,n are DCs; p is perp distance from origin.' },
-      { n: 'One Point Form', f: 'a(x-x₁) + b(y-y₁) + c(z-z₁) = 0', qr: true, e: 'Plane thru (x₁,y₁,z₁) with normal (a,b,c).' },
-      { n: 'Intercept Form', f: 'x/a + y/b + z/c = 1', e: 'a, b, c are intercepts on X, Y, Z axes.' },
-      { n: 'Angle between 2 Planes', f: 'cos θ = |n₁·n₂| / (|n₁||n₂|)', e: 'Same as angle between their normal vectors.' },
-      { n: 'Plane thru Intersection', f: 'P₁ + λ P₂ = 0', e: 'Family of planes passing through the line of intersection of P₁ and P₂.' },
-      { n: 'Angle Bisectors (Planes)', f: '(a₁x+b₁y+c₁z+d₁)/√(Σa₁²) = ±(a₂x+b₂y+c₂z+d₂)/√(Σa₂²)', e: 'Equations of the two bisecting planes.' }
-    ]
-  },
-  {
-    s: 'Point, Line & Plane Interaction',
-    t: 'Image of a point in a plane is a very frequent JEE question. The formula is identical to 2D but with z.',
-    i: [
-      { n: 'Point to Plane Dist', f: 'd = |ax₁+by₁+cz₁+d| / √(a²+b²+c²)', qr: true, e: 'Perpendicular distance from (x₁,y₁,z₁) to ax+by+cz+d=0.' },
-      { n: 'Foot of Perpendicular', f: '(x-x₁)/a = (y-y₁)/b = (z-z₁)/c = -(ax₁+by₁+cz₁+d)/(a²+b²+c²)', qr: true, e: 'Coordinates of point on plane nearest to (x₁,y₁,z₁).' },
-      { n: 'Image of Point', f: '(x-x₁)/a = (y-y₁)/b = (z-z₁)/c = -2(ax₁+by₁+cz₁+d)/(a²+b²+c²)', qr: true, e: 'Note the factor of -2 (vs -1 for foot).' },
-      { n: 'Angle: Line & Plane', f: 'sin θ = |(b⃗ · n̂) / (|b⃗||n̂|)|', qr: true, e: 'Uses "sin" because we measure angle with plane, but vector n is perpendicular to it.' },
-      { n: 'Condition: Line in Plane', f: 'a·x₁ + b·y₁ + c·z₁ + d = 0 AND a·l + b·m + c·n = 0', e: 'Point must lie in plane AND line must be perpendicular to normal.' }
-    ]
-  },
-  {
-    s: 'Vector Equations (Solving for r)',
-    t: 'Solving for unknown vector r given r.a = k and r x b = c.',
-    i: [
-      { n: 'Solution Type 1', f: 'r⃗ · a⃗ = k => r⃗ = (k/|a⃗|²) a⃗ + (a⃗ × m⃗)', e: 'General solution where m is any vector.' },
-      { n: 'Solution Type 2', f: 'r⃗ × a⃗ = b⃗ => r⃗ = (b⃗ × a⃗)/|a⃗|² + λ a⃗', e: 'Solving cross product equations.' },
-      { n: 'Linear Combination', f: 'r⃗ = x a⃗ + y b⃗ + z (a⃗ × b⃗)', e: 'Standard basis for 3D space using two non-parallel vectors.' }
-    ]
-  },
-  {
-    s: 'Sphere Basics',
-    t: 'Equation looks like a circle but with three variables.',
-    i: [
-      { n: 'Standard Equation', f: '(x-h)² + (y-k)² + (z-l)² = R²', e: 'Center (h,k,l), Radius R.' },
-      { n: 'General Equation', f: 'x²+y²+z² + 2ux + 2vy + 2wz + d = 0', e: 'Center (-u,-v,-w), Radius = √(u²+v²+w²-d).' },
-      { n: 'Diameter Form', f: '(x-x₁)(x-x₂) + (y-y₁)(y-y₂) + (z-z₁)(z-z₂) = 0', e: 'Sphere with (x₁,y₁,z₁) and (x₂,y₂,z₂) as diameter endpoints.' }
-    ]
-  }
-];
+const FORMULA_DATA = {
+  id: 'vectors-3d',
+  ti: 'Vectors & 3D Geometry',
+  ic: 'fa-solid fa-cube',
+  c: '#6366f1',
+  d: 'Vector products, triple products, direction cosines, shortest distance between skew lines, plane geometry, line-plane intersections, and spheres.',
+  sections: [
+    {
+      s: 'Vector Algebra & Product Operations',
+      t: 'Scalar (dot) product yields projections and orthogonality; Vector (cross) product provides orthogonal area vectors.',
+      i: [
+        { n: 'Dot Product Definition', f: 'a · b = |a| |b| cos θ = a₁b₁ + a₂b₂ + a₃b₃', qr: true, e: 'Gives the scalar product; zero if and only if vectors are perpendicular.' },
+        { n: 'Scalar Projection of a on b', f: 'proj_b(a) = (a · b) / |b|', qr: true, e: 'Magnitude of the orthogonal projection of vector a onto vector b.' },
+        { n: 'Vector Projection of a on b', f: 'proj_vec = [(a · b) / |b|²] · b', qr: true, e: 'Vector component of a pointing in the direction of b.' },
+        { n: 'Cross Product Definition', f: 'a × b = |a| |b| sin θ n̂ = | î ĵ k̂ ; a₁ a₂ a₃ ; b₁ b₂ b₃ |', qr: true, e: 'Vector perpendicular to both a and b, directed via the right-hand rule.' },
+        { n: 'Area of Triangle (Vectors)', f: 'Area = ½ |a × b| = ½ |AB × AC|', qr: true, e: 'Area formed by coterminous vector edges a and b.' },
+        { n: 'Area of Parallelogram', f: 'Area = |a × b| = ½ |d₁ × d₂|', qr: true, e: 'Given sides a, b or diagonals d₁, d₂.' },
+        { n: 'Lagrange\'s Identity', f: '|a × b|² = |a|² |b|² - (a · b)²', qr: true, e: 'Fundamental relation linking magnitudes of dot and cross products.' },
+        { n: 'Cauchy-Schwarz Inequality', f: '(a · b)² <= |a|² |b|²', e: 'Equality holds if and only if a and b are collinear (linearly dependent).' }
+      ]
+    },
+    {
+      s: 'Triple & Quadruple Vector Products',
+      t: 'Scalar triple product [a b c] calculates parallelopiped volume; cyclic order preserves sign while transposition flips it.',
+      i: [
+        { n: 'Scalar Triple Product (Box Product)', f: '[a b c] = a · (b × c) = | a₁ a₂ a₃ ; b₁ b₂ b₃ ; c₁ c₂ c₃ |', qr: true, e: 'Represents the signed volume of the parallelepiped formed by a, b, c.' },
+        { n: 'Coplanarity of 3 Vectors', f: '[a b c] = 0', qr: true, e: 'Vectors a, b, and c are coplanar if and only if their box product is zero.' },
+        { n: 'Volume of Tetrahedron', f: 'V = (1/6) |[a b c]|', qr: true, e: 'Volume of tetrahedron having coterminous edges a, b, and c.' },
+        { n: 'Vector Triple Product (BAC-CAB)', f: 'a × (b × c) = (a · c) b - (a · b) c', qr: true, e: 'Resulting vector lies in the plane of b and c, perpendicular to a.' },
+        { n: 'Associated VTP Relation', f: '(a × b) × c = (a · c) b - (b · c) a', e: 'Notice that cross product is non-associative: a × (b × c) ≠ (a × b) × c.' },
+        { n: 'Scalar Quadruple Product', f: '(a × b) · (c × d) = (a · c)(b · d) - (a · d)(b · c)', qr: true, e: 'Determinant expansion of dot products between two vector pairs.' },
+        { n: 'Vector Quadruple Product', f: '(a × b) × (c × d) = [a b d] c - [a b c] d = [a c d] b - [b c d] a', e: 'Expresses the vector product of two cross products in terms of component vectors.' },
+        { n: 'Jacobi\'s Identity', f: 'a × (b × c) + b × (c × a) + c × (a × b) = 0', e: 'Fundamental cyclic identity for vector triple products.' },
+        { n: 'Reciprocal System of Vectors', f: 'a\' = (b × c)/[a b c],  b\' = (c × a)/[a b c],  c\' = (a × b)/[a b c]', e: 'Satisfies a · a\' = 1, a · b\' = 0, and [a\' b\' c\'] = 1 / [a b c].' }
+      ]
+    },
+    {
+      s: 'Direction Cosines (DC) & Direction Ratios (DR)',
+      t: 'Sum of squares of Direction Cosines is always 1; Direction Ratios are proportional to Direction Cosines.',
+      i: [
+        { n: 'Direction Cosines Fundamental', f: 'l = cos α, m = cos β, n = cos γ  =>  l² + m² + n² = 1', qr: true, e: 'Angles α, β, γ made with positive x, y, and z axes respectively.' },
+        { n: 'Sine Sum Identity', f: 'sin² α + sin² β + sin² γ = 2', qr: true, e: 'Derived directly from 1 - cos²θ for all three axes.' },
+        { n: 'DR to DC Conversion', f: 'l = a / √(a² + b² + c²),  m = b / √(a² + b² + c²),  n = c / √(a² + b² + c²)', qr: true, e: 'Normalizes direction ratios (a, b, c) into unit direction cosines.' },
+        { n: 'Angle Between Two 3D Directions', f: 'cos θ = |l₁l₂ + m₁m₂ + n₁n₂| = |a₁a₂ + b₁b₂ + c₁c₂| / [√(Σa₁²) √(Σa₂²)]', qr: true, e: 'Calculates the acute angle between two lines with known DCs or DRs.' },
+        { n: 'Perpendicular & Parallel Conditions', f: 'Perp: a₁a₂ + b₁b₂ + c₁c₂ = 0  |  Parallel: a₁/a₂ = b₁/b₂ = c₁/c₂', qr: true, e: 'Standard orthogonal and collinearity tests in 3D.' },
+        { n: 'Projection of Segment on Line', f: 'Proj = |(x₂ - x₁)l + (y₂ - y₁)m + (z₂ - z₁)n|', e: 'Projection of line segment joining P(x₁,y₁,z₁) and Q(x₂,y₂,z₂) on a line with DCs (l,m,n).' }
+      ]
+    },
+    {
+      s: 'Straight Lines in 3D Space',
+      t: 'Parametric coordinates (x₁ + λa, y₁ + λb, z₁ + λc) allow expressing any point on a 3D line with a single parameter.',
+      i: [
+        { n: 'Vector Equation of Line', f: 'r = a + λ b', qr: true, e: 'Line passing through point with position vector a and parallel to vector b.' },
+        { n: 'Cartesian Form (Symmetric)', f: '(x - x₁) / a = (y - y₁) / b = (z - z₁) / c = λ', qr: true, e: 'Line passing through (x₁, y₁, z₁) with direction ratios (a, b, c).' },
+        { n: 'Line Through Two Points', f: '(x - x₁) / (x₂ - x₁) = (y - y₁) / (y₂ - y₁) = (z - z₁) / (z₂ - z₁)', e: 'Vector equivalent: r = a + λ(b - a).' },
+        { n: 'General Point on a Line', f: 'P(λ) = (x₁ + aλ, y₁ + bλ, z₁ + cλ)', qr: true, e: 'Standard method to find foot of perpendicular, image, or intersection point.' },
+        { n: 'Intersection of Two Lines', f: 'Equate P(λ) = Q(μ) -> Solve 2 equations for (λ, μ) -> Verify in 3rd', qr: true, e: 'If values of λ and μ satisfy all 3 coordinate equations, lines intersect.' }
+      ]
+    },
+    {
+      s: 'Skew Lines & Shortest Distance',
+      t: 'Skew lines are non-parallel, non-intersecting lines in 3D. Shortest distance vector is along the mutual cross product.',
+      i: [
+        { n: 'Shortest Distance (Skew Lines)', f: 'd = | (a₂ - a₁) · (b₁ × b₂) | / |b₁ × b₂|', qr: true, e: 'Distance between lines r = a₁ + λ b₁ and r = a₂ + μ b₂.' },
+        { n: 'Cartesian SD Formula', f: 'd = | | x₂-x₁ y₂-y₁ z₂-z₁ ; a₁ b₁ c₁ ; a₂ b₂ c₂ | | / √[Σ(b₁c₂ - b₂c₁)²]', qr: true, e: 'Determinant formulation for shortest distance between two skew lines.' },
+        { n: 'Condition for Coplanar Lines', f: '(a₂ - a₁) · (b₁ × b₂) = 0  =>  | x₂-x₁ y₂-y₁ z₂-z₁ ; a₁ b₁ c₁ ; a₂ b₂ c₂ | = 0', qr: true, e: 'Lines intersect or are parallel (lie in same plane) if shortest distance is 0.' },
+        { n: 'Distance Between Parallel Lines', f: 'd = | (a₂ - a₁) × b | / |b|', qr: true, e: 'Applies for parallel lines r = a₁ + λ b and r = a₂ + μ b.' }
+      ]
+    },
+    {
+      s: 'Planes in 3D Space',
+      t: 'The coefficients of x, y, z in ax + by + cz + d = 0 directly give the direction ratios of the normal to the plane.',
+      i: [
+        { n: 'Vector Equation of Plane', f: 'r · n̂ = p  |  (r - a) · n = 0', qr: true, e: 'p is perpendicular distance from origin; n is normal vector to plane.' },
+        { n: 'General Cartesian Equation', f: 'a x + b y + c z + d = 0', qr: true, e: '(a, b, c) are the direction ratios of the normal vector perpendicular to the plane.' },
+        { n: 'Plane Passing Through 3 Points', f: '| x-x₁ y-y₁ z-z₁ ; x₂-x₁ y₂-y₁ z₂-z₁ ; x₃-x₁ y₃-y₁ z₃-z₁ | = 0', qr: true, e: 'Determines the unique plane passing through three non-collinear points.' },
+        { n: 'Intercept Form of Plane', f: 'x/a + y/b + z/c = 1', qr: true, e: 'a, b, c are intercepts cut off on x, y, and z axes respectively.' },
+        { n: 'Angle Between Two Planes', f: 'cos θ = |n₁ · n₂| / (|n₁| |n₂|) = |a₁a₂ + b₁b₂ + c₁c₂| / [√(Σa₁²) √(Σa₂²)]', qr: true, e: 'Angle between planes equals the angle between their normal vectors.' },
+        { n: 'Distance from Point to Plane', f: 'd = |a x₁ + b y₁ + c z₁ + d| / √(a² + b² + c²)', qr: true, e: 'Perpendicular distance from point (x₁, y₁, z₁) to plane ax + by + cz + d = 0.' },
+        { n: 'Distance Between Parallel Planes', f: 'd = |d₁ - d₂| / √(a² + b² + c²)', qr: true, e: 'Applies to parallel planes ax + by + cz + d₁ = 0 and ax + by + cz + d₂ = 0.' }
+      ]
+    },
+    {
+      s: 'Line & Plane Interactions',
+      t: 'Angle between line and plane uses sin θ because θ is the complement of the angle between line and normal vector.',
+      i: [
+        { n: 'Angle Between Line and Plane', f: 'sin θ = |b · n| / (|b| |n|) = |a a_L + b b_L + c c_L| / [√(Σa²) √(Σa_L²)]', qr: true, e: 'Note the use of sin θ instead of cos θ.' },
+        { n: 'Line Parallel to Plane', f: 'b · n = 0  =>  a a_L + b b_L + c c_L = 0', qr: true, e: 'Line is parallel to plane if its direction vector is perpendicular to plane\'s normal.' },
+        { n: 'Line Perpendicular to Plane', f: 'b || n  =>  a_L / a = b_L / b = c_L / c', qr: true, e: 'Line is perpendicular to plane if its direction is parallel to plane\'s normal.' },
+        { n: 'Foot of Perpendicular on Plane', f: '(x - x₁)/a = (y - y₁)/b = (z - z₁)/c = -(a x₁ + b y₁ + c z₁ + d) / (a² + b² + c²)', qr: true, e: 'Coordinates (x, y, z) of the foot of the altitude dropped onto the plane.' },
+        { n: 'Image of a Point in a Plane', f: '(x - x₁)/a = (y - y₁)/b = (z - z₁)/c = -2(a x₁ + b y₁ + c z₁ + d) / (a² + b² + c²)', qr: true, e: 'Coordinates of mirror image point across the plane mirror.' },
+        { n: 'Line of Intersection of Two Planes', f: 'Direction vector b = n₁ × n₂', qr: true, e: 'Direction of line common to non-parallel planes P₁=0 and P₂=0.' }
+      ]
+    },
+    {
+      s: 'Family of Planes & 3D Sphere Geometry',
+      t: 'Family of planes P₁ + λ P₂ = 0 contains the line of intersection of two given planes.',
+      i: [
+        { n: 'Family of Planes', f: 'P₁ + λ P₂ = 0  =>  (a₁x + b₁y + c₁z + d₁) + λ(a₂x + b₂y + c₂z + d₂) = 0', qr: true, e: 'Represents all planes passing through the intersection line of P₁ and P₂.' },
+        { n: 'Angle Bisector Planes', f: '(a₁x + b₁y + c₁z + d₁)/√(Σa₁²) = +- (a₂x + b₂y + c₂z + d₂)/√(Σa₂²)', qr: true, e: 'Planes bisecting dihedral angles between two intersecting planes.' },
+        { n: 'Standard Equation of Sphere', f: 'x² + y² + z² + 2ux + 2vy + 2wz + d = 0', qr: true, e: 'Center = (-u, -v, -w),  Radius R = √(u² + v² + w² - d).' },
+        { n: 'Diameter Form of Sphere', f: '(x - x₁)(x - x₂) + (y - y₁)(y - y₂) + (z - z₁)(z - z₂) = 0', e: 'Sphere with diameter endpoints (x₁, y₁, z₁) and (x₂, y₂, z₂).' },
+        { n: 'Tangent Plane to Sphere', f: 'x x₁ + y y₁ + z z₁ + u(x + x₁) + v(y + y₁) + w(z + z₁) + d = 0', e: 'Equation of plane tangent to sphere at point (x₁, y₁, z₁) on the surface.' },
+        { n: 'Plane Tangency Condition', f: 'Perpendicular distance from Center to Plane = Radius R', qr: true, e: 'Geometric condition for plane ax + by + cz + d = 0 to touch a sphere.' }
+      ]
+    }
+  ]
+};
 
-function render() {
-  const container = document.getElementById('content');
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  let html = '';
-  let count = 0;
+let searchQuery = '', quickRevision = false, expandedSections = new Set(), allExpanded = false;
 
-  DATA.forEach((sec, si) => {
-    const filtered = sec.i.filter(item => !q || item.n.toLowerCase().includes(q) || item.f.toLowerCase().includes(q));
-    if (filtered.length === 0) return;
+function esc(s) { return String(s).replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
-    count += filtered.length;
-    const isOpen = q.length > 0 || document.getElementById('expandBtn').innerText.includes('Collapse');
-    
-    html += `
-      <div class="section">
-        <div class="section-header ${isOpen ? 'open' : ''}" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open')">
-          <span class="sh-title">${sec.s}</span>
-          <span class="sh-count">${filtered.length}</span>
-          <i class="fa-solid fa-chevron-down sh-arrow"></i>
-        </div>
-        <div class="section-body ${isOpen ? 'open' : ''}">
-          <div class="formula-grid">
-            ${filtered.map(item => `
-              <div class="formula-card" onclick="copyText('${item.f}')">
-                <div class="fc-main-row">
-                  <span class="fc-name">${item.n}</span>
-                  <span class="fc-formula">${item.f}</span>
-                </div>
-                <div class="fc-exp">${item.e}</div>
-              </div>
-            `).join('')}
-          </div>
-          ${!q && sec.t ? `<div class="jee-tip"><i class="fa-solid fa-lightbulb"></i><span>${sec.t}</span></div>` : ''}
-        </div>
-      </div>
-    `;
+function formatMathText(text) {
+  const tokens = []; let index = 0;
+  const protectedText = text.replace(/<(\/?)(mark|sub|sup)>/g, (m, slash, tag) => {
+    const token = `__TAG${index++}__`;
+    tokens.push(`<${slash}${tag}>`);
+    return token;
   });
+  const escaped = protectedText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const rendered = escaped
+    .replace(/([A-Za-zα-ωΑ-Ω0-9\)\]])_\{([^}]+)\}/g, '$1<sub>$2</sub>')
+    .replace(/([A-Za-zα-ωΑ-Ω0-9\)\]])_([A-Za-z0-9]+)/g, '$1<sub>$2</sub>')
+    .replace(/\^\(([^)]+)\)/g, '<sup>( $1 )</sup>')
+    .replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>')
+    .replace(/\^([A-Za-z0-9]+)/g, '<sup>$1</sup>');
+  return rendered.replace(/__TAG(\d+)__/g, (_, i) => tokens[Number(i)]);
+}
 
-  container.innerHTML = html;
-  document.getElementById('totalFormulaCount').innerText = count;
+function highlight(text, q) {
+  const safeText = esc(text);
+  if (!q) return formatMathText(safeText);
+  const e = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return formatMathText(safeText.replace(new RegExp(`(${e})`, 'gi'), '<mark>$1</mark>'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show'); clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 1800);
 }
 
 function copyText(text) {
-  navigator.clipboard.writeText(text);
-  const t = document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 1500);
+  navigator.clipboard.writeText(text).then(() => showToast('Formula copied!')).catch(() => {});
 }
 
-document.getElementById('searchInput').oninput = render;
-document.getElementById('expandBtn').onclick = function() {
-  const isExpanding = this.innerText.includes('Expand');
-  this.innerHTML = isExpanding ? '<i class="fa-solid fa-compress"></i> Collapse All' : '<i class="fa-solid fa-expand"></i> Expand All';
-  render();
-};
-document.getElementById('menuBtn').onclick = () => document.getElementById('sidebar').classList.toggle('open');
-
-document.getElementById('qrBtn').onclick = function() {
-  const active = this.classList.toggle('active');
-  const q = document.getElementById('searchInput');
-  if(active) {
-    DATA.forEach(s => s.i = s.i.filter(item => item.qr));
+function toggleStar(event, name, formula) {
+  event.stopPropagation();
+  let starred = JSON.parse(localStorage.getItem('starredFormulas')) || [];
+  const idx = starred.findIndex(item => item.formula === formula);
+  
+  if (idx > -1) {
+    starred.splice(idx, 1);
+    showToast('Removed from Cheat Sheet');
+    event.currentTarget.classList.remove('active');
+    event.currentTarget.innerHTML = '<i class="fa-regular fa-star"></i>';
   } else {
-    location.reload(); // Simplest way to reset the data object
+    starred.push({ subject: FORMULA_DATA.ti, name: name, formula: formula });
+    showToast('Saved to Starred Cheat Sheet!');
+    event.currentTarget.classList.add('active');
+    event.currentTarget.innerHTML = '<i class="fa-solid fa-star"></i>';
   }
-  render();
-};
+  localStorage.setItem('starredFormulas', JSON.stringify(starred));
+}
 
-render();
+function isStarred(formula) {
+  const starred = JSON.parse(localStorage.getItem('starredFormulas')) || [];
+  return starred.some(item => item.formula === formula);
+}
+
+function renderContent() {
+  const main = document.getElementById('main');
+  const q = searchQuery.toLowerCase().trim();
+  
+  let sectionHtml = '';
+  let totalF = 0;
+  let activeSections = 0;
+
+  FORMULA_DATA.sections.forEach((sec, si) => {
+    const itemsFiltered = sec.i.filter(item => {
+      if (item.qrOnly) return false;
+      return !q || item.n.toLowerCase().includes(q) || item.f.toLowerCase().includes(q) || (item.e && item.e.toLowerCase().includes(q));
+    });
+
+    if (itemsFiltered.length > 0) {
+      activeSections++;
+      totalF += itemsFiltered.length;
+      const key = `${FORMULA_DATA.id}-${si}`;
+      const isOpen = expandedSections.has(key) || q;
+
+      sectionHtml += `
+        <div class="section">
+          <div class="section-header ${isOpen ? 'open' : ''}" data-key="${key}" style="border-left: 3px solid ${FORMULA_DATA.c}">
+            <div class="sh-icon" style="background:${FORMULA_DATA.c}15; color:${FORMULA_DATA.c}">
+              <i class="fa-solid fa-chevron-right" style="font-size:.55rem"></i>
+            </div>
+            <span class="sh-title">${highlight(sec.s, searchQuery)}</span>
+            <span class="sh-count">${itemsFiltered.length}</span>
+            <i class="fa-solid fa-chevron-down sh-arrow"></i>
+          </div>
+          <div class="section-body ${isOpen ? 'open' : ''}">
+            <div class="formula-grid">`;
+      
+      itemsFiltered.forEach(item => {
+        const starClass = isStarred(item.f) ? 'active' : '';
+        const starIcon = isStarred(item.f) ? 'fa-solid fa-star' : 'fa-regular fa-star';
+        const expBlock = item.e ? `<div class="fc-exp"><i class="fa-solid fa-circle-info"></i> ${highlight(item.e, searchQuery)}</div>` : '';
+
+        sectionHtml += `
+          <div class="formula-card" data-formula="${esc(item.f)}" onclick="copyText(this.dataset.formula)">
+            <span class="fc-copy"><i class="fa-regular fa-copy"></i></span>
+            <span class="fc-star ${starClass}" onclick="toggleStar(event, '${esc(item.n)}', '${esc(item.f)}')">
+              <i class="${starIcon}"></i>
+            </span>
+            <div class="fc-main-row">
+              <span class="fc-name">${highlight(item.n, searchQuery)}</span>
+              <span class="fc-formula">${highlight(item.f, searchQuery)}</span>
+            </div>
+            ${expBlock}
+          </div>`;
+      });
+
+      sectionHtml += `</div>`;
+      if (sec.t && !q) {
+        sectionHtml += `<div class="jee-tip"><i class="fa-solid fa-lightbulb"></i><span>${sec.t}</span></div>`;
+      }
+      sectionHtml += `</div></div>`;
+    }
+  });
+
+  const revisionItems = [];
+  FORMULA_DATA.sections.forEach(sec => {
+    sec.i.forEach(item => {
+      if (item.qr || item.qrOnly) {
+        revisionItems.push(item);
+      }
+    });
+  });
+
+  let revisionHtml = `
+    <div class="master-sheet ${quickRevision && !q ? 'show-master' : ''}">
+      <h2><i class="fa-solid fa-bolt"></i> Master Formula Sheet — ${FORMULA_DATA.ti}</h2>
+      <div class="master-grid">`;
+  
+  revisionItems.forEach(m => {
+    revisionHtml += `
+      <div class="master-card" data-formula="${esc(m.f)}" onclick="copyText(this.dataset.formula)">
+        <span class="mc-concept">${highlight(m.n, searchQuery)}</span>
+        <span class="mc-formula">${highlight(m.f, searchQuery)}</span>
+      </div>`;
+  });
+  revisionHtml += `</div></div>`;
+
+  let combinedLayout = `
+    <div class="hero">
+      <div class="stat-card">
+        <div class="sc-label">Section Count</div>
+        <div class="sc-val" style="color:var(--accent)">${FORMULA_DATA.sections.length}</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Active Formulas</div>
+        <div class="sc-val" style="color:var(--accent)">${totalF}</div>
+      </div>
+    </div>
+    <div class="subject-header" style="border-bottom-color:${FORMULA_DATA.c}30">
+      <h1><i class="${FORMULA_DATA.ic}" style="color:${FORMULA_DATA.c}"></i> ${FORMULA_DATA.ti}</h1>
+      <p>${FORMULA_DATA.d}</p>
+    </div>
+  `;
+
+  if (quickRevision && !q) {
+    combinedLayout += revisionHtml;
+  } else {
+    combinedLayout += sectionHtml + revisionHtml;
+  }
+
+  main.innerHTML = combinedLayout;
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'quick') {
+  quickRevision = true;
+  document.getElementById('qrBtn').classList.add('active');
+}
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value;
+  renderContent();
+});
+
+document.getElementById('main').addEventListener('click', e => {
+  const header = e.target.closest('.section-header');
+  if (!header) return;
+  const key = header.dataset.key;
+  if (expandedSections.has(key)) expandedSections.delete(key); else expandedSections.add(key);
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+});
+
+document.getElementById('qrBtn').addEventListener('click', () => {
+  quickRevision = !quickRevision;
+  document.getElementById('qrBtn').classList.toggle('active', quickRevision);
+  renderContent();
+  showToast(quickRevision ? 'Quick Revision mode on' : 'Full view restored');
+});
+
+document.getElementById('expandBtn').addEventListener('click', () => {
+  allExpanded = !allExpanded;
+  if (allExpanded) {
+    FORMULA_DATA.sections.forEach((sec, si) => expandedSections.add(`${FORMULA_DATA.id}-${si}`));
+    document.getElementById('expandBtn').innerHTML = '<i class="fa-solid fa-compress"></i> Collapse All';
+  } else {
+    expandedSections.clear();
+    document.getElementById('expandBtn').innerHTML = '<i class="fa-solid fa-expand"></i> Expand All';
+  }
+  renderContent();
+});
+
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('overlay').style.display = 'block';
+});
+document.getElementById('overlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').style.display = 'none';
+});
+
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => { backTop.classList.toggle('show', window.scrollY > 400); });
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+const modal = document.getElementById('modal');
+const modalSubject = document.getElementById('modalSubject');
+const modalName = document.getElementById('modalName');
+const modalFormula = document.getElementById('modalFormula');
+let modalRevealed = false;
+
+function showRandomFormula() {
+  const allSubFormulas = [];
+  FORMULA_DATA.sections.forEach(sec => sec.i.forEach(item => allSubFormulas.push(item)));
+  
+  const f = allSubFormulas[Math.floor(Math.random() * allSubFormulas.length)];
+  modalSubject.textContent = FORMULA_DATA.ti;
+  modalSubject.style.color = FORMULA_DATA.c;
+  modalName.textContent = f.n;
+  modalFormula.textContent = f.f;
+  modalFormula.classList.add('hidden-f');
+  modalRevealed = false;
+  document.getElementById('modalReveal').textContent = 'Reveal';
+  modal.classList.add('show');
+}
+
+document.getElementById('randomBtn').addEventListener('click', showRandomFormula);
+document.getElementById('modalReveal').addEventListener('click', () => {
+  if (!modalRevealed) {
+    modalFormula.classList.remove('hidden-f');
+    modalRevealed = true;
+    document.getElementById('modalReveal').textContent = 'Copy';
+  } else {
+    copyText(modalFormula.textContent);
+  }
+});
+document.getElementById('modalNext').addEventListener('click', showRandomFormula);
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+
+expandedSections.add(`${FORMULA_DATA.id}-0`);
+renderContent();
 </script>
 </body>
 </html>
