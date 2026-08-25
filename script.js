@@ -10,16 +10,6 @@ const CHAPTER_MANIFEST = [
     keywords: ['motion', 'velocity', 'acceleration', 'gravity', 'projectile', 'circular']
   },
   {
-    id: 'vectors-3d',
-    title: 'Vectors & 3D Geometry',
-    desc: 'Scalar and vector products, triple products, direction cosines, shortest distance between skew lines, planes, and 3D lines.',
-    icon: 'fa-solid fa-cube',
-    color: '#6366f1', /* Indigo */
-    count: 52,
-    path: 'chapters/vectors.html',
-    keywords: ['vectors', '3d', 'geometry', 'dot product', 'cross product', 'STP', 'VTP', 'planes', 'lines', 'skew lines', 'shortest distance']
-  },
-  {
     id: 'matrices',
     title: 'Matrices & Determinants',
     desc: 'Algebra of matrices, determinant properties, inverse, systems of equations, and Cayley-Hamilton theorem.',
@@ -108,6 +98,16 @@ const CHAPTER_MANIFEST = [
     count: 54,
     path: 'chapters/trigonometry.html',
     keywords: ['trigonometry', 'sine', 'cosine', 'tangent', 'compound', 'ITF', 'inverse', 'triangle', 'solution of triangle']
+  },
+  {
+  id: 'vectors-3d',
+  title: 'Vectors & 3D Geometry',
+  desc: 'Scalar and vector products, triple products, direction cosines, shortest distance between skew lines, planes, and 3D lines.',
+  icon: 'fa-solid fa-cube',
+  color: '#6366f1', /* Indigo theme */
+  count: 52,
+  path: 'chapters/vectors.html',
+  keywords: ['vectors', '3d', 'geometry', 'dot product', 'cross product', 'STP', 'VTP', 'planes', 'lines', 'skew lines', 'shortest distance', 'sphere']
   }
 ];
 
