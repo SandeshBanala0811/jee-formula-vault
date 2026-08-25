@@ -3,26 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JEE Formula Vault — Vectors & 3D Geometry</title>
+<title>Formula Vault — Vectors & 3D Geometry</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root {
-  --bg: #080c14;
-  --bg2: #0e1420;
-  --card: #111827;
-  --card2: #161f30;
-  --border: #1c2840;
-  --fg: #e4e8f0;
-  --muted: #5e6e87;
-  --accent: #6366f1; /* Indigo Theme */
-  --accent-glow: rgba(99, 102, 241, 0.06);
-  --accent-glow-active: rgba(99, 102, 241, 0.12);
-  --accent-mark: rgba(99, 102, 241, 0.28);
+  --bg: #070b12;
+  --bg2: #0b111c;
+  --card: #0f1726;
+  --card2: #141e30;
+  --border: #1a263c;
+  --fg: #e2e8f0;
+  --muted: #64748b;
+  --accent: #6366f1; /* Indigo Accent */
+  --accent-glow: rgba(99, 102, 241, 0.08);
+  --accent-glow-active: rgba(99, 102, 241, 0.16);
+  --accent-mark: rgba(99, 102, 241, 0.3);
   --radius: 10px;
-  --tip-bg: rgba(255, 193, 7, 0.06);
-  --tip-border: rgba(255, 193, 7, 0.25);
-  --tip-text: #ffc107;
+  --tip-bg: rgba(245, 158, 11, 0.06);
+  --tip-border: rgba(245, 158, 11, 0.25);
+  --tip-text: #f59e0b;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -48,7 +48,7 @@ body::before {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg2); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #2a3a5c; }
+::-webkit-scrollbar-thumb:hover { background: #22324f; }
 
 #sidebar {
   position: fixed;
@@ -70,35 +70,35 @@ body::before {
 }
 
 .sidebar-head h2 {
-  font-size: 1.15rem;
+  font-size: 1.12rem;
   font-weight: 700;
   letter-spacing: -.02em;
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: .55rem;
 }
 
 .sidebar-head h2 i {
   color: var(--accent);
-  font-size: .9rem;
+  font-size: 1.05rem;
 }
 
 .sidebar-head .sub {
   font-size: .72rem;
   color: var(--muted);
   margin-top: .25rem;
-  letter-spacing: .03em;
+  letter-spacing: .02em;
 }
 
 .search-box {
-  padding: .75rem 1rem;
+  padding: .85rem 1rem .5rem 1rem;
   position: relative;
 }
 
 .search-box i {
   position: absolute;
-  left: 1.65rem;
-  top: 50%;
+  left: 1.75rem;
+  top: 52%;
   transform: translateY(-50%);
   color: var(--muted);
   font-size: .8rem;
@@ -106,7 +106,7 @@ body::before {
 
 .search-box input {
   width: 100%;
-  padding: .55rem .75rem .55rem 2.2rem;
+  padding: .55rem .75rem .55rem 2.25rem;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -118,6 +118,10 @@ body::before {
 }
 
 .search-box input:focus { border-color: var(--accent); }
+
+.nav-back-wrap {
+  padding: 0 1rem .75rem 1rem;
+}
 
 .sidebar-actions {
   padding: 1rem;
@@ -132,14 +136,14 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: .5rem;
-  padding: .6rem;
+  gap: .55rem;
+  padding: .62rem;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--fg);
   font-family: inherit;
-  font-size: .8rem;
+  font-size: .82rem;
   font-weight: 500;
   cursor: pointer;
   transition: all .2s;
@@ -180,13 +184,13 @@ body::before {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.5);
+  background: rgba(0,0,0,.6);
   z-index: 90;
 }
 
 #main {
   margin-left: 290px;
-  padding: 2rem 2.5rem 4rem;
+  padding: 2rem 2.75rem 4rem;
   position: relative;
   z-index: 1;
   min-height: 100vh;
@@ -194,61 +198,60 @@ body::before {
 
 .hero {
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
   margin-bottom: 2rem;
-  flex-wrap: wrap;
 }
 
 .stat-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: .85rem 1.1rem;
+  padding: 1rem 1.35rem;
   flex: 1;
-  min-width: 130px;
-  transition: border-color .2s, transform .2s;
+  min-width: 140px;
+  transition: border-color .2s;
 }
 
-.stat-card:hover {
-  border-color: rgba(255, 255, 255, .15);
-  transform: translateY(-2px);
-}
+.stat-card:hover { border-color: rgba(255, 255, 255, .15); }
 
 .stat-card .sc-label {
-  font-size: .68rem;
+  font-size: .7rem;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: .05em;
+  letter-spacing: .08em;
+  font-weight: 600;
 }
 
 .stat-card .sc-val {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   font-family: 'JetBrains Mono', monospace;
-  margin-top: .15rem;
+  margin-top: .25rem;
+  color: var(--accent);
 }
 
 .subject-header {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.75rem;
 }
 
 .subject-header h1 {
-  font-size: 1.8rem;
+  font-size: 1.85rem;
   font-weight: 800;
   letter-spacing: -.03em;
   display: flex;
   align-items: center;
-  gap: .6rem;
+  gap: .65rem;
 }
 
-.subject-header h1 i { font-size: 1.2rem; }
+.subject-header h1 i {
+  color: var(--accent);
+  font-size: 1.35rem;
+}
 
 .subject-header p {
   color: var(--muted);
-  font-size: .9rem;
-  margin-top: .4rem;
+  font-size: .92rem;
+  margin-top: .45rem;
   line-height: 1.5;
 }
 
@@ -257,10 +260,11 @@ body::before {
 .section-header {
   display: flex;
   align-items: center;
-  gap: .6rem;
-  padding: .85rem 1rem;
+  gap: .75rem;
+  padding: .9rem 1.15rem;
   background: var(--card);
   border: 1px solid var(--border);
+  border-left: 3.5px solid var(--accent) !important;
   border-radius: var(--radius);
   cursor: pointer;
   transition: all .2s;
@@ -268,36 +272,38 @@ body::before {
 }
 
 .section-header:hover {
-  border-color: rgba(255, 255, 255, .15);
   background: var(--card2);
+  border-color: rgba(255, 255, 255, .12);
 }
 
 .section-header.open {
   border-radius: var(--radius) var(--radius) 0 0;
   border-bottom-color: transparent;
+  background: var(--card2);
 }
 
 .section-header .sh-icon {
-  width: 24px;
-  height: 24px;
+  color: var(--accent);
+  font-size: .75rem;
+  transition: transform .2s;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  font-size: .7rem;
-  flex-shrink: 0;
 }
 
+.section-header.open .sh-icon { transform: rotate(90deg); }
+
 .section-header .sh-title {
-  font-size: .92rem;
+  font-size: .95rem;
   font-weight: 600;
   flex: 1;
 }
 
 .section-header .sh-count {
-  font-size: .7rem;
+  font-size: .75rem;
   color: var(--muted);
   font-family: 'JetBrains Mono', monospace;
+  margin-right: .35rem;
 }
 
 .section-header .sh-arrow {
@@ -311,7 +317,7 @@ body::before {
 .section-body {
   overflow: hidden;
   max-height: 0;
-  transition: max-height .35s ease, border-color .2s;
+  transition: max-height .35s ease;
   border: 1px solid transparent;
   border-top: none;
   border-radius: 0 0 var(--radius) var(--radius);
@@ -325,18 +331,18 @@ body::before {
 
 .formula-grid {
   padding: .75rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: .6rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
 }
 
 .formula-card {
   display: flex;
   flex-direction: column;
   gap: .25rem;
-  padding: .75rem .9rem;
+  padding: .85rem 1rem;
   background: rgba(255, 255, 255, .015);
-  border: 1px solid rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .035);
   border-radius: 8px;
   cursor: pointer;
   transition: all .2s;
@@ -348,22 +354,24 @@ body::before {
   border-color: rgba(255, 255, 255, .08);
 }
 
-.formula-card:active { transform: scale(.995); }
-
-.fc-main-row { display: flex; align-items: flex-start; gap: .75rem; width: 100%; }
+.fc-main-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  width: 100%;
+}
 
 .formula-card .fc-name {
-  font-size: .8rem;
+  font-size: .82rem;
   color: var(--muted);
-  min-width: 160px;
+  width: 220px;
   flex-shrink: 0;
-  font-weight: 600;
-  line-height: 1.4;
+  font-weight: 500;
 }
 
 .formula-card .fc-formula {
   font-family: 'JetBrains Mono', monospace;
-  font-size: .82rem;
+  font-size: .84rem;
   font-weight: 500;
   color: var(--fg);
   line-height: 1.5;
@@ -376,15 +384,14 @@ body::before {
   color: #94a3b8;
   margin-top: 0.25rem;
   line-height: 1.45;
-  font-weight: 400;
-  padding-left: 0.1rem;
+  padding-left: 220px;
 }
 .formula-card .fc-exp i { color: var(--accent); margin-right: 0.35rem; }
 
 .formula-card .fc-copy {
   position: absolute;
-  top: .5rem;
-  right: .5rem;
+  top: .6rem;
+  right: .65rem;
   opacity: 0;
   font-size: .65rem;
   color: var(--muted);
@@ -393,21 +400,20 @@ body::before {
 
 .formula-card .fc-star {
   position: absolute;
-  top: .5rem;
-  right: 1.8rem;
+  top: .6rem;
+  right: 1.85rem;
   opacity: 0;
   font-size: .75rem;
   color: #ffb81c;
-  transition: opacity 0.15s, transform 0.1s;
+  transition: opacity 0.15s;
 }
 
 .formula-card:hover .fc-copy, .formula-card:hover .fc-star { opacity: 1; }
 .formula-card .fc-star.active { opacity: 1 !important; }
-.formula-card .fc-star:active { transform: scale(1.2); }
 
 .jee-tip {
-  margin: .5rem .75rem .75rem;
-  padding: .65rem .85rem;
+  margin: .35rem .75rem .75rem;
+  padding: .65rem .9rem;
   background: var(--tip-bg);
   border: 1px solid var(--tip-border);
   border-radius: 8px;
@@ -453,14 +459,14 @@ body::before {
 }
 
 .master-card:hover {
-  border-color: rgba(99, 102, 241, .3);
+  border-color: var(--accent);
   transform: translateY(-1px);
 }
 
 .master-card .mc-concept {
   font-size: .72rem;
   color: var(--muted);
-  min-width: 110px;
+  min-width: 120px;
   flex-shrink: 0;
   font-weight: 500;
 }
@@ -540,27 +546,22 @@ mark {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 1.25rem;
-  min-height: 1.5rem;
 }
 
 .modal .modal-formula {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 600;
   padding: 1.25rem;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 10px;
   margin-bottom: 1rem;
-  min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all .2s;
 }
-
-.modal .modal-formula:hover { border-color: var(--accent); }
 
 .modal .modal-formula.hidden-f { filter: blur(8px); user-select: none; }
 
@@ -580,10 +581,7 @@ mark {
 }
 
 .modal .modal-btns button:hover { border-color: var(--accent); color: var(--accent); }
-
-.modal .modal-btns button.primary { background: var(--accent); color: #ffffff; border-color: var(--accent); font-weight: 600; }
-
-.modal .modal-btns button.primary:hover { opacity: .85; }
+.modal .modal-btns button.primary { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
 
 #backTop {
   position: fixed;
@@ -614,11 +612,10 @@ mark {
   #menuBtn { display: flex; }
   #main { margin-left: 0; padding: 1.25rem 1rem 3rem; padding-top: 3.5rem; }
   #backTop { left: 1rem; bottom: 1rem; }
-  .hero { gap: .5rem; }
-  .stat-card { min-width: 100px; padding: .6rem .8rem; }
-  .stat-card .sc-val { font-size: 1.2rem; }
+  .hero { gap: .6rem; }
   .formula-card .fc-main-row { flex-direction: column; gap: .25rem; }
-  .formula-card .fc-name { min-width: unset; }
+  .formula-card .fc-name { width: unset; }
+  .formula-card .fc-exp { padding-left: 0; }
   .master-grid { grid-template-columns: 1fr; }
 }
 </style>
@@ -630,15 +627,15 @@ mark {
 
 <aside id="sidebar">
   <div class="sidebar-head">
-    <h2><i class="fa-solid fa-vault"></i> Formula Vault</h2>
+    <h2><i class="fa-solid fa-cube"></i> Formula Vault</h2>
     <div class="sub">JEE Main & Advanced — Complete Reference</div>
   </div>
   <div class="search-box">
     <i class="fa-solid fa-magnifying-glass"></i>
     <input type="text" id="searchInput" placeholder="Search formulas, topics..." aria-label="Search formulas">
   </div>
-  <div style="padding: 0 1rem 0.5rem 1rem;">
-     <a href="../index.html" class="action-btn" style="width: 100%; border-color: rgba(255,255,255,0.1);"><i class="fa-solid fa-arrow-left"></i> Back to Portal</a>
+  <div class="nav-back-wrap">
+     <a href="../index.html" class="action-btn"><i class="fa-solid fa-arrow-left"></i> Back to Portal</a>
   </div>
   <div class="sidebar-actions">
     <button class="action-btn" id="qrBtn"><i class="fa-solid fa-bolt"></i> Quick Revision</button>
@@ -670,105 +667,105 @@ const FORMULA_DATA = {
   ti: 'Vectors & 3D Geometry',
   ic: 'fa-solid fa-cube',
   c: '#6366f1',
-  d: 'Vector products, triple products, direction cosines, shortest distance between skew lines, plane geometry, line-plane intersections, and spheres.',
+  d: 'Comprehensive reference covering Vector Algebra, STP, VTP, Lines, Planes, and Point-Plane interactions.',
   sections: [
     {
-      s: 'Vector Algebra & Product Operations',
-      t: 'Scalar (dot) product yields projections and orthogonality; Vector (cross) product provides orthogonal area vectors.',
+      s: 'Vector Fundamentals & Dot Product',
+      t: 'Dot product is commutative: a · b = b · a. Perpendicular vectors have a · b = 0.',
       i: [
-        { n: 'Dot Product Definition', f: 'a · b = |a| |b| cos θ = a₁b₁ + a₂b₂ + a₃b₃', qr: true, e: 'Gives the scalar product; zero if and only if vectors are perpendicular.' },
-        { n: 'Scalar Projection of a on b', f: 'proj_b(a) = (a · b) / |b|', qr: true, e: 'Magnitude of the orthogonal projection of vector a onto vector b.' },
-        { n: 'Vector Projection of a on b', f: 'proj_vec = [(a · b) / |b|²] · b', qr: true, e: 'Vector component of a pointing in the direction of b.' },
-        { n: 'Cross Product Definition', f: 'a × b = |a| |b| sin θ n̂ = | î ĵ k̂ ; a₁ a₂ a₃ ; b₁ b₂ b₃ |', qr: true, e: 'Vector perpendicular to both a and b, directed via the right-hand rule.' },
-        { n: 'Area of Triangle (Vectors)', f: 'Area = ½ |a × b| = ½ |AB × AC|', qr: true, e: 'Area formed by coterminous vector edges a and b.' },
-        { n: 'Area of Parallelogram', f: 'Area = |a × b| = ½ |d₁ × d₂|', qr: true, e: 'Given sides a, b or diagonals d₁, d₂.' },
-        { n: 'Lagrange\'s Identity', f: '|a × b|² = |a|² |b|² - (a · b)²', qr: true, e: 'Fundamental relation linking magnitudes of dot and cross products.' },
-        { n: 'Cauchy-Schwarz Inequality', f: '(a · b)² <= |a|² |b|²', e: 'Equality holds if and only if a and b are collinear (linearly dependent).' }
+        { n: 'Dot Product', f: 'a · b = |a| |b| cos θ = a₁b₁ + a₂b₂ + a₃b₃', qr: true, e: 'Scalar product; angle θ = cos⁻¹((a · b) / (|a||b|)).' },
+        { n: 'Scalar Projection of a on b', f: 'proj_b(a) = (a · b) / |b|', qr: true, e: 'Magnitude of vector a projected along direction of b.' },
+        { n: 'Vector Projection of a on b', f: 'proj_vec = [(a · b) / |b|²] b', qr: true, e: 'Vector component parallel to b.' },
+        { n: 'Perpendicular Component', f: 'a_perp = a - [(a · b) / |b|²] b', e: 'Vector component of a orthogonal to b.' },
+        { n: 'Cauchy-Schwarz Inequality', f: '(a · b)² <= |a|² |b|²', qr: true, e: 'Equality holds if and only if vectors a and b are collinear.' },
+        { n: 'Section Formula (Vectors)', f: 'r = (m b + n a) / (m + n)', e: 'Divides line segment joining position vectors a and b in ratio m:n.' },
+        { n: 'Linear Combination Condition', f: 'r = x a + y b + z c', e: 'Expresses coplanar vector r as linear combination of non-collinear basis.' }
       ]
     },
     {
-      s: 'Triple & Quadruple Vector Products',
-      t: 'Scalar triple product [a b c] calculates parallelopiped volume; cyclic order preserves sign while transposition flips it.',
+      s: 'Cross Product & Geometry',
+      t: 'Cross product is anti-commutative: a × b = -(b × a). Parallel vectors satisfy a × b = 0.',
       i: [
-        { n: 'Scalar Triple Product (Box Product)', f: '[a b c] = a · (b × c) = | a₁ a₂ a₃ ; b₁ b₂ b₃ ; c₁ c₂ c₃ |', qr: true, e: 'Represents the signed volume of the parallelepiped formed by a, b, c.' },
-        { n: 'Coplanarity of 3 Vectors', f: '[a b c] = 0', qr: true, e: 'Vectors a, b, and c are coplanar if and only if their box product is zero.' },
-        { n: 'Volume of Tetrahedron', f: 'V = (1/6) |[a b c]|', qr: true, e: 'Volume of tetrahedron having coterminous edges a, b, and c.' },
-        { n: 'Vector Triple Product (BAC-CAB)', f: 'a × (b × c) = (a · c) b - (a · b) c', qr: true, e: 'Resulting vector lies in the plane of b and c, perpendicular to a.' },
-        { n: 'Associated VTP Relation', f: '(a × b) × c = (a · c) b - (b · c) a', e: 'Notice that cross product is non-associative: a × (b × c) ≠ (a × b) × c.' },
-        { n: 'Scalar Quadruple Product', f: '(a × b) · (c × d) = (a · c)(b · d) - (a · d)(b · c)', qr: true, e: 'Determinant expansion of dot products between two vector pairs.' },
-        { n: 'Vector Quadruple Product', f: '(a × b) × (c × d) = [a b d] c - [a b c] d = [a c d] b - [b c d] a', e: 'Expresses the vector product of two cross products in terms of component vectors.' },
-        { n: 'Jacobi\'s Identity', f: 'a × (b × c) + b × (c × a) + c × (a × b) = 0', e: 'Fundamental cyclic identity for vector triple products.' },
-        { n: 'Reciprocal System of Vectors', f: 'a\' = (b × c)/[a b c],  b\' = (c × a)/[a b c],  c\' = (a × b)/[a b c]', e: 'Satisfies a · a\' = 1, a · b\' = 0, and [a\' b\' c\'] = 1 / [a b c].' }
+        { n: 'Cross Product Formula', f: 'a × b = | î ĵ k̂ ; a₁ a₂ a₃ ; b₁ b₂ b₃ | = |a| |b| sin θ n̂', qr: true, e: 'Vector perpendicular to both a and b by right-hand thumb rule.' },
+        { n: 'Lagrange\'s Identity', f: '|a × b|² = |a|² |b|² - (a · b)²', qr: true, e: 'Connects dot and cross product magnitudes directly.' },
+        { n: 'Area of Triangle (Vectors)', f: 'Area = ½ |a × b| = ½ |AB × AC|', qr: true, e: 'Area formed by coterminous vector sides.' },
+        { n: 'Area of Parallelogram', f: 'Area = |a × b| = ½ |d₁ × d₂|', qr: true, e: 'Given adjacent sides a, b or diagonal vectors d₁, d₂.' },
+        { n: 'Unit Normal Vector', f: 'n̂ = ± (a × b) / |a × b|', qr: true, e: 'Unit vector perpendicular to the plane containing a and b.' },
+        { n: 'Collinear Points Condition', f: 'AB × AC = 0', e: 'Three points A, B, C are collinear if cross product of vectors is zero vector.' }
       ]
     },
     {
-      s: 'Direction Cosines (DC) & Direction Ratios (DR)',
-      t: 'Sum of squares of Direction Cosines is always 1; Direction Ratios are proportional to Direction Cosines.',
+      s: 'Triple Products (STP & VTP)',
+      t: 'Volume of parallelopiped = [a b c]. Cyclic permutation preserves sign: [a b c] = [b c a] = [c a b].',
       i: [
-        { n: 'Direction Cosines Fundamental', f: 'l = cos α, m = cos β, n = cos γ  =>  l² + m² + n² = 1', qr: true, e: 'Angles α, β, γ made with positive x, y, and z axes respectively.' },
-        { n: 'Sine Sum Identity', f: 'sin² α + sin² β + sin² γ = 2', qr: true, e: 'Derived directly from 1 - cos²θ for all three axes.' },
-        { n: 'DR to DC Conversion', f: 'l = a / √(a² + b² + c²),  m = b / √(a² + b² + c²),  n = c / √(a² + b² + c²)', qr: true, e: 'Normalizes direction ratios (a, b, c) into unit direction cosines.' },
-        { n: 'Angle Between Two 3D Directions', f: 'cos θ = |l₁l₂ + m₁m₂ + n₁n₂| = |a₁a₂ + b₁b₂ + c₁c₂| / [√(Σa₁²) √(Σa₂²)]', qr: true, e: 'Calculates the acute angle between two lines with known DCs or DRs.' },
-        { n: 'Perpendicular & Parallel Conditions', f: 'Perp: a₁a₂ + b₁b₂ + c₁c₂ = 0  |  Parallel: a₁/a₂ = b₁/b₂ = c₁/c₂', qr: true, e: 'Standard orthogonal and collinearity tests in 3D.' },
-        { n: 'Projection of Segment on Line', f: 'Proj = |(x₂ - x₁)l + (y₂ - y₁)m + (z₂ - z₁)n|', e: 'Projection of line segment joining P(x₁,y₁,z₁) and Q(x₂,y₂,z₂) on a line with DCs (l,m,n).' }
+        { n: 'Scalar Triple Product (STP)', f: '[a b c] = a · (b × c) = | a₁ a₂ a₃ ; b₁ b₂ b₃ ; c₁ c₂ c₃ |', qr: true, e: 'Signed volume of parallelopiped with coterminous edges a, b, c.' },
+        { n: 'Coplanarity of 3 Vectors', f: '[a b c] = 0', qr: true, e: 'Three vectors are coplanar if and only if their STP vanishes.' },
+        { n: 'Volume of Tetrahedron', f: 'V = (1/6) |[a b c]|', qr: true, e: 'Volume bounded by four triangular faces.' },
+        { n: 'Vector Triple Product (VTP)', f: 'a × (b × c) = (a · c) b - (a · b) c', qr: true, e: 'BAC-CAB rule: vector lies in plane of b and c, perpendicular to a.' },
+        { n: 'Jacobi\'s Identity', f: 'a × (b × c) + b × (c × a) + c × (a × b) = 0', e: 'Fundamental cyclic identity for vector triple products.' }
       ]
     },
     {
-      s: 'Straight Lines in 3D Space',
-      t: 'Parametric coordinates (x₁ + λa, y₁ + λb, z₁ + λc) allow expressing any point on a 3D line with a single parameter.',
+      s: 'Reciprocal System of Vectors',
+      t: 'Reciprocal vectors satisfy a · a\' = b · b\' = c · c\' = 1 and [a\' b\' c\'] = 1 / [a b c].',
       i: [
-        { n: 'Vector Equation of Line', f: 'r = a + λ b', qr: true, e: 'Line passing through point with position vector a and parallel to vector b.' },
-        { n: 'Cartesian Form (Symmetric)', f: '(x - x₁) / a = (y - y₁) / b = (z - z₁) / c = λ', qr: true, e: 'Line passing through (x₁, y₁, z₁) with direction ratios (a, b, c).' },
-        { n: 'Line Through Two Points', f: '(x - x₁) / (x₂ - x₁) = (y - y₁) / (y₂ - y₁) = (z - z₁) / (z₂ - z₁)', e: 'Vector equivalent: r = a + λ(b - a).' },
-        { n: 'General Point on a Line', f: 'P(λ) = (x₁ + aλ, y₁ + bλ, z₁ + cλ)', qr: true, e: 'Standard method to find foot of perpendicular, image, or intersection point.' },
-        { n: 'Intersection of Two Lines', f: 'Equate P(λ) = Q(μ) -> Solve 2 equations for (λ, μ) -> Verify in 3rd', qr: true, e: 'If values of λ and μ satisfy all 3 coordinate equations, lines intersect.' }
+        { n: 'Reciprocal Vector a\'', f: 'a\' = (b × c) / [a b c]', qr: true, e: 'Vector orthogonal to b and c such that a · a\' = 1.' },
+        { n: 'Reciprocal Vector b\'', f: 'b\' = (c × a) / [a b c]', qr: true, e: 'Vector orthogonal to c and a such that b · b\' = 1.' },
+        { n: 'Reciprocal Vector c\'', f: 'c\' = (a × b) / [a b c]', qr: true, e: 'Vector orthogonal to a and b such that c · c\' = 1.' },
+        { n: 'Box Product of Reciprocals', f: '[a\' b\' c\'] = 1 / [a b c]', qr: true, e: 'The scalar triple product of reciprocal frame is the inverse of the original.' }
       ]
     },
     {
-      s: 'Skew Lines & Shortest Distance',
-      t: 'Skew lines are non-parallel, non-intersecting lines in 3D. Shortest distance vector is along the mutual cross product.',
+      s: '3D Lines & Shortest Distance',
+      t: 'Parametric coordinates (x₁ + λa, y₁ + λb, z₁ + λc) represent any arbitrary point on a 3D line.',
       i: [
-        { n: 'Shortest Distance (Skew Lines)', f: 'd = | (a₂ - a₁) · (b₁ × b₂) | / |b₁ × b₂|', qr: true, e: 'Distance between lines r = a₁ + λ b₁ and r = a₂ + μ b₂.' },
-        { n: 'Cartesian SD Formula', f: 'd = | | x₂-x₁ y₂-y₁ z₂-z₁ ; a₁ b₁ c₁ ; a₂ b₂ c₂ | | / √[Σ(b₁c₂ - b₂c₁)²]', qr: true, e: 'Determinant formulation for shortest distance between two skew lines.' },
-        { n: 'Condition for Coplanar Lines', f: '(a₂ - a₁) · (b₁ × b₂) = 0  =>  | x₂-x₁ y₂-y₁ z₂-z₁ ; a₁ b₁ c₁ ; a₂ b₂ c₂ | = 0', qr: true, e: 'Lines intersect or are parallel (lie in same plane) if shortest distance is 0.' },
-        { n: 'Distance Between Parallel Lines', f: 'd = | (a₂ - a₁) × b | / |b|', qr: true, e: 'Applies for parallel lines r = a₁ + λ b and r = a₂ + μ b.' }
+        { n: 'Vector Equation of Line', f: 'r = a + λ b', qr: true, e: 'Line passing through point a and parallel to direction vector b.' },
+        { n: 'Cartesian (Symmetric) Form', f: '(x - x₁)/a = (y - y₁)/b = (z - z₁)/c = λ', qr: true, e: 'Point (x₁, y₁, z₁) with direction ratios (a, b, c).' },
+        { n: 'Direction Cosine Identity', f: 'l² + m² + n² = 1  ;  sin²α + sin²β + sin²γ = 2', qr: true, e: 'l, m, n are cosines of angles with coordinate axes.' },
+        { n: 'Shortest Distance (Skew Lines)', f: 'd = | (a₂ - a₁) · (b₁ × b₂) | / |b₁ × b₂|', qr: true, e: 'Distance between non-intersecting, non-parallel skew lines.' },
+        { n: 'Distance Between Parallel Lines', f: 'd = | (a₂ - a₁) × b | / |b|', qr: true, e: 'Distance between parallel lines r = a₁ + λ b and r = a₂ + μ b.' },
+        { n: 'Condition for Coplanar Lines', f: '| x₂-x₁ y₂-y₁ z₂-z₁ ; a₁ b₁ c₁ ; a₂ b₂ c₂ | = 0', qr: true, e: 'Lines intersect or are parallel if their determinant coplanarity test is 0.' }
       ]
     },
     {
-      s: 'Planes in 3D Space',
-      t: 'The coefficients of x, y, z in ax + by + cz + d = 0 directly give the direction ratios of the normal to the plane.',
+      s: '3D Planes',
+      t: 'Coefficients of x, y, z in plane ax + by + cz + d = 0 represent the normal vector direction ratios.',
       i: [
-        { n: 'Vector Equation of Plane', f: 'r · n̂ = p  |  (r - a) · n = 0', qr: true, e: 'p is perpendicular distance from origin; n is normal vector to plane.' },
-        { n: 'General Cartesian Equation', f: 'a x + b y + c z + d = 0', qr: true, e: '(a, b, c) are the direction ratios of the normal vector perpendicular to the plane.' },
-        { n: 'Plane Passing Through 3 Points', f: '| x-x₁ y-y₁ z-z₁ ; x₂-x₁ y₂-y₁ z₂-z₁ ; x₃-x₁ y₃-y₁ z₃-z₁ | = 0', qr: true, e: 'Determines the unique plane passing through three non-collinear points.' },
-        { n: 'Intercept Form of Plane', f: 'x/a + y/b + z/c = 1', qr: true, e: 'a, b, c are intercepts cut off on x, y, and z axes respectively.' },
-        { n: 'Angle Between Two Planes', f: 'cos θ = |n₁ · n₂| / (|n₁| |n₂|) = |a₁a₂ + b₁b₂ + c₁c₂| / [√(Σa₁²) √(Σa₂²)]', qr: true, e: 'Angle between planes equals the angle between their normal vectors.' },
-        { n: 'Distance from Point to Plane', f: 'd = |a x₁ + b y₁ + c z₁ + d| / √(a² + b² + c²)', qr: true, e: 'Perpendicular distance from point (x₁, y₁, z₁) to plane ax + by + cz + d = 0.' },
-        { n: 'Distance Between Parallel Planes', f: 'd = |d₁ - d₂| / √(a² + b² + c²)', qr: true, e: 'Applies to parallel planes ax + by + cz + d₁ = 0 and ax + by + cz + d₂ = 0.' }
+        { n: 'Vector Equation of Plane', f: 'r · n = d  |  (r - a) · n = 0', qr: true, e: 'n is normal vector; d is scalar constant.' },
+        { n: 'General Cartesian Form', f: 'a x + b y + c z + d = 0', qr: true, e: 'Normal vector direction ratios are (a, b, c).' },
+        { n: 'Plane Through 3 Points', f: '| x-x₁ y-y₁ z-z₁ ; x₂-x₁ y₂-y₁ z₂-z₁ ; x₃-x₁ y₃-y₁ z₃-z₁ | = 0', qr: true, e: 'Unique plane determined by 3 non-collinear points.' },
+        { n: 'Intercept Form', f: 'x/a + y/b + z/c = 1', qr: true, e: 'a, b, c are intercepts cut off on x, y, and z axes.' },
+        { n: 'Distance from Point to Plane', f: 'd = |a x₁ + b y₁ + c z₁ + d| / √(a² + b² + c²)', qr: true, e: 'Perpendicular distance from point (x₁, y₁, z₁) to plane.' },
+        { n: 'Distance Between Parallel Planes', f: 'd = |d₁ - d₂| / √(a² + b² + c²)', qr: true, e: 'Between parallel planes ax + by + cz + d₁ = 0 and ax + by + cz + d₂ = 0.' }
       ]
     },
     {
-      s: 'Line & Plane Interactions',
-      t: 'Angle between line and plane uses sin θ because θ is the complement of the angle between line and normal vector.',
+      s: 'Point, Line & Plane Interaction',
+      t: 'Angle between line and plane uses sin θ because the angle is measured with the plane surface, not its normal.',
       i: [
-        { n: 'Angle Between Line and Plane', f: 'sin θ = |b · n| / (|b| |n|) = |a a_L + b b_L + c c_L| / [√(Σa²) √(Σa_L²)]', qr: true, e: 'Note the use of sin θ instead of cos θ.' },
-        { n: 'Line Parallel to Plane', f: 'b · n = 0  =>  a a_L + b b_L + c c_L = 0', qr: true, e: 'Line is parallel to plane if its direction vector is perpendicular to plane\'s normal.' },
-        { n: 'Line Perpendicular to Plane', f: 'b || n  =>  a_L / a = b_L / b = c_L / c', qr: true, e: 'Line is perpendicular to plane if its direction is parallel to plane\'s normal.' },
-        { n: 'Foot of Perpendicular on Plane', f: '(x - x₁)/a = (y - y₁)/b = (z - z₁)/c = -(a x₁ + b y₁ + c z₁ + d) / (a² + b² + c²)', qr: true, e: 'Coordinates (x, y, z) of the foot of the altitude dropped onto the plane.' },
-        { n: 'Image of a Point in a Plane', f: '(x - x₁)/a = (y - y₁)/b = (z - z₁)/c = -2(a x₁ + b y₁ + c z₁ + d) / (a² + b² + c²)', qr: true, e: 'Coordinates of mirror image point across the plane mirror.' },
-        { n: 'Line of Intersection of Two Planes', f: 'Direction vector b = n₁ × n₂', qr: true, e: 'Direction of line common to non-parallel planes P₁=0 and P₂=0.' }
+        { n: 'Angle Between Line & Plane', f: 'sin θ = |b · n| / (|b| |n|) = |a a_L + b b_L + c c_L| / [√(Σa²) √(Σa_L²)]', qr: true, e: 'Note the use of sine function for line-plane angle.' },
+        { n: 'Line Parallel to Plane', f: 'b · n = 0  =>  a a_L + b b_L + c c_L = 0', qr: true, e: 'Line direction vector is orthogonal to the plane normal vector.' },
+        { n: 'Foot of Perpendicular on Plane', f: '(x - x₁)/a = (y - y₁)/b = (z - z₁)/c = -(a x₁ + b y₁ + c z₁ + d) / (a² + b² + c²)', qr: true, e: 'Foot of altitude dropped from (x₁, y₁, z₁) onto plane.' },
+        { n: 'Image of a Point in a Plane', f: '(x - x₁)/a = (y - y₁)/b = (z - z₁)/c = -2(a x₁ + b y₁ + c z₁ + d) / (a² + b² + c²)', qr: true, e: 'Mirror reflection across the plane.' },
+        { n: 'Family of Planes', f: 'P₁ + λ P₂ = 0', qr: true, e: 'Planes passing through the intersection line of planes P₁=0 and P₂=0.' }
       ]
     },
     {
-      s: 'Family of Planes & 3D Sphere Geometry',
-      t: 'Family of planes P₁ + λ P₂ = 0 contains the line of intersection of two given planes.',
+      s: 'Vector Equations (Solving for r)',
+      t: 'To solve vector equations involving r × a = b or r · a = k, cross or dot both sides by suitable known vectors.',
       i: [
-        { n: 'Family of Planes', f: 'P₁ + λ P₂ = 0  =>  (a₁x + b₁y + c₁z + d₁) + λ(a₂x + b₂y + c₂z + d₂) = 0', qr: true, e: 'Represents all planes passing through the intersection line of P₁ and P₂.' },
-        { n: 'Angle Bisector Planes', f: '(a₁x + b₁y + c₁z + d₁)/√(Σa₁²) = +- (a₂x + b₂y + c₂z + d₂)/√(Σa₂²)', qr: true, e: 'Planes bisecting dihedral angles between two intersecting planes.' },
-        { n: 'Standard Equation of Sphere', f: 'x² + y² + z² + 2ux + 2vy + 2wz + d = 0', qr: true, e: 'Center = (-u, -v, -w),  Radius R = √(u² + v² + w² - d).' },
-        { n: 'Diameter Form of Sphere', f: '(x - x₁)(x - x₂) + (y - y₁)(y - y₂) + (z - z₁)(z - z₂) = 0', e: 'Sphere with diameter endpoints (x₁, y₁, z₁) and (x₂, y₂, z₂).' },
-        { n: 'Tangent Plane to Sphere', f: 'x x₁ + y y₁ + z z₁ + u(x + x₁) + v(y + y₁) + w(z + z₁) + d = 0', e: 'Equation of plane tangent to sphere at point (x₁, y₁, z₁) on the surface.' },
-        { n: 'Plane Tangency Condition', f: 'Perpendicular distance from Center to Plane = Radius R', qr: true, e: 'Geometric condition for plane ax + by + cz + d = 0 to touch a sphere.' }
+        { n: 'Linear Vector System 1', f: 'r × a = b  =>  r = (b × a)/|a|² + λ a', qr: true, e: 'General solution where λ = (r · a)/|a|² is an arbitrary scalar parameter.' },
+        { n: 'Simultaneous Dot & Cross', f: 'r × a = b and r · c = d  =>  r = [d a + (b × c)] / (a · c)', qr: true, e: 'Unique solution for position vector r provided a · c ≠ 0.' },
+        { n: 'Vector Projection System', f: 'r = (r · â) â + (r · b̂) b̂ + (r · ĉ) ĉ', e: 'Holds when â, b̂, ĉ form a mutually orthogonal orthonormal triad.' }
+      ]
+    },
+    {
+      s: 'Sphere Basics',
+      t: 'A plane touches a sphere if and only if the perpendicular distance from the center equals the sphere\'s radius.',
+      i: [
+        { n: 'Standard Sphere Equation', f: 'x² + y² + z² + 2ux + 2vy + 2wz + d = 0', qr: true, e: 'Center = (-u, -v, -w),  Radius R = √(u² + v² + w² - d).' },
+        { n: 'Diameter Form of Sphere', f: '(x - x₁)(x - x₂) + (y - y₁)(y - y₂) + (z - z₁)(z - z₂) = 0', qr: true, e: 'Sphere with diameter endpoints (x₁, y₁, z₁) and (x₂, y₂, z₂).' },
+        { n: 'Tangency Condition to Plane', f: 'Perp Distance (Center to Plane) = Radius R', qr: true, e: 'Condition for plane ax + by + cz + d = 0 to touch sphere.' }
       ]
     }
   ]
@@ -859,10 +856,8 @@ function renderContent() {
 
       sectionHtml += `
         <div class="section">
-          <div class="section-header ${isOpen ? 'open' : ''}" data-key="${key}" style="border-left: 3px solid ${FORMULA_DATA.c}">
-            <div class="sh-icon" style="background:${FORMULA_DATA.c}15; color:${FORMULA_DATA.c}">
-              <i class="fa-solid fa-chevron-right" style="font-size:.55rem"></i>
-            </div>
+          <div class="section-header ${isOpen ? 'open' : ''}" data-key="${key}">
+            <i class="fa-solid fa-chevron-right sh-icon"></i>
             <span class="sh-title">${highlight(sec.s, searchQuery)}</span>
             <span class="sh-count">${itemsFiltered.length}</span>
             <i class="fa-solid fa-chevron-down sh-arrow"></i>
@@ -924,15 +919,15 @@ function renderContent() {
     <div class="hero">
       <div class="stat-card">
         <div class="sc-label">Section Count</div>
-        <div class="sc-val" style="color:var(--accent)">${FORMULA_DATA.sections.length}</div>
+        <div class="sc-val">${FORMULA_DATA.sections.length}</div>
       </div>
       <div class="stat-card">
         <div class="sc-label">Active Formulas</div>
-        <div class="sc-val" style="color:var(--accent)">${totalF}</div>
+        <div class="sc-val">${totalF}</div>
       </div>
     </div>
-    <div class="subject-header" style="border-bottom-color:${FORMULA_DATA.c}30">
-      <h1><i class="${FORMULA_DATA.ic}" style="color:${FORMULA_DATA.c}"></i> ${FORMULA_DATA.ti}</h1>
+    <div class="subject-header">
+      <h1><i class="${FORMULA_DATA.ic}"></i> ${FORMULA_DATA.ti}</h1>
       <p>${FORMULA_DATA.d}</p>
     </div>
   `;
